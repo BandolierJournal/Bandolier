@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+  const {ipcRenderer} = require('electron');
+  // const alertOnlineStatus = () => {
+  //   window.alert(navigator.onLine ? 'online' : 'offline');
+  // };
+  const updateOnlineStatus = () => {
+  	ipcRenderer.send('online-status-changed', navigator.onLine ? 'online' : 'offline');
+  };
+  updateOnlineStatus();
+  
+  // window.addEventListener('online',  alertOnlineStatus);
+  // window.addEventListener('offline',  alertOnlineStatus);
+
+  // alertOnlineStatus();
+</script>
+</body>
+</html>
