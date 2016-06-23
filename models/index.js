@@ -11,19 +11,19 @@ db.sync(remoteDB, {
 
 db.setSchema([
     {
-        singular: 'collection',
-        plural: 'collections',
-        relations: {
-            'bullets': {hasMany: 'bullet'}
-        }
+      singular: 'collection',
+      plural: 'collections',
+      relations: {
+          'bullets': {hasMany: 'bullet'}
+      }
     },
     {
-		singular: 'bullet',
-		plural: 'bullets',
-		relations: {
-			'collections': {hasMany: 'collection'}
-		}
-	}
+  		singular: 'bullet',
+  		plural: 'bullets',
+  		relations: {
+  			'collections': {hasMany: 'collection'}
+  		}
+    }
 ])
 
 module.exports = db;

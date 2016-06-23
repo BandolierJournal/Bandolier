@@ -50,8 +50,6 @@ Bullet.prototype.test = function() {
 	return this._id;
 }
 
-console.log(new Task({id: '1', content: 'cont', date: 'today', status: 'complete'}))
-
 module.exports = {
 	Task: Task,
 	Event: EventBullet,
