@@ -2,12 +2,16 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Mullet Journal</title>
+    <title>Bullet Journal</title>
+    <script src='./bower_components/angular/angular.js'></script>
+    <script src='./bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+    <script src='./app.js'></script>
   </head>
-  <body>
+  <body ng-app="journal">
     <h1>Hello World!</h1>
     We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
+    <ng-view></ng-view>
   </body>
 </html>

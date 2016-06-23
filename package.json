@@ -15,7 +15,6 @@
     "electron-prebuilt": "^1.2.0"
   },
   "dependencies": {
-    "angular": "^1.5.7",
     "pouchdb": "^5.4.4",
     "relational-pouch": "^1.4.3"
   }
