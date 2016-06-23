@@ -1,4 +1,5 @@
 var PouchDB = require('pouchdb');
+PouchDB.plugin(require('relational-pouch'));
 
 var db = new PouchDB('bullet');
 
@@ -11,5 +12,15 @@ db.setSchema([
         }
     }
 ]);
+
+db.setSchema([
+	{
+		singular: 'bullet',
+		plural: 'bullets',
+		relations: {
+			collection: {hasMany: 'collection'}
+		}	
+	}
+])
 
 module.exports = db;
