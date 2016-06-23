@@ -12,7 +12,7 @@ var collections = [
   new Collection({
     title: 'Collection1',
     id: 4,
-    bullets: []
+    bullets: [bullets[1].id, bullets[0].id]
   }),
   new Collection({
     title: 'Collection2',
