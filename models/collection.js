@@ -2,6 +2,20 @@
 const db = require('./index');
 const _ = require('lodash');
 
+const Bullet = require('./bullet');
+
+function convertToInstances(res) {
+    var resOut = {};
+
+    resOut.bullets = res.bullets.map(bullet => new Bullet[bullet.type](bullet));
+    if(res.collections.length > 1) {
+        resOut.collections = res.collections.map(collection => new Collection(collection));
+    } else {
+        resOut.collection = new Collection(res.collections[0]);
+    }
+    return resOut;
+}
+
 class Collection {
   constructor(props) {
     if (typeof props === 'string' || !props) {
@@ -19,6 +33,12 @@ class Collection {
 
   save() {
     return db.rel.save('collection', this)
+  }
+
+  static fetchById(id) {
+      return db.rel.find('collection', id)
+      .then(convertToInstances)
+      .catch(err => console.error(`Could not fetch collection ${id}: ${err}`));
   }
 
 }

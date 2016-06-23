@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <title>Mullet Journal</title>
     <script src="node_modules/angular/angular.min.js"></script>
     <script src="app/app.js"></script>
-  </head>
-  <body ng-app="bullet">
-    <h1>Hello World!</h1>
+    <script src="app/collections/collection.factory.js"></script>
+    <script src="app/collections/collection.controller.js"></script>
+    <script src="app/collections/collection.directive.js"></script>
+</head>
+
+<body ng-app="bulletApp">
+    <collection></collection>
+    <!-- <h1>Hello World!</h1>
     We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-  </body>
+    and Electron <script>document.write(process.versions.electron)</script>. -->
+</body>
+
 </html>
