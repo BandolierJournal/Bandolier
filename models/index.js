@@ -1,1 +1,3 @@
-// TODO:  DB Setup goes here
+var PouchDB = require('pouchdb');
+
+module.exports = new PouchDB('bullet');
