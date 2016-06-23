@@ -11,5 +11,9 @@
   "license": "ISC",
   "devDependencies": {
     "electron-prebuilt": "^1.2.0"
+  },
+  "dependencies": {
+    "pouchdb": "^5.4.4",
+    "relational-pouch": "^1.4.3"
   }
 }
