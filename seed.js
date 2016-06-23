@@ -1,7 +1,6 @@
 var db = require('./models')
 var Collection = require('./models/collection')
 var Bullet = require('./models/bullet')
-var requireNew = require('require-new')
 
 var bullets = [
   new Bullet.Task({id: 1, content: 'Task 1', date: 'Today', status: 'complete'}), // TODO: Fix these dates, they are just for lolz right now

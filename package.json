@@ -19,7 +19,6 @@
     "angular": "^1.5.7",
     "lodash": "^4.13.1",
     "pouchdb": "^5.4.4",
-    "relational-pouch": "^1.4.3",
-    "require-new": "^1.1.0"
+    "relational-pouch": "^1.4.3"
   }
 }
