@@ -6,7 +6,7 @@ bulletApp.directive('collection', function($log, Collection){
             collectionId: '@'
         },
         link: function(scope) {
-            Collection.fetchById(+scope.collectionId)
+            Collection.fetchById(scope.collectionId)
             .then(function(res){
                 angular.extend(scope, res);
                 scope.$evalAsync();
