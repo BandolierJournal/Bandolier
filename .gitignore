@@ -5,3 +5,4 @@ public
 .DS_Store
 coverage
 bullet
+bower_components
