@@ -7,6 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
+    "postinstall": "cd node_modules/leveldown && HOME=~/.electron-gyp node-gyp rebuild --target=1.2.5 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
     "seed": "./db_destroy.sh && node seed"
   },
   "author": "",

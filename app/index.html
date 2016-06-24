@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <title>Mullet Journal</title>
-  </head>
-  <body>
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="collections/collection.factory.js"></script>
+    <script src="collections/collection.controller.js"></script>
+    <script src="collections/collection.directive.js"></script>
+</head>
+
+<body ng-app="bulletApp">
     <h1>Hello World!</h1>
     We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
-  </body>
-  <!-- <script src="./models/index.js"/> -->
+</body>
+
 </html>

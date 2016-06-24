@@ -30,6 +30,7 @@ class Task extends Bullet {
 		super(content);
 		this.date = date || this.date;
 		this.status = status || this.status || 'incomplete'; // complete, migrated, scheduled ?
+		this.type = 'Task';
 	}
 }
 
@@ -37,12 +38,14 @@ class EventBullet extends Bullet {
 	constructor(content, date) {
 		super(content);
 		this.date = date || this.date;
+		this.type = 'Event';
 	}
 }
 
 class Note extends Bullet {
 	constructor(content) {
 		super(content);
+		this.type = 'Note';
 	}
 }
 
