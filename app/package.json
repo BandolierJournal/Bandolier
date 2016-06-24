@@ -11,6 +11,10 @@
   },
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "electron-packager": "^7.0.4",
+    "electron-prebuilt": "^1.2.0"
+  },
   "dependencies": {
     "lodash": "^4.13.1",
     "pouchdb": "^5.4.4",
