@@ -1,15 +1,19 @@
 'use strict';
 const db = require('./models');
-const bulletApp = angular.module('bulletApp', ['ui.router']);
+const bulletApp = angular.module('bulletApp', ['ui.router', 'ui.bootstrap']);
 
-bulletApp.controller('IndexCtrl', function ($scope, $state, IndexFactory) {
+bulletApp.controller('IndexCtrl', function ($scope, $state, Collection) {
   $scope.message = "Index Page";
+  
+  Collection.fetchAll()
+  	.then(all => {
+  		$scope.collections = all;
+  		$scope.$evalAsync();
+  		console.log($scope.collections);
+  	});
 
 });
 
-bulletApp.factory('IndexFactory', function () {
-  return {};
-});
 
 bulletApp.config(function ($stateProvider) {
 

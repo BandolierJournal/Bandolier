@@ -18,11 +18,21 @@ db.setSchema([
       }
     },
     {
+      singular: 'collectionShort',
+      plural: 'collectionShorts',
+      documentType: 'collection'
+    },
+    {
   		singular: 'bullet',
   		plural: 'bullets',
   		relations: {
   			'collections': {hasMany: 'collection'}
   		}
+    },
+    {
+      singular: 'bulletShort',
+      plural: 'bulletShorts',
+      documentType: 'bullet'
     }
 ])
 

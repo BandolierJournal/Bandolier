@@ -3,16 +3,21 @@
   <head>
     <meta charset="UTF-8">
     <title>Bullet Journal</title>
+     <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
     <script src='../bower_components/angular/angular.js'></script>
     <script src='../bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+    <script src='../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
     <script src='./app.js'></script>
     <script src="collections/collection.factory.js"></script>
     <script src="collections/collection.directive.js"></script>    
   </head>
   <body ng-app="bulletApp" ng-controller="IndexCtrl">
+    {{message}}
+    <pre>{{collections || json}} </pre>
+    <div ng-repeat="collection in collections">
+    {{collection.id}}
+    {{collection.title}}
+    </div>
 
-    <h1>{{message}}</h1>
-    <collection collection-id="5"></collection>
-    <ui-view></ui-view>
   </body>
 </html>

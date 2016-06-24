@@ -3,21 +3,23 @@ var Collection = require('./models/collection')
 var Bullet = require('./models/bullet')
 
 var bullets = [
-  new Bullet.Task({id: 1, content: 'Task 1', date: 'Today', status: 'complete'}), // TODO: Fix these dates, they are just for lolz right now
-  new Bullet.Event({id: 2, content: 'Event 1', date: 'Yesterday'}),
-  new Bullet.Note({id: 3, content: 'Note 1'})
+  new Bullet.Task({id: 1, content: 'Get drycleaning! ASAP', date: new Date(2016, 5, 25), status: 'complete'}), // TODO: Fix these dates, they are just for lolz right now
+  new Bullet.Event({id: 2, content: 'Fullstack Hot Seat', date: new Date(2016, 5, 24)}),
+  new Bullet.Note({id: 3, content: 'Super frustrating day trying to debug electron/node/pouchdb/leveldown'})
 ]
 
 var collections = [
   new Collection({
-    title: 'Collection1',
+    title: new Date(2016, 5),
     id: 4,
-    bullets: [bullets[1].id, bullets[0].id]
+    bullets: [bullets[1].id, bullets[0].id],
+    type: 'month'
   }),
   new Collection({
-    title: 'Collection2',
+    title: 'Random thoughts',
     id: 5,
-    bullets: [bullets[0].id, bullets[2].id]
+    bullets: [bullets[0].id, bullets[2].id],
+    type: 'generic'
   })
 ];
 
@@ -34,3 +36,5 @@ Promise.all(
   console.error("Shit's broken: ", err);
   process.kill(1)
 })
+
+
