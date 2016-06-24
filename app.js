@@ -1,4 +1,5 @@
 'use strict';
+var angular = require('angular');
 
 const app = angular.module('BulletJournalApp', ['ui.router','ui.bootstrap']);
 
@@ -25,7 +26,9 @@ app.config(function ($stateProvider) {
     //   thePlaylist: function (PlaylistFactory, $stateParams) {
     //     return PlaylistFactory.fetchById($stateParams.playlistId);
     //   }
-    }
+    
   });
 
 });
+
+module.exports = app;

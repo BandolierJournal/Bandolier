@@ -13,9 +13,14 @@
   "license": "ISC",
   "devDependencies": {
     "electron-packager": "^7.0.4",
-    "electron-prebuilt": "^1.2.0"
+    "electron-prebuilt": "^1.2.0",
+    "fs-jetpack": "^0.9.1",
+    "gulp": "^3.9.1"
   },
   "dependencies": {
+    "gulp-minify-css": "^1.2.4",
+    "gulp-uglify": "^1.5.4",
+    "gulp-usemin": "^0.3.23",
     "lodash": "^4.13.1",
     "pouchdb": "^5.4.4",
     "relational-pouch": "^1.4.3"
