@@ -6,3 +6,5 @@ public
 coverage
 bullet
 bower_components
+app/node_modules
+app/bullet
