@@ -1,4 +1,5 @@
 /*jshint node: true*/
+'use strict'
 const db = require('./index');
 const _ = require('lodash');
 

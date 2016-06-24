@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html>
-
-<head>
+<html lang="en">
+  <head>
     <meta charset="UTF-8">
-    <title>Mullet Journal</title>
-    <script src="node_modules/angular/angular.min.js"></script>
-    <script src="app.js"></script>
+    <title>Bullet Journal</title>
+    <script src='../bower_components/angular/angular.js'></script>
+    <script src='../bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+    <script src='./app.js'></script>
     <script src="collections/collection.factory.js"></script>
-    <script src="collections/collection.controller.js"></script>
-    <script src="collections/collection.directive.js"></script>
-</head>
+    <script src="collections/collection.directive.js"></script>    
+  </head>
+  <body ng-app="bulletApp" ng-controller="IndexCtrl">
 
-<body ng-app="bulletApp">
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-</body>
-
+    <h1>{{message}}</h1>
+    <collection collection-id="5"></collection>
+    <ui-view></ui-view>
+  </body>
 </html>
