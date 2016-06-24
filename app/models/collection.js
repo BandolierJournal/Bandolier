@@ -1,5 +1,4 @@
 /*jshint node: true*/
-'use strict'
 const db = require('./index');
 const _ = require('lodash');
 
@@ -37,6 +36,8 @@ class Collection {
   }
 
   static fetchById(id) {
+      if (!id) console.error(`Must fetch an id. id is ${id}: ${err}`)
+      id = id + "" //We can take this out when our code is perfect
       return db.rel.find('collection', id)
       .then(convertToInstances)
       .catch(err => console.error(`Could not fetch collection ${id}: ${err}`));

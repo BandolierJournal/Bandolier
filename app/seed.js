@@ -3,20 +3,20 @@ var Collection = require('./models/collection')
 var Bullet = require('./models/bullet')
 
 var bullets = [
-  new Bullet.Task({id: 1, content: 'Task 1', date: 'Today', status: 'complete'}), // TODO: Fix these dates, they are just for lolz right now
-  new Bullet.Event({id: 2, content: 'Event 1', date: 'Yesterday'}),
-  new Bullet.Note({id: 3, content: 'Note 1'})
+  new Bullet.Task({id: '1', content: 'Task 1', date: 'Today', status: 'complete'}), // TODO: Fix these dates, they are just for lolz right now
+  new Bullet.Event({id: '2', content: 'Event 1', date: 'Yesterday'}),
+  new Bullet.Note({id: '3', content: 'Note 1'})
 ]
 
 var collections = [
   new Collection({
     title: 'Collection1',
-    id: 4,
+    id: '4',
     bullets: [bullets[1].id, bullets[0].id]
   }),
   new Collection({
-    title: 'Collection2',
-    id: 5,
+    title: new Date(),
+    id: '5',
     bullets: [bullets[0].id, bullets[2].id]
   })
 ];

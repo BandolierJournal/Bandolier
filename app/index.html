@@ -6,16 +6,16 @@
 
     <script src='../bower_components/angular/angular.js'></script>
     <script src='../bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+    <script src='app.js'></script>
     <script src="monthlytracker/monthlytracker.state.js"></script>
     <script src="monthlytracker/monthlytracker.controller.js"></script>
-    <script src='./app.js'></script>
     <script src="collections/collection.factory.js"></script>
     <script src="collections/collection.directive.js"></script>
 
   </head>
 
-  <body ng-app="bulletApp" ng-controller="IndexCtrl">
-
+  <body ng-app="bulletApp">
+    <a ui-sref="monthlyTracker({monthId: 5})">Go to Monthly Tracker</a>
     <h1>{{message}}</h1>
     <collection collection-id="5"></collection>
     <ui-view></ui-view>
