@@ -21,11 +21,10 @@ var collections = [
   })
 ];
 
-Promise.all([
-    ...bullets.map(bullet => bullet.save()),
-    ...collections.map(collection => collection.save())
-  ])
-// })
+Promise.all(
+   (bullets.map(bullet => bullet.save())).concat(
+   collections.map(collection => collection.save()))
+ )
 .then(allthethings => {
   console.log(allthethings)
   console.log('Seed Successful!')
