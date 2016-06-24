@@ -1,9 +1,11 @@
+/*jshint node: true*/
 'use strict';
 
 const electron = require('electron');
 const {app} = electron;
 const {BrowserWindow} = electron;
 const ipcMain = electron.ipcMain;
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -27,7 +29,7 @@ function createWindow() {
 app.on('ready', () => {
   createWindow();
   onlineStatusWindow = new BrowserWindow({width: 0, height: 0, show: false});
-  onlineStatusWindow.loadURL(`file://${__dirname}/online-status.html`)
+  onlineStatusWindow.loadURL(`file://${__dirname}/online-status.html`);
 });
 
 ipcMain.on('online-status-changed', (event, status) => {

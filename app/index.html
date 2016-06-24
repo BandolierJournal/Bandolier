@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Bullet Journal</title>
+    <script src='../bower_components/angular/angular.js'></script>
+    <script src='../bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+    <script src='./app.js'></script>
+    <script src="collections/collection.factory.js"></script>
+    <script src="collections/collection.directive.js"></script>    
+  </head>
+  <body ng-app="bulletApp" ng-controller="IndexCtrl">
+
+    <h1>{{message}}</h1>
+    <collection></collection>
+    <ui-view></ui-view>
+  </body>
+</html>

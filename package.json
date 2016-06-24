@@ -2,12 +2,11 @@
   "name": "Bullet",
   "productName": "Bullet",
   "version": "1.0.0",
-  "description": "",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
-    "seed": "./db_destroy.sh && node seed"
+    "start": "electron ./app",
+    "seed": "./app/db_destroy.sh && node ./app/seed"
   },
   "author": "",
   "license": "ISC",
@@ -15,14 +14,11 @@
     "electron-packager": "^7.0.4",
     "electron-prebuilt": "^1.2.0",
     "fs-jetpack": "^0.9.1",
-    "gulp": "^3.9.1"
-  },
-  "dependencies": {
+    "gulp": "^3.9.1",
     "gulp-minify-css": "^1.2.4",
     "gulp-uglify": "^1.5.4",
-    "gulp-usemin": "^0.3.23",
-    "lodash": "^4.13.1",
-    "pouchdb": "^5.4.4",
-    "relational-pouch": "^1.4.3"
-  }
+    "gulp-usemin": "^0.3.23"
+  },
+  "keywords": [],
+  "description": ""
 }
