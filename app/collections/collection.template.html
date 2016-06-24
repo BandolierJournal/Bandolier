@@ -1,4 +1,5 @@
 <h1>{{collection.title}}</h1>
+
 <ul>
-    <bullet ng-repeat="bullet in bullets" bullet="bullet"></bullet>
+    <bullet ng-repeat="bullet in bullets track by $index" bullet="bullet"></bullet>
 </ul>

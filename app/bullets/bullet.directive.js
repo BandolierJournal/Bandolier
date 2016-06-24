@@ -6,13 +6,19 @@ bulletApp.directive('bullet', function(){
             bullet: '='
         },
         link: function(scope, element) {
+            scope.typeDict = {
+                "Task" : "fa-circle",
+                "Event": "fa-circle-thin fa-lg",
+                "Note": "fa-minus"
+            };
+
             element.on('keydown keypress', function(e){
                 if(e.which === 13) {
                     e.preventDefault();
                     e.target.blur();
                 }
             });
-            
+
             element.on('focusout', function(e) {
                     scope.bullet.save();
             });
