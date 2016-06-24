@@ -1,7 +1,6 @@
 'use strict';
-var angular = require('angular');
 
-const app = angular.module('BulletJournalApp', ['ui.router','ui.bootstrap']);
+const app = angular.module('BulletJournalApp', ['ui.router']);
 
 app.controller('IndexCtrl', function ($scope, $state, IndexFactory) {
 
@@ -11,9 +10,7 @@ app.controller('IndexCtrl', function ($scope, $state, IndexFactory) {
 
 app.factory('IndexFactory', function () {
 
-  $scope.fetchAll = function () {
-  };
-
+  return {};
 });
 
 app.config(function ($stateProvider) {
