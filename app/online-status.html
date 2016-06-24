@@ -3,18 +3,14 @@
 <body>
 <script>
   const {ipcRenderer} = require('electron');
-  // const alertOnlineStatus = () => {
-  //   window.alert(navigator.onLine ? 'online' : 'offline');
-  // };
-  const updateOnlineStatus = () => {
+
+  //for when we write PouchDB Sync
+  const updateOnlineStatus = () => {  
   	ipcRenderer.send('online-status-changed', navigator.onLine ? 'online' : 'offline');
   };
   updateOnlineStatus();
-  
-  // window.addEventListener('online',  alertOnlineStatus);
-  // window.addEventListener('offline',  alertOnlineStatus);
-
-  // alertOnlineStatus();
+  window.addEventListener('online',  updateOnlineStatus);
+  window.addEventListener('offline',  updateOnlineStatus);
 </script>
 </body>
 </html>
