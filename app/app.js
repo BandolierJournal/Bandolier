@@ -9,8 +9,13 @@ bulletApp.controller('IndexCtrl', function ($scope, $state, Collection) {
   	.then(all => {
   		$scope.collections = all;
   		$scope.$evalAsync();
-  		console.log($scope.collections);
   	});
+
+	// var weekdays = ['Su', 'M', 'T', 'W', 'Th', 'F', 'S', 'Su'];
+
+	// weekdays[d.getDay()];
+	// d.toString().split(' ');
+
 
 });
 

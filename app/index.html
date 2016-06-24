@@ -12,12 +12,15 @@
     <script src="collections/collection.directive.js"></script>    
   </head>
   <body ng-app="bulletApp" ng-controller="IndexCtrl">
-    {{message}}
-    <pre>{{collections || json}} </pre>
-    <div ng-repeat="collection in collections">
-    {{collection.id}}
-    {{collection.title}}
+    <div class="container">
+    <div class="row">
+    <div class="col-lg-6">
+    <h1 class="page-header" id="indexTitle">INDEX</h1>
+      <div ng-repeat="collection in collections | orderBy: '-type'" ui-sref='collection.type({id: collection.id})'>
+        <h3>{{collection.title | date:'MMM yyyy'}}</h3>
+      </div>
     </div>
-
+    </div>
+    </div>
   </body>
 </html>
