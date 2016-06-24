@@ -7,8 +7,9 @@
     <script src="node_modules/angular/angular.min.js"></script>
     <script src="app.js"></script>
     <script src="collections/collection.factory.js"></script>
-    <script src="collections/collection.controller.js"></script>
     <script src="collections/collection.directive.js"></script>
+    <script src="bullets/bullet.factory.js"></script>
+    <script src="bullets/bullet.directive.js"></script>
 </head>
 
 <body ng-app="bulletApp">
@@ -16,6 +17,8 @@
     We are using node <script>document.write(process.versions.node)</script>,
     Chrome <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>.
+
+    <collection collection-id="5"></collection>
 </body>
 
 </html>

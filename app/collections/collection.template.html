@@ -1,5 +1,4 @@
 <h1>{{collection.title}}</h1>
 <ul>
-    <!-- TODO this needs to be replaced with a bullet directive-->
-    <li ng-repeat="bullet in bullets"> {{bullet.type}} | {{bullet.content}}</li>
+    <bullet ng-repeat="bullet in bullets" bullet="bullet"></bullet>
 </ul>
