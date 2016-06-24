@@ -1,6 +1,6 @@
 'use strict';
 const db = require('./models');
-const bulletApp = angular.module('bulletApp', ['ui.router']);
+const bulletApp = angular.module('bulletApp', ['ui.router', 'content-editable']);
 
 bulletApp.controller('IndexCtrl', function ($scope, $state, IndexFactory) {
   $scope.message = "Index Page";
