@@ -40,6 +40,14 @@ collections.push(new Collection({
   type: 'generic'
 }));
 
+collections.push(new Collection({
+  title: new Date(2016, 0, 1)
+  id: '14',
+  bullets: ['1', '2'],
+  type: 'day'
+}));
+
+
 Promise.all(
    (bullets.map(bullet => bullet.save())).concat(
    collections.map(collection => collection.save()))
