@@ -1,26 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <title>Bullet Journal</title>
-     <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
     <script src='../bower_components/angular/angular.js'></script>
     <script src='../bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
     <script src='../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
     <script src='./app.js'></script>
     <script src="collections/collection.factory.js"></script>
-    <script src="collections/collection.directive.js"></script>    
-  </head>
-  <body ng-app="bulletApp" ng-controller="IndexCtrl">
-    <div class="container">
-    <div class="row">
-    <div class="col-lg-6">
-    <h1 class="page-header" id="indexTitle">INDEX</h1>
-      <div ng-repeat="collection in collections | orderBy: '-type'" ui-sref='collection.type({id: collection.id})'>
-        <h3>{{collection.title | date:'MMM yyyy'}}</h3>
-      </div>
-    </div>
-    </div>
-    </div>
-  </body>
+    <script src="collections/collection.directive.js"></script>
+    <script src="index/index.controller.js"></script>
+    <script src="index/index.state.js"></script>
+</head>
+
+<body ng-app="bulletApp">
+    <ui-view></ui-view>
+</body>
+
 </html>

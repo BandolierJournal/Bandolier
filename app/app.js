@@ -1,31 +1,14 @@
 'use strict';
+const PouchDB = require('pouchdb');
 const db = require('./models');
 const bulletApp = angular.module('bulletApp', ['ui.router', 'ui.bootstrap']);
+const remoteDB = new PouchDB('http://localhost:5984/bullet');
 
-bulletApp.controller('IndexCtrl', function ($scope, $state, Collection) {
-  $scope.message = "Index Page";
-  
-  Collection.fetchAll()
-  	.then(all => {
-  		$scope.collections = all;
-  		$scope.$evalAsync();
-  	});
-
-	// var weekdays = ['Su', 'M', 'T', 'W', 'Th', 'F', 'S', 'Su'];
-
-	// weekdays[d.getDay()];
-	// d.toString().split(' ');
-
-
+db.sync(remoteDB, {
+  live: true,
+  retry: true
 });
 
-
-bulletApp.config(function ($stateProvider) {
-
-  $stateProvider.state('index', {
-    url: '/index',
-    template: '<h1>{message}<h1>',
-    controller: 'IndexCtrl'
-  });
-
+bulletApp.config(function($urlRouterProvider){
+    $urlRouterProvider.otherwise('/index')
 });
