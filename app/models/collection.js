@@ -18,11 +18,12 @@ function convertToInstances(res) {
 }
 
 class Collection {
-  constructor(props) {
+  constructor(props, type) {
     if (typeof props === 'string' || !props) {
       this.id = new Date().toISOString();
       this.title = props;
       this.bullets = [];
+      this.type = type || 'generic'; // day, month, month-cal, future, generic
     } else {
       _.extend(this, props)
     }
@@ -40,6 +41,16 @@ class Collection {
       return db.rel.find('collection', id)
       .then(convertToInstances)
       .catch(err => console.error(`Could not fetch collection ${id}: ${err}`));
+  }
+
+  static fetchAll(props) {
+    return db.rel.find('collectionShort')
+    .then(res => {
+      if (props) return _.filter(res.collectionShorts, props)
+      else return res.collectionShorts;
+    })
+    .then(collection => collection.map(collection => new Collection(collection)))
+    .catch(err => console.error('could not fetch all collections'));
   }
 
 }

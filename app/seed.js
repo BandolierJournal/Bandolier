@@ -1,36 +1,80 @@
 var db = require('./models')
 var Collection = require('./models/collection')
 var Bullet = require('./models/bullet')
+var chance = require('chance')(123);
+var PouchDB = require('pouchdb');
+var Promise = require('bluebird');
 
-var bullets = [
-  new Bullet.Task({id: 1, content: 'Task 1', date: 'Today', status: 'complete'}), // TODO: Fix these dates, they are just for lolz right now
-  new Bullet.Event({id: 2, content: 'Event 1', date: 'Yesterday'}),
-  new Bullet.Note({id: 3, content: 'Note 1'})
-]
+var remoteDB = new PouchDB('http://localhost:5984/bullet');
 
-var collections = [
-  new Collection({
-    title: 'Collection1',
-    id: 4,
-    bullets: [bullets[1].id, bullets[0].id]
-  }),
-  new Collection({
-    title: 'Collection2',
-    id: 5,
-    bullets: [bullets[0].id, bullets[2].id]
-  })
-];
+var bullets = [];
+var status = ['incomplete', 'complete']
 
-Promise.all(
-   (bullets.map(bullet => bullet.save())).concat(
-   collections.map(collection => collection.save()))
- )
-.then(allthethings => {
-  console.log(allthethings)
-  console.log('Seed Successful!')
-  process.kill(0)
+function generateTaskBullet(i) {
+    return new Bullet.Task({
+        id: i.toString(),
+        content: chance.sentence({
+            words: 5
+        }),
+        date: new Date(2016, Math.floor(i / 12), chance.integer({
+            min: 1,
+            max: 28
+        })),
+        status: chance.pickone(status)
+    })
+}
+
+for (var i = 0; i < 120; i++) {
+    bullets.push(generateTaskBullet(i));
+}
+
+bullets.push(new Bullet.Event({
+    id: '120',
+    content: 'Fullstack Hot Seat',
+    date: new Date(2016, 5, 24)
+}));
+bullets.push(new Bullet.Note({
+    id: '121',
+    content: 'Super fun day trying to debug electron/node/pouchdb/leveldown'
+}));
+
+var collections = [];
+
+for (var i = 0; i < 12; i++) {
+
+    var thisBullet = bullets.map(e => e.id).slice(i * 10, i * 10 + 10);
+
+    collections.push(new Collection({
+        title: new Date(2016, i),
+        id: i.toString(),
+        bullets: thisBullet,
+        type: 'month'
+    }))
+}
+
+collections.push(new Collection({
+    title: 'Random thoughts',
+    id: '13',
+    bullets: ['120', '121'],
+    type: 'generic'
+}));
+
+collections.push(new Collection({
+    title: new Date(2016, 0, 1),
+    id: '14',
+    bullets: ['1', '2'],
+    type: 'day'
+}));
+
+Promise.map([...bullets, ...collections], function(doc){
+    return doc.save();
 })
-.catch(function(err){
-  console.error("Shit's broken: ", err);
-  process.kill(1)
-})
+    .then(allthethings => {
+        console.log(allthethings);
+        console.log('Seed Successful!');
+        process.kill(0);
+    })
+    .catch(function (err) {
+        console.error("Shit's broken: ", err);
+        process.kill(1)
+    })
