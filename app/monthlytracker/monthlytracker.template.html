@@ -1,10 +1,15 @@
 <div class="container">
-  <div class="col-6-lg">
-    <div ng-repeat="day in numOfDays track by $index">{{$index+1}} / {{day}}</div>
-  </div>
+  <div class ="row">
+    <div class="col-6-lg">
+      <h1>{{monthCal.title | date: 'MMM yyyy'}}</h1>
+      <div ng-repeat="day in numOfDays track by $index">{{$index+1}} / {{day}}</div>
+      {{monthCalBullets}}
+    </div>
 
 
 
-  <div class="col-6-lg">
+    <div class="col-6-lg">
+      {{monthBullets}}
+    </div>
   </div>
 </div>

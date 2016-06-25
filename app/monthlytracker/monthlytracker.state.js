@@ -1,17 +1,18 @@
 bulletApp.config(function($stateProvider) {
   $stateProvider.state('monthlyTracker', {
-    url: '/monthlytracker/:monthId',
+    url: '/monthlytracker/:monthId/:monthCalId',
     templateUrl: './monthlytracker/monthlytracker.template.html',
     controller: 'MonthlyTrackerCtrl',
     resolve: {
+      targetMonthCal: function($stateParams, Collection) {
+        return Collection.fetchById($stateParams.monthCalId)
+      },
       targetMonth: function($stateParams, Collection) {
-        console.log($stateParams)
         return Collection.fetchById($stateParams.monthId)
       },
       numOfDays: function($stateParams) {
         var moment = require('moment')
-        var daysInMonth = moment().month($stateParams.monthId).daysInMonth();
-        console.log(daysInMonth)
+        var daysInMonth = moment().month($stateParams.monthCalId).daysInMonth();
         var arrDays = [];
 
         while(daysInMonth) {
@@ -20,7 +21,6 @@ bulletApp.config(function($stateProvider) {
           arrDays.push(current);
           daysInMonth--;
         }
-        console.log(arrDays)
         return arrDays;
       }
     }

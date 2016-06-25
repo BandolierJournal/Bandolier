@@ -1,6 +1,7 @@
-bulletApp.controller('MonthlyTrackerCtrl', function($scope, Collection, targetMonth, numOfDays) {
+bulletApp.controller('MonthlyTrackerCtrl', function($scope, Collection, targetMonth, numOfDays, targetMonthCal) {
   const moment = require('moment')
   $scope.numOfDays = numOfDays
-  $scope.month = targetMonth.collection
-  $scope.target = targetMonth
+  $scope.monthCal = targetMonthCal.collection
+  $scope.monthCalBullets = targetMonthCal.bullets
+  $scope.monthBullets = targetMonth.bullets
 })
