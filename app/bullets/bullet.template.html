@@ -1,2 +1,3 @@
-<div contenteditable ng-model="bullet.content" only-text="true" /><i class="fa fa-fw" ng-class="typeDict[bullet.type]"></i>{{bullet.content}}
+<div>
+    <i class="fa fa-fw" ng-class="typeDict[bullet.type]"></i><span ng-class="bullet.type.toLowerCase()" contenteditable ng-model="bullet.content" only-text="true">{{bullet.content}}</span>
 </div>

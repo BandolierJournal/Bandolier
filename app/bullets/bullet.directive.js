@@ -8,7 +8,7 @@ bulletApp.directive('bullet', function(){
         link: function(scope, element) {
             scope.typeDict = {
                 "Task" : "fa-circle",
-                "Event": "fa-circle-thin fa-lg",
+                "Event": "fa-circle-thin",
                 "Note": "fa-minus"
             };
 
