@@ -9,7 +9,7 @@ class Bullet {
 			this.id = new Date().toISOString();
 			this.content = content;
 		} else {
-			_.extend(this, content)
+			_.extend(this, content);
 		}
 	}
 
@@ -50,12 +50,10 @@ class Note extends Bullet {
 	}
 }
 
-Bullet.prototype.test = function() {
-	return this._id;
-}
-
-module.exports = {
+const Bullets = {
 	Task: Task,
 	Event: EventBullet,
 	Note: Note
-}
+};
+
+module.exports = Bullets;

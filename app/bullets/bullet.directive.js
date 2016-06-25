@@ -1,4 +1,4 @@
-bulletApp.directive('bullet', function(){
+bulletApp.directive('bullet', function(Bullet){
     return {
         restrict: 'E',
         templateUrl: './bullets/bullet.template.html',
@@ -12,10 +12,29 @@ bulletApp.directive('bullet', function(){
                 "Note": "fa-minus"
             };
 
-            element.on('keydown keypress', function(e){
-                if(e.which === 13) {
+            let map = {};
+
+            function typeChange(){
+                if(map[84]) return new Bullet.Task(scope.bullet);
+                if (map[69]) return new Bullet.Event(scope.bullet);
+                if (map[78]) return new Bullet.Note(scope.bullet);
+                return scope.bullet;
+            }
+
+            element.on('keyup', function() {
+                map = {};
+            });
+
+            element.on('keydown', function(e){
+                map[e.which] = true;
+                // console.log(map);
+                if(map[13]) {
+                    map = {};
                     e.preventDefault();
                     e.target.blur();
+                } else if (map[91]) {
+                    scope.bullet = typeChange();
+                    scope.bullet.save();
                 }
             });
 
