@@ -28,7 +28,9 @@ class Collection {
   }
   addBullet(bullet) {
     this.bullets.push(bullet.id);
+    bullet.collections.push(this.id)
     this.save();
+    bullet.save()
   }
 
   save() {

@@ -4,4 +4,12 @@ bulletApp.controller('MonthlyTrackerCtrl', function($scope, Collection, targetMo
   $scope.monthCal = targetMonthCal.collection
   $scope.monthCalBullets = targetMonthCal.bullets
   $scope.monthBullets = targetMonth.bullets
+  $scope.bulletList = {}
+  targetMonth.bullets.forEach(bullet => {
+    $scope.bulletList[moment(bullet.date).date()] = bullet
+  })
+
+  // $scope.getBullet = function(day) {
+  //   $scope.monthCalBullets.forEach
+  // }
 })

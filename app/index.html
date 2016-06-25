@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <title>Bullet Journal</title>
-
+    <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
     <script src='../bower_components/angular/angular.js'></script>
     <script src='../bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
-    <script src='app.js'></script>
-    <script src="monthlytracker/monthlytracker.state.js"></script>
-    <script src="monthlytracker/monthlytracker.controller.js"></script>
+    <script src='../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
+    <script src='./app.js'></script>
     <script src="collections/collection.factory.js"></script>
     <script src="collections/collection.directive.js"></script>
+    <script src="monthlytracker/monthlytracker.state.js"></script>
+    <script src="monthlytracker/monthlytracker.controller.js"></script>
+    <script src="index/index.controller.js"></script>
+    <script src="index/index.state.js"></script>
+</head>
 
-  </head>
-
-  <body ng-app="bulletApp">
+<body ng-app="bulletApp">
     <a ui-sref="monthlyTracker({monthCalId: 5, monthId: 4})">Go to Monthly Tracker</a>
-    <h1>{{message}}</h1>
-    <collection collection-id="5"></collection>
     <ui-view></ui-view>
-  </body>
+</body>
 
 </html>
