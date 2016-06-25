@@ -1,22 +1,17 @@
+/*jshint node: true, esversion: 6*/
 'use strict';
+const PouchDB = require('pouchdb');
 const db = require('./models');
-const bulletApp = angular.module('bulletApp', ['ui.router', 'content-editable']);
+const remoteDB = new PouchDB('http://localhost:5984/bullet');
 
-bulletApp.controller('IndexCtrl', function ($scope, $state, IndexFactory) {
-  $scope.message = "Index Page";
 
+const bulletApp = angular.module('bulletApp', ['ui.router', 'ui.bootstrap', 'content-editable']);
+
+bulletApp.config(function($urlRouterProvider){
+    $urlRouterProvider.otherwise('/index');
 });
 
-bulletApp.factory('IndexFactory', function () {
-  return {};
-});
-
-bulletApp.config(function ($stateProvider) {
-
-  $stateProvider.state('index', {
-    url: '/index',
-    template: '<h1>{message}<h1>',
-    controller: 'IndexCtrl'
-  });
-
+db.sync(remoteDB, {
+    live: true,
+    retry: true
 });

@@ -1,6 +1,6 @@
 {
-  "name": "Bullet",
-  "description": "",
+  "name": "bullet",
+  "description": "bullet journal",
   "main": "main.js",
   "authors": [
     "sechu <sabrina.chu@gmail.com>"
@@ -20,5 +20,7 @@
     "angular-ui-router": "^0.3.1",
     "angular-ui-bootstrap": "^1.3.3",
     "ng-content-editable": "*"
+    "angular-bootstrap": "^1.3.3",
+    "bootstrap": "^3.3.6"
   }
 }
