@@ -1,3 +1,3 @@
 <div>
-    <i class="fa fa-fw" ng-class="typeDict[bullet.type]"></i><span ng-class="bullet.type.toLowerCase()" contenteditable ng-model="bullet.content" only-text="true">{{bullet.content}}</span>
+    <i class="fa fa-fw" ng-class="bullet.status === 'complete' ? typeDict['Done'] : typeDict[bullet.type]"></i><span contenteditable ng-model="bullet.content" only-text="true" ng-class="{strikethrough: bullet.strike}">{{bullet.content}}</span>
 </div>

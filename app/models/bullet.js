@@ -8,9 +8,14 @@ class Bullet {
 		if (typeof content === 'string' || !content) {
 			this.id = new Date().toISOString();
 			this.content = content;
+			this.strike = strike || false;
 		} else {
 			_.extend(this, content);
 		}
+	}
+
+	toggleStrike() {
+		this.strike = !this.strike;
 	}
 
 	save() {
@@ -32,6 +37,10 @@ class Task extends Bullet {
 		this.date = date || this.date;
 		this.status = status || this.status || 'incomplete'; // complete, migrated, scheduled ?
 		this.type = 'Task';
+	}
+
+	toggleDone() {
+		this.status = this.status === 'incomplete' ? 'complete' : 'incomplete';
 	}
 }
 
