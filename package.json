@@ -2,35 +2,15 @@
   "name": "Bullet",
   "productName": "Bullet",
   "version": "1.0.0",
-<<<<<<< HEAD
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd ./app && electron .",
-    "postinstall": "cd node_modules/leveldown && HOME=~/.electron-gyp node-gyp rebuild --target=1.2.5 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
-    "seed": "./app/db_destroy.sh && node ./app/seed"
-=======
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron ./app"
->>>>>>> master
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "electron-packager": "^7.0.4",
-<<<<<<< HEAD
-    "electron-prebuilt": "^1.2.0"
-  },
-  "dependencies": {
-    "angular": "^1.5.7",
-    "lodash": "^4.13.1",
-    "pouchdb": "^5.4.4",
-    "relational-pouch": "^1.4.3"
-  }
-=======
     "electron-prebuilt": "^1.2.0",
     "fs-jetpack": "^0.9.1",
     "gulp": "^3.9.1",
@@ -40,5 +20,4 @@
   },
   "keywords": [],
   "description": ""
->>>>>>> master
 }

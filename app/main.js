@@ -12,9 +12,10 @@ let mainWindow;
 let onlineStatusWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({width: 800, height: 600, frame: false});
+  //Removed frame:false to make testing easier
+  mainWindow = new BrowserWindow({width: 1000, height: 800});
   mainWindow.loadURL(`file://${__dirname}/index.html`);
-  // win.webContents.openDevTools(); //DevTools
+  mainWindow.webContents.openDevTools(); //DevTools
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
