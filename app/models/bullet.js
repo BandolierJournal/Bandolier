@@ -8,15 +8,16 @@ class Bullet {
 		if (typeof content === 'string' || !content) {
 			this.id = new Date().toISOString();
 			this.content = content;
-			this.strike = strike || false;
+			var strike = strike || false;
+			this.strike = strike;
 		} else {
 			_.extend(this, content);
 		}
 	}
 
-	toggleStrike() {
-		this.strike = !this.strike;
-	}
+	// toggleStrike() {
+	// 	this.strike = !this.strike;
+	// }
 
 	save() {
 		return db.rel.save('bullet', this);
