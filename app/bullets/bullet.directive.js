@@ -16,25 +16,26 @@ bulletApp.directive('bullet', function (Bullet) {
                 "Done": "fa-times"
             };
 
-            let map = {};
+            const OS = process.platform;
 
             function editBullet(e) {
+                console.log(e);
                 if(!scope.bullet.strike) {
                     if(!scope.bullet.status || scope.bullet.status === 'incomplete') {
                         // cmd-t change to task
-                        if (map[84]) return new Bullet.Task(scope.bullet);
+                        if (e.which === 84) return new Bullet.Task(scope.bullet);
                         // cmd-e change to event
-                        if (map[69]) return new Bullet.Event(scope.bullet);
+                        if (e.which === 69) return new Bullet.Event(scope.bullet);
                         // cmd-n change to note
-                        if (map[78]) return new Bullet.Note(scope.bullet);
+                        if (e.which === 78) return new Bullet.Note(scope.bullet);
                     }
                     // cmd-d toggle done for tasks
-                    if (map[68] && scope.bullet.type === 'Task') scope.bullet.toggleDone();
+                    if (e.which === 68 && scope.bullet.type === 'Task') scope.bullet.toggleDone();
                 }
                 // cmd-x cross out
-                if (map[88]) scope.bullet.toggleStrike();
+                if (e.which === 88) scope.bullet.toggleStrike();
                 // cmd-del remove from collection
-                if (map[8]) {
+                if (e.which === 8) {
                     e.preventDefault();
                     scope.removeFn();
                 }
@@ -48,21 +49,16 @@ bulletApp.directive('bullet', function (Bullet) {
             //     }
             // };
 
-            element.on('keyup', function () {
-                map = {};
-            });
+            element.on('keydown keypress', function (e) {
+                // console.log(e);
 
-            element.on('keydown', function (e) {
-                map[e.which] = true;
-                if (map[13]) {
-                    map = {};
+                if (e.which === 13) {
                     e.preventDefault();
                     e.target.blur();
-                } else if (map[91]) {
+                } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
                     scope.bullet = editBullet(e);
                     scope.bullet.save();
                 } else if(scope.bullet.strike || scope.bullet.status === 'complete') {
-                    map = {};
                     e.preventDefault();
                 }
 
