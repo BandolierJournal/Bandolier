@@ -41,12 +41,12 @@ bulletApp.directive('bullet', function (Bullet) {
                 return scope.bullet;
             }
 
-            scope.bulletFocus = function() {
-                if (!scope.bullet) {
-                  scope.bullet = new Bullet.Task({date: scope.collection.title, collections: [scope.collection.id]})
-                  console.log(scope.bullet)
-                }
-            };
+            // scope.bulletFocus = function() {
+            //     if (!scope.bullet) {
+            //       scope.bullet = new Bullet.Task({date: scope.collection.title, collections: [scope.collection.id]})
+            //       console.log(scope.bullet)
+            //     }
+            // };
 
             element.on('keyup', function () {
                 map = {};
