@@ -1,6 +1,6 @@
 /*jshint node: true*/
 'use strict';
-
+// require('babel-register');  might need this for production
 const electron = require('electron');
 const {app} = electron;
 const {BrowserWindow} = electron;
@@ -12,9 +12,9 @@ let mainWindow;
 let onlineStatusWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({width: 800, height: 600, frame: false});
+  mainWindow = new BrowserWindow({width: 1200, height: 800, frame: false});
   mainWindow.loadURL(`file://${__dirname}/index.html`);
-  // win.webContents.openDevTools(); //DevTools
+  mainWindow.webContents.openDevTools(); //DevTools
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
