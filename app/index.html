@@ -5,17 +5,23 @@
     <meta charset="UTF-8">
     <title>Bullet Journal</title>
     <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bullets/bullet.css">
     <script src='../bower_components/angular/angular.js'></script>
     <script src='../bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
     <script src='../bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js'></script>
+    <script src='../bower_components/ng-content-editable/dist/ng-content-editable.min.js'></script>
     <script src='./app.js'></script>
     <script src="collections/collection.factory.js"></script>
     <script src="collections/collection.directive.js"></script>
+    <script src="bullets/bullet.factory.js"></script>
+    <script src="bullets/bullet.directive.js"></script>
     <script src="index/index.controller.js"></script>
     <script src="index/index.state.js"></script>
 </head>
 
 <body ng-app="bulletApp">
+    <collection collection-id="13"></collection>
     <ui-view></ui-view>
 </body>
 

@@ -1,14 +1,12 @@
-var db = require('./models')
-var Collection = require('./models/collection')
-var Bullet = require('./models/bullet')
+/*jshint esversion: 6*/
+var db = require('./models');
+var Collection = require('./models/collection');
+var Bullet = require('./models/bullet');
 var chance = require('chance')(123);
-var PouchDB = require('pouchdb');
 var Promise = require('bluebird');
 
-var remoteDB = new PouchDB('http://localhost:5984/bullet');
-
 var bullets = [];
-var status = ['incomplete', 'complete']
+var status = ['incomplete', 'complete'];
 
 function generateTaskBullet(i) {
     return new Bullet.Task({
@@ -21,7 +19,7 @@ function generateTaskBullet(i) {
             max: 28
         })),
         status: chance.pickone(status)
-    })
+    });
 }
 
 for (var i = 0; i < 120; i++) {
@@ -49,7 +47,7 @@ for (var i = 0; i < 12; i++) {
         id: i.toString(),
         bullets: thisBullet,
         type: 'month'
-    }))
+    }));
 }
 
 collections.push(new Collection({
@@ -66,9 +64,9 @@ collections.push(new Collection({
     type: 'day'
 }));
 
-Promise.map([...bullets, ...collections], function(doc){
-    return doc.save();
-})
+Promise.map([...bullets, ...collections], function (doc) {
+        return doc.save();
+    })
     .then(allthethings => {
         console.log(allthethings);
         console.log('Seed Successful!');
@@ -76,5 +74,5 @@ Promise.map([...bullets, ...collections], function(doc){
     })
     .catch(function (err) {
         console.error("Shit's broken: ", err);
-        process.kill(1)
-    })
+        process.kill(1);
+    });
