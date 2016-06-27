@@ -2,15 +2,14 @@
 .strikethrough {
     text-decoration: line-through;
 }
-
 // Sticky Footer
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
 .footer {
   position: fixed;
@@ -19,11 +18,9 @@ body {
   height: auto;
   background-color: white;
 }
-
 .container .text-muted {
   margin: 0px 10px;
 }
-
 .footer > .container {
   padding-top: 10px;
   padding-right: 15px;
