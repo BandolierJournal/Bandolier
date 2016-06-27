@@ -2,7 +2,7 @@
 bulletApp.directive('collection', function($log, Collection, Bullet, $rootScope, $timeout){
     return {
         restrict: 'E',
-        templateUrl: './collections/collection.template.html',
+        templateUrl: 'scripts/collections/collection.template.html',
         scope: {
             collectionId: '='
         },
