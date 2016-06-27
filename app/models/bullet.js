@@ -8,7 +8,7 @@ class Bullet {
 		if (typeof content === 'string' || !content) {
 			this.id = new Date().toISOString();
 			this.content = content;
-			this.strike = strike || false;
+			this.strike = false;
 		} else {
 			_.extend(this, content);
 		}
