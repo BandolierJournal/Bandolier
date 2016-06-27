@@ -15,9 +15,9 @@ class Bullet {
 		}
 	}
 
-	// toggleStrike() {
-	// 	this.strike = !this.strike;
-	// }
+	toggleStrike() {
+		this.strike = !this.strike;
+	}
 
 	save() {
 		return db.rel.save('bullet', this);
