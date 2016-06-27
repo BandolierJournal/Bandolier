@@ -31,9 +31,9 @@ class Collection {
     }
     addBullet(bullet) {
       this.bullets.push(bullet.id);
-      bullet.collections.push(this.id)
-      this.save();
-      bullet.save()
+      if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
+      return Promise.all([this.save(), bullet.save()])
+      .catch(err => console.error('error ', err))
     }
 
     removeBullet(bullet) {

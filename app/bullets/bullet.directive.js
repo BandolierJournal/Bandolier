@@ -6,7 +6,7 @@ bulletApp.directive('bullet', function (Bullet) {
         scope: {
             bullet: '=',
             removeFn: '&',
-            collection: '='
+            addFn: '&'
         },
         link: function (scope, element) {
             scope.typeDict = {
@@ -69,7 +69,8 @@ bulletApp.directive('bullet', function (Bullet) {
             });
 
             element.on('focusout', function (e) {
-                scope.bullet.save();
+                if(!scope.bullet.rev) scope.addFn()
+                else scope.bullet.save();
             });
         }
     };

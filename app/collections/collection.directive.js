@@ -1,16 +1,20 @@
 /*jshint esversion: 6*/
-bulletApp.directive('collection', function($log, Collection){
+bulletApp.directive('collection', function($log, Collection, Bullet, $rootScope, $timeout){
     return {
         restrict: 'E',
         templateUrl: './collections/collection.template.html',
         scope: {
-            collectionId: '@'
+            collectionId: '='
         },
         link: function(scope) {
             Collection.fetchById(scope.collectionId)
             .then(function(res){
                 angular.extend(scope, res);
                 scope.$evalAsync();
+            })
+            .then(() => {
+              scope.newBullet = new Bullet.Task()
+              scope.$evalAsync();
             })
             .catch($log.err);
 
@@ -26,6 +30,17 @@ bulletApp.directive('collection', function($log, Collection){
                 })
                 .catch($log.err);
             };
+            scope.addBullet = function(bullet) {
+                if (bullet.content.length > 0) {
+                  scope.collection.addBullet(bullet)
+                  .then(function(){
+                      scope.bullets.push(bullet);
+                      scope.newBullet = new Bullet.Task()
+                      scope.$evalAsync()
+                  })
+                  .catch($log.err);
+              };
+            }
         }
     };
 });
