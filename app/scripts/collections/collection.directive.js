@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-bulletApp.directive('collection', function($log, Collection){
+bulletApp.directive('collection', function($log){
     return {
         restrict: 'E',
         templateUrl: 'scripts/collections/collection.template.html',
@@ -10,10 +10,28 @@ bulletApp.directive('collection', function($log, Collection){
             Collection.fetchById(scope.collectionId)
             .then(function(res){
                 angular.extend(scope, res);
+                formatTitle(scope.collection);
                 scope.$evalAsync();
             })
             .catch($log.err);
 
+            function formatTitle(collection) {
+                switch(collection.type) {
+                    case 'month':
+                        collection.title = Moment(collection.title).format('MMMM')+' Log';
+                        break;
+                    case 'future':
+                        collection.title = Moment(collection.title).format('MMM');
+                        break;
+                    case 'day':
+                        collection.title = Moment(collection.title).format('MMM DD');
+                        break;
+                    default:
+                }
+
+            }
+
+            
             /**********************************************************
             * This function will remove the bullet from the collection
             * and then make sure the bullet is also removed from the

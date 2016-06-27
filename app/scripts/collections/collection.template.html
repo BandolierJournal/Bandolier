@@ -1,6 +1,6 @@
 
 <div class="container">
-    <h1 class="page-header">{{collection.title}}</h1>
+    <h1 class="page-header">{{collection.title | date: 'MMM yyyy'}}</h1>
     <ul>
         <bullet
         ng-repeat="bullet in bullets track by $index"
@@ -8,4 +8,5 @@
         remove-fn="removeBullet(bullet)"
         ></bullet>
     </ul>
+    
 </div>

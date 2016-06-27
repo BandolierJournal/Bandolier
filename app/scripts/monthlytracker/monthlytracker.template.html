@@ -2,12 +2,12 @@
 <div class="container">
   <div class ="row">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-      <h1>{{monthCal.title | date: 'MMM yyyy'}}</h1>
-      <spam ng-repeat="day in numOfDays track by $index">{{$index+1}} / {{day}} //
+      <h1>{{log.collection.title | date: 'MMM yyyy'}}</h1>
+      <span ng-repeat="day in numOfDays track by $index">{{$index+1}} / {{day}} //
         <bullet
         bullet="bulletList[$index + 1 + '']"
         remove-fn="removeBullet(bulletList[$index + 1 + ''])"
-        collection="monthCal"
+        collection="cal"
         ></bullet>
 
       </span>
@@ -16,8 +16,7 @@
 
 
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-      <h1>Monthly Tasks</h1>
-      <bullet ng-repeat="bullet in monthBullets track by $index" bullet="bullet" remove-fn="removeBullet(bullet)"></bullet>
+      <collection collection-id="{{log.collection.id}}"></collection>
     </div>
   </div>
 </div>

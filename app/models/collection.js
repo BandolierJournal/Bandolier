@@ -15,6 +15,7 @@ function convertToInstances(res) {
     } else {
         resOut.collection = new Collection(res.collections[0]);
     }
+    
     return resOut;
 }
 
@@ -63,6 +64,19 @@ class Collection {
             .then(collections => collections.map(collection => new Collection(collection)))
             .catch(err => console.error('could not fetch all collections'));
     }
+
+    static fetchAllWithBullets(props) {
+         return db.rel.find('collectionShort')
+            .then(res => {
+                if (props) return _.filter(res.collectionShorts, props);
+                else return res.collectionShorts;
+            })
+            .then(collections => {
+                return Promise.all(collections.map(collection => this.fetchById(collection.id)));
+            })
+            .catch(err => console.error('could not fetch all collections'));
+    }
+
 }
 
 module.exports = Collection;
