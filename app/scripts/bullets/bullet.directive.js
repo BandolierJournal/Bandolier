@@ -2,7 +2,7 @@
 bulletApp.directive('bullet', function (Bullet) {
     return {
         restrict: 'E',
-        templateUrl: './bullets/bullet.template.html',
+        templateUrl: 'scripts/bullets/bullet.template.html',
         scope: {
             bullet: '=',
             removeFn: '&',

@@ -1,7 +1,7 @@
 bulletApp.config(function($stateProvider) {
   $stateProvider.state('monthlyTracker', {
     url: '/monthlytracker/:monthId/:monthCalId',
-    templateUrl: './monthlytracker/monthlytracker.template.html',
+    templateUrl: 'scripts/monthlytracker/monthlytracker.template.html',
     controller: 'MonthlyTrackerCtrl',
     resolve: {
       targetMonthCal: function($stateParams, Collection) {

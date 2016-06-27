@@ -135,20 +135,17 @@ gulp.task('default', function () {
 
     gulp.start('build');
 
-    // Run when anything inside of browser/js changes.
-    // gulp.watch('browser/js/**', function () {
-    //     runSeq('buildJS', 'reload');
-    // });
+    // Run when anything inside of app/scripts changes.
+    gulp.watch('app/scripts/**', function () {
+        runSeq('buildJS', 'reload');
+    });
 
     // // Run when anything inside of browser/scss changes.
-    // gulp.watch('browser/scss/**', function () {
-    //     runSeq('buildCSS', 'reloadCSS');
-    // });
+    gulp.watch('app/scss/**', function () {
+        runSeq('buildCSS', 'reloadCSS');
+    });
 
-    // gulp.watch('server/**/*.js', ['lintJS']);
-
-    // // Reload when a template (.html) file changes.
-    // gulp.watch(['browser/**/*.html', 'server/app/views/*.html'], ['reload']);
+    gulp.watch('app/scripts/**/*.js', ['lintJS']);
 
     // // Run server tests when a server file or server test file changes.
     // gulp.watch(['tests/server/**/*.js'], ['testServerJS']);
@@ -156,6 +153,5 @@ gulp.task('default', function () {
     // // Run browser testing when a browser test file changes.
     // gulp.watch('tests/browser/**/*', ['testBrowserJS']);
 
-    // livereload.listen();
-
+    livereload.listen();
 });

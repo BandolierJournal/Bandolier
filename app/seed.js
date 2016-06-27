@@ -72,5 +72,5 @@ Promise.map([...bullets, ...collections], function(doc){
 })
 .catch(function (err) {
     console.error("Shit's broken: ", err);
-    process.kill(1)
+    process.kill(1);
 })
