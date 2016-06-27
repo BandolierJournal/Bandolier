@@ -1,5 +1,6 @@
 /*jshint node: true, esversion: 6*/
 'use strict'
+
 const db = require('./index');
 const _ = require('lodash');
 
@@ -29,8 +30,10 @@ class Collection {
         }
     }
     addBullet(bullet) {
-        this.bullets.push(bullet.id);
-        this.save();
+      this.bullets.push(bullet.id);
+      bullet.collections.push(this.id)
+      this.save();
+      bullet.save()
     }
 
     removeBullet(bullet) {
@@ -60,7 +63,6 @@ class Collection {
             .then(collections => collections.map(collection => new Collection(collection)))
             .catch(err => console.error('could not fetch all collections'));
     }
-
 }
 
 module.exports = Collection;

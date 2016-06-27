@@ -4,7 +4,6 @@ const PouchDB = require('pouchdb');
 const db = require('./models');
 const remoteDB = new PouchDB('http://localhost:5984/bullet');
 
-
 const bulletApp = angular.module('bulletApp', ['ui.router', 'ui.bootstrap', 'content-editable']);
 
 bulletApp.config(function($urlRouterProvider){
