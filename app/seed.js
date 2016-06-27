@@ -1,19 +1,9 @@
-<<<<<<< HEAD
+
 var Collection = require('./models/collection')
 var Bullet = require('./models/bullet')
 var chance = require('chance')(123);
 var Promise = require('bluebird');
 
-
-=======
-/*jshint esversion: 6*/
-var db = require('./models');
-var Collection = require('./models/collection');
-var Bullet = require('./models/bullet');
-var chance = require('chance')(123);
-var Promise = require('bluebird');
-
->>>>>>> 18af0c8bc4bfd6f1ab8a9a03852516ab46698279
 var bullets = [];
 var status = ['incomplete', 'complete'];
 
@@ -72,7 +62,6 @@ collections.push(new Collection({
     type: 'day'
 }));
 
-<<<<<<< HEAD
 Promise.map([...bullets, ...collections], function(doc){
     return doc.save();
 })
@@ -85,17 +74,3 @@ Promise.map([...bullets, ...collections], function(doc){
     console.error("Shit's broken: ", err);
     process.kill(1)
 })
-=======
-Promise.map([...bullets, ...collections], function (doc) {
-        return doc.save();
-    })
-    .then(allthethings => {
-        console.log(allthethings);
-        console.log('Seed Successful!');
-        process.kill(0);
-    })
-    .catch(function (err) {
-        console.error("Shit's broken: ", err);
-        process.kill(1);
-    });
->>>>>>> 18af0c8bc4bfd6f1ab8a9a03852516ab46698279
