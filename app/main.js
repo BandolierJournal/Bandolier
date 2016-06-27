@@ -12,7 +12,12 @@ let mainWindow;
 let onlineStatusWindow;
 
 function createWindow() {
+<<<<<<< HEAD
   mainWindow = new BrowserWindow({width: 1200, height: 800, frame: false});
+=======
+  //Removed frame:false to make testing easier
+  mainWindow = new BrowserWindow({width: 1000, height: 800});
+>>>>>>> 18af0c8bc4bfd6f1ab8a9a03852516ab46698279
   mainWindow.loadURL(`file://${__dirname}/index.html`);
   mainWindow.webContents.openDevTools(); //DevTools
 
