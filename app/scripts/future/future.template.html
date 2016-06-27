@@ -1,10 +1,8 @@
 <div class="container">
     <div class="row">
-        <div class="col-lg-6">
             <h1 class="page-header" id="indexTitle">FUTURE LOG</h1>
             <div ng-repeat="collection in collections">
-            	<collection collection-id={{collection.id}}></collection>
+            	<collection collection-id={{collection.id}} props="collection"></collection>
             </div>
-        </div>
     </div>
 </div>

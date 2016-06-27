@@ -4,7 +4,8 @@ bulletApp.directive('collection', function($log){
         restrict: 'E',
         templateUrl: 'scripts/collections/collection.template.html',
         scope: {
-            collectionId: '@'
+            collectionId: '@',
+            props: '='
         },
         link: function(scope) {
             Collection.fetchById(scope.collectionId)
@@ -13,7 +14,11 @@ bulletApp.directive('collection', function($log){
                 formatTitle(scope.collection);
                 scope.$evalAsync();
             })
-            .catch($log.err);
+            .catch(function(err) {
+                scope.collection = new Collection(scope.props);
+                formatTitle(scope.collection);
+                scope.$evalAsync();
+            });
 
             function formatTitle(collection) {
                 switch(collection.type) {
@@ -21,7 +26,7 @@ bulletApp.directive('collection', function($log){
                         collection.title = Moment(collection.title).format('MMMM')+' Log';
                         break;
                     case 'future':
-                        collection.title = Moment(collection.title).format('MMM');
+                        collection.title = Moment(collection.title).format('MMM YY').toUpperCase();
                         break;
                     case 'day':
                         collection.title = Moment(collection.title).format('MMM DD');
