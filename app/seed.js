@@ -38,13 +38,12 @@ bullets.push(new Bullet.Note({
 
 var collections = [];
 
-for (var i = 0; i < 12; i++) {
-
-    var thisBullet = bullets.map(e => e.id).slice(i * 10, i * 10 + 10);
+for (var j = 0; j < 12; j++) {
+    var thisBullet = bullets.map(e => e.id).slice(j * 10, j * 10 + 10);
 
     collections.push(new Collection({
-        title: new Date(2016, i),
-        id: i.toString(),
+        title: new Date(2016, j),
+        id: j.toString(),
         bullets: thisBullet,
         type: 'month'
     }));
@@ -64,15 +63,15 @@ collections.push(new Collection({
     type: 'day'
 }));
 
-Promise.map([...bullets, ...collections], function (doc) {
-        return doc.save();
-    })
-    .then(allthethings => {
-        console.log(allthethings);
-        console.log('Seed Successful!');
-        process.kill(0);
-    })
-    .catch(function (err) {
-        console.error("Shit's broken: ", err);
-        process.kill(1);
-    });
+Promise.map([...bullets, ...collections], function(doc){
+    return doc.save();
+})
+.then(allthethings => {
+    console.log(allthethings);
+    console.log('Seed Successful!');
+    process.kill(0);
+})
+.catch(function (err) {
+    console.error("Shit's broken: ", err);
+    process.kill(1);
+});
