@@ -42,7 +42,7 @@ bulletApp.directive('bullet', function (Bullet) {
 
             scope.bulletFocus = function() {
                 if (!scope.bullet) {
-                  scope.bullet = new Bullet.Task('')
+                  scope.bullet = new Bullet.Task({date: })
                   console.log(scope.bullet)
                 }
             };
