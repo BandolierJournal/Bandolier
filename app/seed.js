@@ -1,7 +1,6 @@
-/*jshint esversion: 6*/
-var db = require('./models');
-var Collection = require('./models/collection');
-var Bullet = require('./models/bullet');
+
+var Collection = require('./models/collection')
+var Bullet = require('./models/bullet')
 var chance = require('chance')(123);
 var Promise = require('bluebird');
 
@@ -74,4 +73,4 @@ Promise.map([...bullets, ...collections], function(doc){
 .catch(function (err) {
     console.error("Shit's broken: ", err);
     process.kill(1);
-});
+})
