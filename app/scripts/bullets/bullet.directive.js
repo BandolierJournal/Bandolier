@@ -41,13 +41,6 @@ bulletApp.directive('bullet', function (Bullet) {
                 return scope.bullet;
             }
 
-            // scope.bulletFocus = function() {
-            //     if (!scope.bullet) {
-            //       scope.bullet = new Bullet.Task({date: scope.collection.title, collections: [scope.collection.id]})
-            //       console.log(scope.bullet)
-            //     }
-            // };
-
             element.on('keydown keypress', function (e) {
                 if(e.which !== 9 && e.which !== 91) {
                     if (e.which === 13) {
