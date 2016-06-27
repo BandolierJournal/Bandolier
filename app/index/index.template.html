@@ -3,6 +3,7 @@
     <div class="row">
         <div class="col-lg-6">
             <h1 class="page-header" id="indexTitle">INDEX</h1>
+            <div ui-sref="monthlyTracker({monthCalId: 5, monthId: 4})"><h3>Go to Monthly Tracker</h3></div>
             <div ng-repeat="collection in collections | orderBy: '-type'" ui-sref='collection.type({id: collection.id})'>
                 <h3>{{collection.title | date:'MMM yyyy'}}</h3>
             </div>

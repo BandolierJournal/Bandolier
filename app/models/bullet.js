@@ -4,11 +4,11 @@ const db = require('./index');
 const _ = require('lodash');
 
 class Bullet {
-	constructor(content, strike) {
+	constructor(content) {
 		if (typeof content === 'string' || !content) {
 			this.id = new Date().toISOString();
 			this.content = content;
-			this.strike = strike;
+			this.strike = false;
 		} else {
 			_.extend(this, content);
 		}
