@@ -19,7 +19,6 @@ bulletApp.directive('bullet', function (Bullet) {
             const OS = process.platform;
 
             function editBullet(e) {
-                console.log(e);
                 if(!scope.bullet.strike) {
                     if(!scope.bullet.status || scope.bullet.status === 'incomplete') {
                         // cmd-t change to task
@@ -50,18 +49,17 @@ bulletApp.directive('bullet', function (Bullet) {
             // };
 
             element.on('keydown keypress', function (e) {
-                // console.log(e);
-
-                if (e.which === 13) {
-                    e.preventDefault();
-                    e.target.blur();
-                } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
-                    scope.bullet = editBullet(e);
-                    scope.bullet.save();
-                } else if(scope.bullet.strike || scope.bullet.status === 'complete') {
-                    e.preventDefault();
+                if(e.which !== 9 && e.which !== 91) {
+                    if (e.which === 13) {
+                        e.preventDefault();
+                        e.target.blur();
+                    } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
+                        scope.bullet = editBullet(e);
+                        scope.bullet.save().then(() => scope.$evalAsync());
+                    } else if(scope.bullet.strike || scope.bullet.status === 'complete') {
+                        if(e.which !== 9) e.preventDefault();
+                    }
                 }
-
             });
 
             element.on('focusout', function (e) {
