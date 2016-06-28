@@ -29,7 +29,7 @@ class Collection {
         }
     }
     addBullet(bullet, index) {
-        var index = index || this.bullets.length;
+        var index = index || this.bullets.length;   //for ordering we can just use the collections.bullet array
         this.bullets[index] = bullet.id;
         if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
         return Promise.all([this.save(), bullet.save()])

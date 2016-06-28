@@ -25,11 +25,11 @@ class Bullet {
 			if (this.content.length > 0 || this.rev) return db.rel.save('bullet', this);
 	}
 
-	convert() {
+	convert() {	//not in use yet
     	return new Bullet[this.type](this);
 	}
 
-	static fetchById(id) {
+	static fetchById(id) {	//not in use yet
 		return db.rel.find('bulletShort', id)
 			.then(bullet => bullet.convert)
 			.catch(err => console.error(`Could not fetch bullet ${id}: ${err}`))
