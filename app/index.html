@@ -18,9 +18,15 @@
     <ui-view></ui-view>
     <footer class="footer">
         <div class="container">
-            <a ui-sref="index"><p class="text-muted">INDEX</p></a>
+            <ul class="menu">
+                <a ui-sref="index"><li class="text-muted">index</li></a>
+                <a ui-sref="#"><li class="text-muted">future log</li></a>
+                <a ui-sref="#"><li class="text-muted">monthly tracker</li></a>
+                <a ui-sref="#"><li class="text-muted">daily log</li></a>
+            </ul>
         </div>
-        <div class="container">
+        <!-- TODO: The following sections should be moved into either menus or modals -->
+        <!-- <div class="container">
             <p class="text-muted pull-left">
                 Key
             </p>
@@ -59,7 +65,7 @@
             <p class="text-muted pull-left">
                 delete: ⌘+del
             </p>
-        </div>
+        </div> -->
     </footer>
 </body>
 
