@@ -14,8 +14,6 @@ function convertToInstances(res) {
     } else {
         resOut.collection = new Collection(res.collections[0]);
     }
-        console.log('inside res', resOut);
-
     return resOut;
 }
 
