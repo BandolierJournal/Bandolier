@@ -5,21 +5,17 @@ bulletApp.directive('collection', function($log){
         restrict: 'E',
         templateUrl: 'scripts/collections/collection.template.html',
         scope: {
-            collectionId: '@',
-            props: '='
+            collection: '='
         },
         link: function(scope) {
-            Collection.fetchById(scope.collectionId)
+            Collection.findOrReturn(scope.collection)
             .then(function(res){
                 angular.extend(scope, res);
                 scope.formattedTitle = formatTitle(scope.collection);
+                scope.muted = false;
                 scope.$evalAsync();
             })
-            .catch(function(err) {
-                scope.collection = new Collection(scope.props);
-                scope.formattedTitle = formatTitle(scope.collection);
-                scope.$evalAsync();
-            });
+            .catch($log.err);
 
             scope.newBullet = new Bullet.Task()
 

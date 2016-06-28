@@ -6,15 +6,16 @@ bulletApp.directive('bullet', function () {
         scope: {
             bullet: '=',
             removeFn: '&',
-            addFn: '&'
+            addFn: '&',
+            header: '@'
         },
         link: function (scope, element) {
             scope.typeDict = {
-                "Task": "fa-circle-o",
-                "Event": "fa-cube",
+                "Task": "fa-circle-o", //fa-square-o
+                "Event": "fa-first-order",
                 "Note": "fa-long-arrow-right",
-                "Done": "fa-check-circle-o",
-                "Migrated": "fa-angle-double-right",
+                "Done": "fa-check-circle-o", //fa-check-square-o"
+                "Migrated": "fa-sign-out",
                 "Scheduled": "fa-angle-double-left"
             };
 

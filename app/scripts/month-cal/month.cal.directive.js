@@ -5,34 +5,28 @@ bulletApp.directive('monthCal', function($log){
         restrict: 'E',
         templateUrl: 'scripts/month-cal/month.cal.template.html',
         scope: {
-            collectionId: '@',
+            collection: '=',
             numOfDays: '=',
-            props: '='
         },
         link: function(scope) {
-            //Need some help refactoring this
-            Collection.fetchById(scope.collectionId)
-            .then(function(res){
-                angular.extend(scope, res);
-                scope.formattedTitle = Moment(scope.collection.title).format('MMM YY').toUpperCase();
-                scope.$evalAsync();
+          Collection.findOrReturn(scope.collection)
+          .then(function(res){
+              angular.extend(scope, res);
+              scope.formattedTitle = Moment(scope.collection.title).format('MMM YY').toUpperCase();
+              scope.muted = false;
+              scope.$evalAsync();
+          })
+          .then(function () {
+            scope.bulletList = {}
+            scope.bullets.forEach(bullet => {
+              scope.bulletList[Moment(bullet.date).date()] = bullet
             })
-            .catch(function(err) {
-                scope.collection = new Collection(scope.props);
-                scope.formattedTitle = Moment(scope.collection.title).format('MMM YY').toUpperCase();
-                scope.$evalAsync();
+            scope.bulletList = scope.numOfDays.map((day, index) => {
+              if(scope.bulletList[index + 1]) return scope.bulletList[index + 1]
+              else return new Bullet.Task({date: Moment(scope.collection.title).add(index, 'days').toISOString(), collections: [scope.collection.id]})
             })
-            .then(function () {
-              scope.bulletList = {}
-              scope.bullets.forEach(bullet => {
-                scope.bulletList[Moment(bullet.date).date()] = bullet
-
-              })
-              scope.bulletList = scope.numOfDays.map((day, index) => {
-                if(scope.bulletList[index + 1]) return scope.bulletList[index + 1]
-                else return new Bullet.Task({date: Moment(scope.collection.title).add(index, 'days').toISOString(), collections: [scope.collection.id]})
-              })
-            })
+          })
+          .catch($log.err);
 
             /**********************************************************
             * This function will remove the bullet from the collection
