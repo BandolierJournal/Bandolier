@@ -10,7 +10,6 @@ bulletApp.directive('monthCal', function($log){
             props: '='
         },
         link: function(scope) {
-            console.log(scope)
             //Need some help refactoring this
             Collection.fetchById(scope.collectionId)
             .then(function(res){
@@ -18,11 +17,11 @@ bulletApp.directive('monthCal', function($log){
                 scope.formattedTitle = Moment(scope.collection.title).format('MMM YY').toUpperCase();
                 scope.$evalAsync();
             })
-            // .catch(function(err) {
-            //     scope.collection = new Collection(scope.props);
-            //     scope.formattedTitle = formatTitle(scope.collection);
-            //     scope.$evalAsync();
-            // })
+            .catch(function(err) {
+                scope.collection = new Collection(scope.props);
+                scope.formattedTitle = Moment(scope.collection.title).format('MMM YY').toUpperCase();
+                scope.$evalAsync();
+            })
             .then(function () {
               scope.bulletList = {}
               scope.bullets.forEach(bullet => {
@@ -34,24 +33,6 @@ bulletApp.directive('monthCal', function($log){
                 else return new Bullet.Task({date: Moment(scope.collection.title).add(index, 'days').toISOString(), collections: [scope.collection.id]})
               })
             })
-
-            function formatTitle(collection) {
-                switch(collection.type) {
-                    case 'month':
-                        return Moment(collection.title).format('MMMM')+' Log';
-                        break;
-                    case 'future':
-                        return Moment(collection.title).format('MMM YY').toUpperCase();
-                        break;
-                    case 'day':
-                        return Moment(collection.title).format('MMM DD');
-                        break;
-                    default:
-                        return collection.title;
-                }
-
-            }
-
 
             /**********************************************************
             * This function will remove the bullet from the collection
