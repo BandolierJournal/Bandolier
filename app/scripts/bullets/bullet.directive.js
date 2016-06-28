@@ -6,7 +6,8 @@ bulletApp.directive('bullet', function () {
         scope: {
             bullet: '=',
             removeFn: '&',
-            addFn: '&'
+            addFn: '&',
+            header: '@'
         },
         link: function (scope, element) {
             scope.typeDict = {

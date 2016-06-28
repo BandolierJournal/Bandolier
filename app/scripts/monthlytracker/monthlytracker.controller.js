@@ -4,7 +4,6 @@ bulletApp.controller('MonthlyTrackerCtrl', function($scope, targetMonth, numOfDa
   $scope.log = targetMonth.find(i => i.collection.type==="month") || new Collection(month, 'month');  //eventually $scope.log = targetMonth.find(i => i.type==="month") || new Collection(month, 'month');
   $scope.cal = targetMonth.find(i => i.collection.type==="month-cal") || new Collection(month, 'month-cal');
   $scope.monthCalBullets = $scope.cal.bullets
-  $scope.monthBullets = $scope.log.bullets
   $scope.bulletList = {}
   $scope.cal.bullets.forEach(bullet => {
     $scope.bulletList[Moment(bullet.date).date()] = bullet

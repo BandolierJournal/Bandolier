@@ -14,6 +14,8 @@ function convertToInstances(res) {
     } else {
         resOut.collection = new Collection(res.collections[0]);
     }
+        console.log('inside res', resOut);
+
     return resOut;
 }
 
@@ -29,8 +31,8 @@ class Collection {
         }
     }
     addBullet(bullet, index) {
-        var index = index || this.bullets.length;   //for ordering we can just use the collections.bullet array
-        this.bullets[index] = bullet.id;
+        var index = index || this.bullets.length;   //so we can preserver ordering in collections.bullet array
+        this.bullets = this.bullets.slice(0, index).concat(bullet.id).concat(this.bullets.slice(index));
         if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
         return Promise.all([this.save(), bullet.save()])
         .catch(err => console.error('error ', err))
@@ -45,6 +47,7 @@ class Collection {
     }
 
     save() {
+        this.bullets = this.bullets.map(bullet => bullet.id);  //beforeSave, converts bullet instances to ids
         return db.rel.save('collection', this);
     }
 
@@ -52,6 +55,15 @@ class Collection {
         return db.rel.find('collection', id)
             .then(convertToInstances)
             .catch(err => console.error(`Could not fetch collection ${id}: ${err}`));
+    }
+
+    static findOrReturn(props) {
+        return db.rel.find('collection', props.id)
+            .then(convertToInstances)
+            .catch(err => {
+                console.log('created new collection');
+                return new Collection(props);  //this does NOT create instance in database
+            });
     }
 
     static fetchAll(props) {
@@ -64,16 +76,9 @@ class Collection {
             .catch(err => console.error('could not fetch all collections'));
     }
 
-    static returnBullets() {
-        return this.bullets.map(bullet => new Bullet(bullet))
-    }
 
     static fetchAllWithBullets(props) {
-         return db.rel.find('collectionShort')
-            .then(res => {
-                if (props) return _.filter(res.collectionShorts, props);
-                else return res.collectionShorts;
-            })
+         return this.fetchAll(props) // andrew's refactoring comment
             .then(collections => {
                 return Promise.all(collections.map(collection => this.fetchById(collection.id)));
             })
