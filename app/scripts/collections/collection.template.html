@@ -1,16 +1,19 @@
 
-<div class="container">
-    <h1 class="page-header">{{collection.title}}</h1>
+<div class="col-lg-6">
+    <h4 class="page-header">{{formattedTitle}}</h4>
     <ul>
-        <div ng-repeat="bullet in bullets track by $index"><bullet
-        bullet="bullet"
-        remove-fn="removeBullet(bullet)"
-        add-fn=""
-        ></bullet></div>
-        <div><bullet
-        bullet="newBullet"
-        remove-fn="removeBullet(newBullet)"
-        add-fn="addBullet(newBullet)"
-        ></bullets></div>
+        <div ng-repeat="bullet in bullets track by $index">
+            <bullet bullet="bullet"
+                remove-fn="removeBullet(bullet)"
+                add-fn="">
+            </bullet>
+        </div>
+        <div >
+            <bullet bullet="newBullet"
+                remove-fn="removeBullet(newBullet)"
+                add-fn="addBullet(newBullet)">
+            </bullets>
+        </div>
     </ul>
+    
 </div>

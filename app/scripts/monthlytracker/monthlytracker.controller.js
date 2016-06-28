@@ -1,21 +1,18 @@
-bulletApp.controller('MonthlyTrackerCtrl', function($scope, Collection, targetMonth, numOfDays, targetMonthCal, Bullet) {
-  const moment = require('moment')
-  $scope.numOfDays = numOfDays.reverse()
-  $scope.monthCal = targetMonthCal.collection
-  $scope.monthCalBullets = targetMonthCal.bullets
-  $scope.monthBullets = targetMonth.bullets
-  $scope.month = targetMonth.collection
-  // console.log($scope.month)
+bulletApp.controller('MonthlyTrackerCtrl', function($scope, targetMonth, numOfDays) {
+  $scope.numOfDays = numOfDays;
+  var month = targetMonth[0].collection.title;
+  $scope.log = targetMonth.find(i => i.collection.type==="month") || new Collection(month, 'month');
+  $scope.cal = targetMonth.find(i => i.collection.type==="month-cal") || new Collection(month, 'month-cal');
+  $scope.monthCalBullets = $scope.cal.bullets
+  $scope.monthBullets = $scope.log.bullets
   $scope.bulletList = {}
-  $scope.monthCalBullets.forEach(bullet => {
-    $scope.bulletList[moment(bullet.date).date()] = bullet
+  $scope.cal.bullets.forEach(bullet => {
+    $scope.bulletList[Moment(bullet.date).date()] = bullet
+
   })
-  // console.log($scope.bulletList)
   $scope.bulletList = $scope.numOfDays.map((day, index) => {
     if($scope.bulletList[index + 1]) return $scope.bulletList[index + 1]
-    else return new Bullet.Task({date: moment($scope.monthCal.title).add(index, 'days').toISOString(), collections: [$scope.monthCal.id]})
+    else return new Bullet.Task({date: Moment($scope.cal.title).add(index, 'days').toISOString(), collections: [$scope.cal.id]})
   })
-  // console.log($scope.bulletList)
-  // targetMonth.collection.addBullet(new Bullet.Task('Test'))
-  // .then(() => $scope.$evalAsync())
+
 })

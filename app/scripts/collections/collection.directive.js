@@ -1,23 +1,46 @@
 /*jshint esversion: 6*/
-bulletApp.directive('collection', function($log, Collection, Bullet, $rootScope, $timeout){
+
+bulletApp.directive('collection', function($log){
     return {
         restrict: 'E',
         templateUrl: 'scripts/collections/collection.template.html',
         scope: {
-            collectionId: '='
+            collectionId: '@',
+            props: '='
         },
         link: function(scope) {
             Collection.fetchById(scope.collectionId)
             .then(function(res){
                 angular.extend(scope, res);
+                scope.formattedTitle = formatTitle(scope.collection);
                 scope.$evalAsync();
             })
-            .then(() => {
-              scope.newBullet = new Bullet.Task()
-              scope.$evalAsync();
-            })
-            .catch($log.err);
+            .catch(function(err) {
+                scope.collection = new Collection(scope.props);
+                scope.formattedTitle = formatTitle(scope.collection);
+                scope.$evalAsync();
+            });
 
+            scope.newBullet = new Bullet.Task()
+
+            function formatTitle(collection) {
+                switch(collection.type) {
+                    case 'month':
+                        return Moment(collection.title).format('MMMM')+' Log';
+                        break;
+                    case 'future':
+                        return Moment(collection.title).format('MMM YY').toUpperCase();
+                        break;
+                    case 'day':
+                        return Moment(collection.title).format('MMM DD');
+                        break;
+                    default:
+                        return collection.title;
+                }   
+
+            }
+
+            
             /**********************************************************
             * This function will remove the bullet from the collection
             * and then make sure the bullet is also removed from the

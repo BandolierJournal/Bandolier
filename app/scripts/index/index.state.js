@@ -5,7 +5,7 @@ bulletApp.config(function ($stateProvider) {
     templateUrl: 'scripts/index/index.template.html',
     controller: 'IndexCtrl',
     resolve: {
-        collections: function(Collection) {
+        collections: function() {
             return Collection.fetchAll();
         }
     }

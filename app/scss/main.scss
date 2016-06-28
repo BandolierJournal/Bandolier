@@ -1,6 +1,15 @@
+body,
+html {
+    font-family: proxima-nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 1.4;
+    vertical-align: middle;
+}
 // Bullet Related
 .strikethrough {
     text-decoration: line-through;
+}
+.fa {
+    font-size: 12px;
 }
 // Sticky Footer
 html {
@@ -12,23 +21,23 @@ body {
     margin-bottom: 60px;
 }
 .footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 60px;
-  background-color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: white;
 }
 .container .text-muted {
-  margin: 0px 10px;
+    margin: 0 10px;
 }
 .footer > .container {
-  padding-top: 10px;
-  padding-right: 15px;
-  padding-left: 15px;
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 .menu {
-  list-style: none;
+    list-style: none;
 }
 .menu li {
-  display: inline;
+    display: inline;
 }
