@@ -5,7 +5,7 @@
             <div ui-sref="future">
             	<h4>Future Log</h4>
             </div>
-            <div ng-repeat="collection in collections" ui-sref="{{collection.type}}({collectionId: collection.id})">
+            <div ng-repeat="collection in collections" ui-sref="{{collection.type}}({id: collection.id})">
             	<h4>{{collection.title}}</h4>
             </div>
             <div ng-repeat="(key, value) in months" ui-sref='month({monthString: key})'>

@@ -10,10 +10,12 @@ bulletApp.directive('bullet', function () {
         },
         link: function (scope, element) {
             scope.typeDict = {
-                "Task": "fa-circle",
-                "Event": "fa-circle-thin",
-                "Note": "fa-minus",
-                "Done": "fa-times"
+                "Task": "fa-circle-o",
+                "Event": "fa-cube",
+                "Note": "fa-long-arrow-right",
+                "Done": "fa-check-circle-o",
+                "Migrated": "fa-angle-double-right",
+                "Scheduled": "fa-angle-double-left"
             };
 
             const OS = process.platform;

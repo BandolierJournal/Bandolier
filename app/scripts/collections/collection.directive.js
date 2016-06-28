@@ -15,13 +15,9 @@ bulletApp.directive('collection', function($log){
                 scope.formattedTitle = formatTitle(scope.collection);
                 scope.$evalAsync();
             })
-            // .then(() => {
-            //   scope.newBullet = new Bullet.Task()
-            //   scope.$evalAsync();
-            // })
             .catch(function(err) {
                 scope.collection = new Collection(scope.props);
-                formatTitle(scope.collection);
+                scope.formattedTitle = formatTitle(scope.collection);
                 scope.$evalAsync();
             });
 
