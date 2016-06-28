@@ -1,15 +1,15 @@
-// Bullet Related
-.strikethrough {
-    text-decoration: line-through;
-}
-body, html {
+body,
+html {
     font-family: proxima-nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
     line-height: 1.4;
     vertical-align: middle;
     font-size: 14px;
     color: #555;
 }
-
+// Bullet Related
+.strikethrough {
+    text-decoration: line-through;
+}
 .fa {
 	font-size: 12px
 }
@@ -21,4 +21,35 @@ body, html {
 .bullet {
 	padding-right: 0;
 	text-align: right
+}
+
+// Sticky Footer
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: white;
+}
+.container .text-muted {
+    margin: 0 10px;
+}
+.footer > .container {
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.menu {
+    list-style: none;
+}
+.menu li {
+    display: inline;
 }
