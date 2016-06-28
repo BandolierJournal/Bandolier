@@ -1,11 +1,18 @@
 <div class="container">
-    <h1>{{message}}</h1>
     <div class="row">
         <div class="col-lg-6">
             <h1 class="page-header" id="indexTitle">INDEX</h1>
-            <div ui-sref="monthlyTracker({monthCalId: 5, monthId: 4})"><h3>Go to Monthly Tracker</h3></div>
-            <div ng-repeat="collection in collections | orderBy: '-type'" ui-sref='collection.type({id: collection.id})'>
-                <h3>{{collection.title | date:'MMM yyyy'}}</h3>
+            <div ui-sref="future">
+            	<h4>Future Log</h4>
+            </div>
+            <div ng-repeat="collection in collections" ui-sref="{{collection.type}}({id: collection.id})">
+            	<h4>{{collection.title}}</h4>
+            </div>
+            <div ng-repeat="(key, value) in months" ui-sref='month({monthString: key})'>
+                <h4>{{key | date:'MMMM yyyy'}}</h4>
+            </div>
+            <div ui-sref="daily">
+            	<h4>Daily Log</h4>
             </div>
         </div>
     </div>

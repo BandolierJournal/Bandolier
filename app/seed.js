@@ -62,6 +62,13 @@ collections.push(new Collection({
     type: 'day'
 }));
 
+collections.push(new Collection({
+    title: new Date(2016, 0, 1),
+    id: '15',
+    bullets: ['1', '2'],
+    type: 'month-cal'
+}));
+
 Promise.map([...bullets, ...collections], function(doc){
     return doc.save();
 })

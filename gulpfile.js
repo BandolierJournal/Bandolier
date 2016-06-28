@@ -142,7 +142,7 @@ gulp.task('default', function () {
 
     // // Run when anything inside of browser/scss changes.
     gulp.watch('app/scss/**', function () {
-        runSeq('buildCSS', 'reloadCSS');
+        runSeq('buildCSS');
     });
 
     gulp.watch('app/scripts/**/*.js', ['lintJS']);
