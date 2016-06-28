@@ -6,22 +6,34 @@ bulletApp.directive('monthCal', function($log){
         templateUrl: 'scripts/month-cal/month.cal.template.html',
         scope: {
             collectionId: '@',
+            numOfDays: '=',
             props: '='
         },
         link: function(scope) {
+            console.log(scope)
+            //Need some help refactoring this
             Collection.fetchById(scope.collectionId)
             .then(function(res){
                 angular.extend(scope, res);
-                scope.formattedTitle = formatTitle(scope.collection);
+                scope.formattedTitle = Moment(scope.collection.title).format('MMM YY').toUpperCase();
                 scope.$evalAsync();
             })
-            .catch(function(err) {
-                scope.collection = new Collection(scope.props);
-                scope.formattedTitle = formatTitle(scope.collection);
-                scope.$evalAsync();
-            });
+            // .catch(function(err) {
+            //     scope.collection = new Collection(scope.props);
+            //     scope.formattedTitle = formatTitle(scope.collection);
+            //     scope.$evalAsync();
+            // })
+            .then(function () {
+              scope.bulletList = {}
+              scope.bullets.forEach(bullet => {
+                scope.bulletList[Moment(bullet.date).date()] = bullet
 
-            scope.newBullet = new Bullet.Task()
+              })
+              scope.bulletList = scope.numOfDays.map((day, index) => {
+                if(scope.bulletList[index + 1]) return scope.bulletList[index + 1]
+                else return new Bullet.Task({date: Moment(scope.collection.title).add(index, 'days').toISOString(), collections: [scope.collection.id]})
+              })
+            })
 
             function formatTitle(collection) {
                 switch(collection.type) {

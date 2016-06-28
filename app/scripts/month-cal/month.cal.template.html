@@ -1,13 +1,13 @@
 
 <div class="col-lg-6">
-  <ul>
-    test
-    <div ng-repeat="day in numOfDays track by $index">{{$index+1}} / {{day}} //
-      <bullet
-      bullet="bulletList[$index + '']"
-      remove-fn="removeBullet(bulletList[$index + ''])"
-      add-fn="addBullet(bulletList[$index + ''])"
-      ></bullet>
-    </div>
-  </ul>
+    <h4 class="page-header">{{formattedTitle}}</h4>
+    <ul>
+      <div ng-repeat="day in numOfDays track by $index">{{$index+1}} / {{day}} //
+        <bullet
+        bullet="bulletList[$index + '']"
+        remove-fn="removeBullet(bulletList[$index + ''])"
+        add-fn="addBullet(bulletList[$index + ''])"
+        ></bullet>
+      </div>
+    </ul>
 </div>
