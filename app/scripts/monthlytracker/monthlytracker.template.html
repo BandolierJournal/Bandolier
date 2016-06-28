@@ -3,7 +3,7 @@
   <div class ="row">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-      <h3>{{log.collection.title | date: 'MMM yyyy'}}</h3>
+      <h3>{{log.title | date: 'MMM yyyy'}}</h3>
       <div ng-repeat="day in numOfDays track by $index">{{$index+1}} / {{day}} //
         <bullet
         bullet="bulletList[$index + '']"
@@ -17,7 +17,8 @@
 
 
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-      <collection collection-id="{{log.collection.id}}"></collection>
+      <collection collection-id="{{log.id}}"></collection>
+      {{log}}
     </div>
   </div>
 </div>

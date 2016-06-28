@@ -1,19 +1,16 @@
 
-<div class="col-lg-6">
-    <h4 class="page-header">{{formattedTitle}}</h4>
-    <ul>
-        <div ng-repeat="bullet in bullets track by $index">
-            <bullet bullet="bullet"
-                remove-fn="removeBullet(bullet)"
-                add-fn="">
-            </bullet>
-        </div>
-        <div >
-            <bullet bullet="newBullet"
-                remove-fn="removeBullet(newBullet)"
-                add-fn="addBullet(newBullet)">
-            </bullets>
-        </div>
-    </ul>
-    
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <h4 class="page-header" ng-class="{'text-muted': muted}">{{formattedTitle}}</h4>
+    <div>
+        <bullet ng-repeat="bullet in bullets track by $index"
+            bullet="bullet"
+            remove-fn="removeBullet(bullet)"
+            add-fn="">
+        </bullet>
+        <bullet 
+            bullet="newBullet"
+            remove-fn="removeBullet(newBullet)"
+            add-fn="addBullet(newBullet)">
+        </bullets>
+    </div>
 </div>

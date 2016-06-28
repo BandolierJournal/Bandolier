@@ -4,6 +4,7 @@ const db = require('./index');
 const _ = require('lodash');
 const Collection = require('./collection');
 
+
 class Bullet {
 	constructor(content) {
 		if (typeof content === 'string' || !content) {
@@ -23,15 +24,18 @@ class Bullet {
 	save() {
 			if (this.content.length > 0 || this.rev) return db.rel.save('bullet', this);
 	}
+
+	convert() {
+    	return new Bullet[this.type](this);
+	}
+
+	static fetchById(id) {
+		return db.rel.find('bulletShort', id)
+			.then(bullet => bullet.convert)
+			.catch(err => console.error(`Could not fetch bullet ${id}: ${err}`))
+	}
 }
 
-
-
-// TODO:
-// from: @octowl
-// to: @sechu
-// Should the status be something that other kinds of bullets also have?
-// If so, it should be on the parent Bullet class
 
 class Task extends Bullet {
 	constructor(content, date, status) {
@@ -44,6 +48,7 @@ class Task extends Bullet {
 	toggleDone() {
 		this.status = this.status === 'incomplete' ? 'complete' : 'incomplete';
 	}
+
 }
 
 class EventBullet extends Bullet {

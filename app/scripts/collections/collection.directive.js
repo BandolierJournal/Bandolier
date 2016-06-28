@@ -13,11 +13,13 @@ bulletApp.directive('collection', function($log){
             .then(function(res){
                 angular.extend(scope, res);
                 scope.formattedTitle = formatTitle(scope.collection);
+                scope.muted = false;
                 scope.$evalAsync();
             })
             .catch(function(err) {
                 scope.collection = new Collection(scope.props);
                 scope.formattedTitle = formatTitle(scope.collection);
+                scope.muted = true;
                 scope.$evalAsync();
             });
 

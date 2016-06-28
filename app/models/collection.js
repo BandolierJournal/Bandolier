@@ -8,14 +8,12 @@ const Bullet = require('./bullet');
 
 function convertToInstances(res) {
     var resOut = {};
-
     resOut.bullets = res.bullets.map(bullet => new Bullet[bullet.type](bullet));
     if (res.collections.length > 1) {
         resOut.collections = res.collections.map(collection => new Collection(collection));
     } else {
         resOut.collection = new Collection(res.collections[0]);
     }
-    
     return resOut;
 }
 
@@ -30,11 +28,12 @@ class Collection {
             _.extend(this, props);
         }
     }
-    addBullet(bullet) {
-      this.bullets.push(bullet.id);
-      if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
-      return Promise.all([this.save(), bullet.save()])
-      .catch(err => console.error('error ', err))
+    addBullet(bullet, index) {
+        var index = index || this.bullets.length;
+        this.bullets[index] = bullet.id;
+        if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
+        return Promise.all([this.save(), bullet.save()])
+        .catch(err => console.error('error ', err))
     }
 
     removeBullet(bullet) {
@@ -63,6 +62,10 @@ class Collection {
             })
             .then(collections => collections.map(collection => new Collection(collection)))
             .catch(err => console.error('could not fetch all collections'));
+    }
+
+    static returnBullets() {
+        return this.bullets.map(bullet => new Bullet(bullet))
     }
 
     static fetchAllWithBullets(props) {
