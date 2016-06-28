@@ -1,4 +1,5 @@
 /*jshint esversion: 6*/
+
 bulletApp.directive('collection', function($log){
     return {
         restrict: 'E',
@@ -11,28 +12,35 @@ bulletApp.directive('collection', function($log){
             Collection.fetchById(scope.collectionId)
             .then(function(res){
                 angular.extend(scope, res);
-                formatTitle(scope.collection);
+                scope.formattedTitle = formatTitle(scope.collection);
                 scope.$evalAsync();
             })
+            // .then(() => {
+            //   scope.newBullet = new Bullet.Task()
+            //   scope.$evalAsync();
+            // })
             .catch(function(err) {
                 scope.collection = new Collection(scope.props);
                 formatTitle(scope.collection);
                 scope.$evalAsync();
             });
 
+            scope.newBullet = new Bullet.Task()
+
             function formatTitle(collection) {
                 switch(collection.type) {
                     case 'month':
-                        collection.title = Moment(collection.title).format('MMMM')+' Log';
+                        return Moment(collection.title).format('MMMM')+' Log';
                         break;
                     case 'future':
-                        collection.title = Moment(collection.title).format('MMM YY').toUpperCase();
+                        return Moment(collection.title).format('MMM YY').toUpperCase();
                         break;
                     case 'day':
-                        collection.title = Moment(collection.title).format('MMM DD');
+                        return Moment(collection.title).format('MMM DD');
                         break;
                     default:
-                }
+                        return collection.title;
+                }   
 
             }
 
@@ -49,6 +57,17 @@ bulletApp.directive('collection', function($log){
                 })
                 .catch($log.err);
             };
+            scope.addBullet = function(bullet) {
+                if (bullet.content.length > 0) {
+                  scope.collection.addBullet(bullet)
+                  .then(function(){
+                      scope.bullets.push(bullet);
+                      scope.newBullet = new Bullet.Task()
+                      scope.$evalAsync()
+                  })
+                  .catch($log.err);
+              };
+            }
         }
     };
 });

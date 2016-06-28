@@ -2,6 +2,7 @@
 'use strict'
 const db = require('./index');
 const _ = require('lodash');
+const Collection = require('./collection');
 
 class Bullet {
 	constructor(content) {
@@ -9,6 +10,7 @@ class Bullet {
 			this.id = new Date().toISOString();
 			this.content = content;
 			this.strike = false;
+			this.collections = [];
 		} else {
 			_.extend(this, content);
 		}
@@ -19,7 +21,7 @@ class Bullet {
 	}
 
 	save() {
-		return db.rel.save('bullet', this);
+			if (this.content.length > 0 || this.rev) return db.rel.save('bullet', this);
 	}
 }
 

@@ -8,5 +8,11 @@ bulletApp.controller('MonthlyTrackerCtrl', function($scope, targetMonth, numOfDa
   $scope.bulletList = {}
   $scope.cal.bullets.forEach(bullet => {
     $scope.bulletList[Moment(bullet.date).date()] = bullet
+
   })
+  $scope.bulletList = $scope.numOfDays.map((day, index) => {
+    if($scope.bulletList[index + 1]) return $scope.bulletList[index + 1]
+    else return new Bullet.Task({date: Moment($scope.cal.title).add(index, 'days').toISOString(), collections: [$scope.cal.id]})
+  })
+
 })
