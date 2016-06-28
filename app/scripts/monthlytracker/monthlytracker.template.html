@@ -2,21 +2,8 @@
 <div class="container">
   <div class ="row">
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-
-      <h3>{{log.collection.title | date: 'MMM yyyy'}}</h3> <!-- eventually log.title -->
-      <br>
-      <div ng-repeat="day in numOfDays track by $index">
-        <bullet
-          header="{{$index+1}} {{day}}"
-          bullet="bulletList[$index + '']"
-          remove-fn="removeBullet(bulletList[$index + ''])"
-          add-fn="">
-        </bullet>
-
-      </div>
+      <month-cal collection="cal.collection" num-of-days="numOfDays"></month-cal> <!-- eventually just log -->
     </div>
-
-
 
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
       <collection collection="log.collection"></collection> <!-- eventually just log -->
