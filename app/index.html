@@ -16,6 +16,57 @@
 
 <body ng-app="bulletApp">
     <ui-view></ui-view>
+    <footer class="footer">
+        <div class="container">
+            <ul class="menu">
+                <a ui-sref="index"><li class="text-muted">index</li></a>
+                <a ui-sref="#"><li class="text-muted">future log</li></a>
+                <a ui-sref="#"><li class="text-muted">monthly tracker</li></a>
+                <a ui-sref="#"><li class="text-muted">daily log</li></a>
+            </ul>
+        </div>
+        <!-- TODO: The following sections should be moved into either menus or modals -->
+        <!-- <div class="container">
+            <p class="text-muted pull-left">
+                Key
+            </p>
+            <p class="text-muted pull-left">
+                <i class="fa fa-fw fa-circle"></i> task
+            </p>
+            <p class="text-muted pull-left">
+                <i class="fa fa-fw fa-times"></i> complete task
+            </p>
+            <p class="text-muted pull-left">
+                <i class="fa fa-fw fa-circle-thin"></i> event
+            </p>
+            <p class="text-muted pull-left">
+                <i class="fa fa-fw fa-minus"></i> note
+            </p>
+        </div>
+        <div class="container">
+            <p class="text-muted pull-left">
+                Shortcuts
+            </p>
+            <p class="text-muted pull-left">
+                task: ⌘+t
+            </p>
+            <p class="text-muted pull-left">
+                event: ⌘+e
+            </p>
+            <p class="text-muted pull-left">
+                note: ⌘+n
+            </p>
+            <p class="text-muted pull-left">
+                done: ⌘+d
+            </p>
+            <p class="text-muted pull-left">
+                crossout: ⌘+x
+            </p>
+            <p class="text-muted pull-left">
+                delete: ⌘+del
+            </p>
+        </div> -->
+    </footer>
 </body>
 
 </html>
