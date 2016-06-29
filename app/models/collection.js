@@ -45,7 +45,7 @@ class Collection {
     }
 
     save() {
-        this.bullets = this.bullets.map(bullet => bullet.id);  //beforeSave, converts bullet instances to ids
+        // this.bullets = this.bullets.map(bullet => bullet.id);  //beforeSave, converts bullet instances to ids
         return db.rel.save('collection', this);
     }
 
