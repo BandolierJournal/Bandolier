@@ -23,6 +23,9 @@ class Collection {
             this.bullets = [];
             this.type = type || 'generic'; // day, month, month-cal, future, generic
         } else {
+            if (!this.id) this.id = new Date().toISOString();
+            if (!this.title) this.title = props;
+            if (!this.bullets) this.bullets = [];
             _.extend(this, props);
         }
     }
@@ -65,15 +68,12 @@ class Collection {
             return this;
         })
     }
-    static fetchById(id) {  //can delete
-        return db.rel.find('collection', id)
-            .then(convertToInstances)
-            .catch(err => console.error(`Could not fetch collection ${id}: ${err}`));
-    }
+
 
     static findOrReturn(props) {
        return db.rel.find('collection', props.id)
            .then(res => {
+               if (res.collections.length > 1) res.collections = [res.collections.find(c => c.id === props.id)]; //this is a hack to fix something wierd in PouchDB
                if (!res.collections.length) return new Collection(props)
                else return convertToInstances(res);
            })
@@ -90,14 +90,13 @@ class Collection {
             .catch(err => console.error('could not fetch all collections'));
     }
 
-
     static fetchAllWithoutBullets(props) {
       return db.rel.find('collection')
           .then(res => {
               if (props) {
                 res.collections = _.filter(res.collections, props);
               }
-              return res.collections;
+              return res.collections.map(collection => new Collection(collection));
           })
           .catch(err => console.error('could not fetch all collections'));
     }
@@ -116,7 +115,6 @@ class Collection {
           })
           .catch(err => console.error('could not fetch all collections'));
     }
-
 }
 
 module.exports = Collection;

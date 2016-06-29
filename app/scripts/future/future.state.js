@@ -6,7 +6,7 @@ bulletApp.config(function ($stateProvider) {
     controller: 'FutureCtrl',
     resolve: {
         collections: function() {
-            return Collection.fetchAll({type: 'future'});
+            return Collection.fetchAllWithoutBullets({type: 'future'});
         },
         displayMonths: function() {
             var months = [];
@@ -15,7 +15,11 @@ bulletApp.config(function ($stateProvider) {
             for (var i = 2; i > -4; i--) {
                 months.push(Moment(rounded).subtract(i, 'months').toISOString());
             }
-            return months.map(month => new Collection(month, 'future'));
+            return months.map((month, index) => new Collection({
+              title: month,
+              type: 'future',
+              id: Moment().add(index, 'milliseconds').toISOString()
+            }));
         }
     }
   });
