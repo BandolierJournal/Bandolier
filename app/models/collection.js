@@ -42,8 +42,9 @@ class Collection {
     }
 
     addBullet(bullet, index) {
-        index = index || this.bullets.length; //so we can preserver ordering in collections.bullet array
+        index = index || this.bullets.length; //so we can preserve ordering in collections.bullet array
         this.bullets = this.bullets.slice(0, index).concat(bullet).concat(this.bullets.slice(index));
+        console.log(this.bullets)
         if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
         return Promise.all([this.save(), bullet.save()])
             .catch(err => console.error('error ', err))
@@ -91,12 +92,30 @@ class Collection {
     }
 
 
-    static fetchAllWithBullets(props) {     //can delete
-        return this.fetchAll(props) // andrew's refactoring comment
-            .then(collections => {
-                return Promise.all(collections.map(collection => this.fetchById(collection.id)));
-            })
-            .catch(err => console.error('could not fetch all collections'));
+    static fetchAllWithoutBullets(props) {
+      return db.rel.find('collection')
+          .then(res => {
+              if (props) {
+                res.collections = _.filter(res.collections, props);
+              }
+              return res.collections;
+          })
+          .catch(err => console.error('could not fetch all collections'));
+    }
+
+    //Not sure this is needed, but it works
+    static fetchAllWithBullets(props) {
+      return db.rel.find('collection')
+          .then(res => {
+              if (props) {
+                res.collections = _.filter(res.collections, props);
+              }
+              return res;
+          })
+          .then(res => {
+              return Promise.all(res.collections.map(collection => convertToInstances({collections: [collection], bullets: res.bullets})));
+          })
+          .catch(err => console.error('could not fetch all collections'));
     }
 
 }
