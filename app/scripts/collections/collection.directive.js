@@ -50,9 +50,10 @@ bulletApp.directive('collection', function($log){
                 .catch($log.err);
             };
 
-            scope.addBullet = function(bullet, index) {
+            scope.addBullet = function(bullet, index, direction) {
+                if(index < 0) return;
                 if (bullet.content && bullet.content.length > 0) {
-                  scope.collection.addBullet(bullet, index)
+                  scope.collection.addBullet(bullet, index, direction)
                   .then(function(){
                       scope.newBullet = new Bullet.Task()
                       scope.$evalAsync()

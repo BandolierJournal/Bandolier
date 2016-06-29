@@ -11,7 +11,6 @@ bulletApp.directive('bullet', function () {
             header: '@'
         },
         link: function (scope, element) {
-
             scope.typeDict = {
                 "Task": "fa-circle-o", //fa-square-o
                 "Event": "fa-first-order",
@@ -35,6 +34,14 @@ bulletApp.directive('bullet', function () {
                     }
                     // cmd-d toggle done for tasks
                     if (e.which === 68 && scope.bullet.type === 'Task') scope.bullet.toggleDone();
+                }
+                //cmd-↑ move up one
+                if(e.which === 38) {
+                    scope.addFn(scope.bullet, +scope.idx-1, 1);
+                }
+                //cmd-↓ move down one
+                if(e.which === 40) {
+                    scope.addFn(scope.bullet, +scope.idx+1, -1);
                 }
                 // cmd-x cross out
                 if (e.which === 88) scope.bullet.toggleStrike();
