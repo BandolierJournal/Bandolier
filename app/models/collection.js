@@ -65,7 +65,7 @@ class Collection {
             return this;
         })
     }
-    static fetchById(id) {
+    static fetchById(id) {  //can delete
         return db.rel.find('collection', id)
             .then(convertToInstances)
             .catch(err => console.error(`Could not fetch collection ${id}: ${err}`));
@@ -91,7 +91,7 @@ class Collection {
     }
 
 
-    static fetchAllWithBullets(props) {
+    static fetchAllWithBullets(props) {     //can delete
         return this.fetchAll(props) // andrew's refactoring comment
             .then(collections => {
                 return Promise.all(collections.map(collection => this.fetchById(collection.id)));
