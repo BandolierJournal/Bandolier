@@ -1,13 +1,12 @@
 <div class="container">
     <div class="row">
-    	<div class="col-lg-12">
-	        <h1 class="page-header" id="indexTitle">DAILY LOG</h1>
-	        <div ng-repeat="collection in collections track by $index">
-	        	<collection collection="collection"></collection>
-	        </div>
-
+        <button ng-click="prev6()">Go Back</button>
+        <button ng-click="next6()">Go Forward</button>
+        <div class="col-lg-12">
+            <h1 class="page-header" id="indexTitle">DAILY LOG</h1>
+            <div ng-repeat="collection in collections track by $index">
+                <collection collection="collection"></collection>
+            </div>
         </div>
-        <button ng-click="prev6()">GO Back</button>
-        <button ng-click="next6()">GO Forward</button>
     </div>
 </div>
