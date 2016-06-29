@@ -1,5 +1,5 @@
 bulletApp.factory('DateFactory', function() {
-	const today = new Date();
+	const today = roundDate(new Date());
 
 	function roundDate(date) {
 		return new Date(date.getFullYear(), date.getMonth(), date.getDate());
