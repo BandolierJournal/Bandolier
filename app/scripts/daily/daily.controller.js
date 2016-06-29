@@ -1,14 +1,7 @@
 bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory) {
-    $scope.collections = [];
-    let today = DateFactory.roundDate(new Date());
-    const yesterday = new Date(Moment(today).subtract(2, 'days').toISOString());
-
-    const split = _.partition(collections, function(c) {
-        return new Date(c.title) < yesterday;
-    })
-
-    const aged = split[0].sort(chronoSort);
-    const future = split[1];
+    
+    const aged = collections[0];
+    const future = collections[1];
 
     function new6(offset) {
         $scope.collections = [];
@@ -22,6 +15,7 @@ bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory) {
         });
   
     }
+    
     new6(0);
 
     let index = aged.length;
@@ -42,18 +36,6 @@ bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory) {
     function navigate() {
         if (index >=aged.length) new6(index-aged.length);
         else $scope.collections = aged.slice(index, index + 6);
-    }
-
-    function chronoSort(a, b) {
-        a = new Date(a.title);
-        b = new Date(b.title);
-        if (a < yesterday || b < yesterday) {
-            return a - b;
-        }
-    }
-
-    function chronoFilter(a) {
-        return new Date(a.title) < yesterday;
     }
 
 });

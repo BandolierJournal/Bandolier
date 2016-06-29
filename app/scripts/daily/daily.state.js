@@ -5,17 +5,10 @@ bulletApp.config(function ($stateProvider) {
     templateUrl: 'scripts/daily/daily.template.html',
     controller: 'DailyCtrl',
     resolve: {
-        collections: function() {
-            return Collection.fetchAll({type: 'day'});
+        collections: function(DateFactory) {
+            return Collection.fetchAll({type: 'day'})
+                .then(DateFactory.splitCollections);
         }
-        // displayDays: function($stateParams) {
-        //     let days = [];
-        //     let date = $stateParams.day || new Date();
-        //     for (let i = 0; i > -6; i--) {
-        //         days.push(Moment(date).subtract(i, 'days').toISOString());
-        //     }
-        //     return days.map(day => new Collection(day, 'day'));
-        // }
     }
   });
 
