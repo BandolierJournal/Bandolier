@@ -53,7 +53,6 @@ bulletApp.directive('collection', function($log){
                 if (bullet.content.length > 0) {
                   scope.collection.addBullet(bullet)
                   .then(function(res){
-                      console.log(res)
                       scope.bullets.push(res[1].bullets[0]);
                       scope.newBullet = new Bullet.Task()
                       scope.$evalAsync()
