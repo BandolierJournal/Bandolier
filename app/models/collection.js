@@ -91,17 +91,6 @@ class Collection {
             .catch(err => console.error('could not fetch all collections'));
     }
 
-    static fetchAllWithoutBullets(props) {
-      return db.rel.find('collection')
-          .then(res => {
-              if (props) {
-                res.collections = _.filter(res.collections, props);
-              }
-              return res.collections.map(collection => new Collection(collection));
-          })
-          .catch(err => console.error('could not fetch all collections'));
-    }
-
     //Not sure this is needed, but it works
     static fetchAllWithBullets(props) {
       return db.rel.find('collection')
