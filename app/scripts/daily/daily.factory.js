@@ -1,5 +1,5 @@
 bulletApp.factory('DateFactory', function() {
-	let today = new Date();
+	const today = new Date();
 
 	function roundDate(date) {
 		return new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -9,28 +9,38 @@ bulletApp.factory('DateFactory', function() {
 		return new Date(date.getFullYear(), date.getMonth());
 	}
 
-	function display(date, type) { // where date is always given as the top left index
-		let display = [];
-		let date = date || today; // type is 'month' or 'day'
-		let rounded = (type==='day') ? roundDate(date) : roundMonth(date);
+	function display(offset, type) { // where date is always given as the top left index
+		const display = [];
+
+		const rounded = (type==='day') ? roundDate(today) : roundMonth(today);
 		for (let i = 1; i > -5; i--) {
-            display.push(Moment(rounded).subtract(i, type+'s').toISOString());
+            display.push(Moment(rounded).subtract(i-offset, type+'s').toISOString());
         }
-        return display.map(el => new Collection(el, type+'s'));
+        return display.map(el => new Collection(el, type));
 	}
 
-	function display(month) {
-		let months = [];
-		let month = month || today;
-		let rounded = roundMonth(month);
-		for (let i = 0; i > -6; i--) {
-            days.push(Moment(date).subtract(i, 'days').toISOString());
-        }
-        return days.map(day => new Collection(day, 'day'));
+	function monthCal(month) {
+		month = new Date(month);
+		let day = month;
+		const dayArray = [day.toISOString()];
+		while (day.getMonth()==month.getMonth()) {
+			day = Moment(day).add(1, 'days').toISOString();
+			dayArray.push(day);
+			day = new Date(day);
+		}
+		return dayArray.map(getWeekday);
+	}
+
+	function getWeekday(date) {
+		let weekday = Moment(date).isoWeekday();
+		weekday = Moment().isoWeekday(weekday).format('ddd')
+		return weekday;
 	}
 
 	return {
-		displayDays: displayDays,
-		roundDate: roundDate
+		display: display,
+		roundDate: roundDate,
+		roundMonth: roundMonth,
+		monthCal: monthCal
 	}
 })

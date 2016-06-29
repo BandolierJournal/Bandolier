@@ -70,6 +70,7 @@ class Collection {
     static findOrReturn(props) {
        return db.rel.find('collection', props.id)
            .then(res => {
+            // console.log(res);
                if (!res.collections.length) return new Collection(props)
                else return convertToInstances(res);
            })
