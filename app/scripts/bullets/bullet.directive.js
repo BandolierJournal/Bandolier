@@ -10,6 +10,7 @@ bulletApp.directive('bullet', function () {
             header: '@'
         },
         link: function (scope, element) {
+
             scope.typeDict = {
                 "Task": "fa-circle-o", //fa-square-o
                 "Event": "fa-first-order",

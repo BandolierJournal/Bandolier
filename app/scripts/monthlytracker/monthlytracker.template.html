@@ -1,21 +1,23 @@
-<!-- Need to refactor this to utilize bullet directive -->
 <div class="container">
   <div class ="row">
-    <div class="col-lg-12">
-          <h1 class="page-header" id="indexTitle">{{log.collection.title | date: 'MMMM yyyy'}}</h1>
-        
-          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-            <br>
-            <div ng-repeat="day in numOfDays track by $index">
-              <bullet
-                header="{{$index+1}} {{day}}"
-                bullet="bulletList[$index + '']"
-                remove-fn="removeBullet(bulletList[$index + ''])"
-                add-fn="">
-              </bullet>
-            </div>
-          </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <h1 class="page-header" id="indexTitle">{{log.title | date: 'MMMM yyyy'}}</h1>
 
-      <collection collection="log.collection"></collection> <!-- eventually just log -->
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <br>
+        <div ng-repeat="day in numOfDays track by $index">
+          <bullet
+            header="{{$index+1}} {{day}}"
+            bullet="bulletList[$index + '']"
+            remove-fn="removeBullet(bulletList[$index + ''])"
+            add-fn="">
+          </bullet>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <collection collection="log"></collection>
+      </div>
+      
+    </div>
   </div>
 </div>
