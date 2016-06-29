@@ -31,26 +31,13 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    -webkit-app-region: drag
 }
-.footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+.navbar {
     height: 60px;
     background-color: #eee;
 }
-.container .text-muted {
-    margin: 0 10px;
-}
 
-.footer > .container {
-    padding-top: 10px;
-    padding-right: 15px;
-    padding-left: 15px;
-}
-.menu {
-    list-style: none;
-}
-.menu li {
-    display: inline;
+.pagination {
+    margin-top: 10px;
 }

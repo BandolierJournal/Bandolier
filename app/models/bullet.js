@@ -25,7 +25,7 @@ class Bullet {
 	}
 
 	save() {
-			if (this.content.length > 0 || this.rev) return db.rel.save('bullet', this);
+		if (this.content || this.rev) return db.rel.save('bullet', this);
 	}
 
 	convert() {	//not in use yet
@@ -44,7 +44,7 @@ class Task extends Bullet {
 	constructor(content, date, status) {
 		super(content);
 		this.date = date || this.date;
-		this.status = status || this.status || 'incomplete'; // complete, migrated, scheduled ?
+		this.status = status || this.status || 'incomplete'; // complete, migrated, scheduled, struck ?
 		this.type = 'Task';
 	}
 
