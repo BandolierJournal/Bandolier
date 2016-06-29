@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
-<body>
-<script>
-  const {ipcRenderer} = require('electron');
 
-  //for when we write PouchDB Sync
-  const updateOnlineStatus = () => {  
-  	ipcRenderer.send('online-status-changed', navigator.onLine ? 'online' : 'offline');
-  };
-  updateOnlineStatus();
-  window.addEventListener('online',  updateOnlineStatus);
-  window.addEventListener('offline',  updateOnlineStatus);
-</script>
+<body>
+    <script>
+    const {
+        ipcRenderer
+    } = require('electron');
+
+    //for when we write PouchDB Sync
+    const updateOnlineStatus = () => {
+        ipcRenderer.send('online-status-changed', navigator.onLine ? 'online' : 'offline');
+    };
+    updateOnlineStatus();
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    </script>
 </body>
+
 </html>
