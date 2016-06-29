@@ -11,19 +11,22 @@ bulletApp.directive('monthCal', function($log){
         link: function(scope) {
           Collection.findOrReturn(scope.collection)
           .then(function(res){
-              angular.extend(scope, res);
+              scope.collection = res;
               scope.formattedTitle = Moment(scope.collection.title).format('MMM YY').toUpperCase();
               scope.muted = false;
               scope.$evalAsync();
           })
           .then(function () {
             scope.bulletList = {}
-            scope.bullets.forEach(bullet => {
+            scope.collection.bullets.forEach(bullet => {
               scope.bulletList[Moment(bullet.date).date()] = bullet
             })
             scope.bulletList = scope.numOfDays.map((day, index) => {
-              if(scope.bulletList[index + 1]) return scope.bulletList[index + 1]
-              else return new Bullet.Task({id: Moment().add(index, 'milliseconds').toISOString() + index, date: Moment(scope.collection.title).add(index, 'days').toISOString(), collections: [scope.collection.id]})
+              if(scope.bulletList[index + 1]) return scope.bulletList[index + 1];
+              else return new Bullet.Task({
+                id: Moment().add(index, 'milliseconds').toISOString() + index,
+                date: Moment(scope.collection.title).add(index, 'days').toISOString(),
+                collections: [scope.collection.id]});
             })
           })
           .catch($log.err);
@@ -41,10 +44,9 @@ bulletApp.directive('monthCal', function($log){
                 .catch($log.err);
             };
             scope.addBullet = function(bullet) {
-                if (bullet.content.length > 0) {
+                if (bullet.content && bullet.content.length > 0) {
                   scope.collection.addBullet(bullet)
                   .then(function(){
-                      scope.bullets.push(bullet);
                       scope.newBullet = new Bullet.Task()
                       scope.$evalAsync()
                   })
