@@ -68,13 +68,13 @@ class Collection {
 
 
     static findOrReturn(props) {
-        return db.rel.find('collection', props.id)
-            .then(res => {
-                if (!res.collections.length) return new Collection(props)
-                else return convertToInstances(res);
-            })
-            .catch(err => console.error(err));
-    }
+       return db.rel.find('collection', props.id)
+           .then(res => {
+               if (!res.collections.length) return new Collection(props)
+               else return convertToInstances(res);
+           })
+           .catch(err => console.error(err));
+   }
 
     static fetchAll(props) {
         return db.rel.find('collectionShort')
