@@ -17,5 +17,4 @@ bulletApp.controller('MonthlyTrackerCtrl', function ($scope, targetMonth, numOfD
             collections: [$scope.cal.id]
         });
     });
-
 });

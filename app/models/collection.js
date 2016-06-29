@@ -28,7 +28,10 @@ class Collection {
     }
 
     deserializeBullets(bulletInstances) {
-        this.bullets = this.bullets.map(bulletId => bulletInstances.find(b => b.id === bulletId));
+        this.bullets = this.bullets.map(bulletId => {
+            const bullet = bulletInstances.find(b => b.id === bulletId);
+            return new Bullet[bullet.type](bullet);
+        });
         return this;
     }
 
@@ -55,10 +58,13 @@ class Collection {
     }
 
     save() {
+        const bulletInstances = this.bullets;
         this.serializeBullets();
-        return db.rel.save('collection', this)
+        return db.rel.save('collection', this).then(() => {
+            this.bullets = bulletInstances;
+            return this;
+        })
     }
-
     static fetchById(id) {
         return db.rel.find('collection', id)
             .then(convertToInstances)
