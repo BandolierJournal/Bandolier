@@ -12,4 +12,5 @@
             add-fn="addBullet(newBullet)">
         </bullets>
     </div>
+    <add-collection collection-type="{{collection.type}}" ng-if="collection.type !== 'day' && collection.type !== 'future'"></add-collection>
 </div>
