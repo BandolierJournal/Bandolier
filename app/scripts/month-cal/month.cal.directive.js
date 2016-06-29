@@ -43,9 +43,9 @@ bulletApp.directive('monthCal', function($log){
                 })
                 .catch($log.err);
             };
-            scope.addBullet = function(bullet) {
+            scope.addBullet = function(bullet, index) {
                 if (bullet.content && bullet.content.length > 0) {
-                  scope.collection.addBullet(bullet)
+                  scope.collection.addBullet(bullet, index)
                   .then(function(){
                       scope.newBullet = new Bullet.Task()
                       scope.$evalAsync()

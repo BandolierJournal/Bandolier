@@ -6,7 +6,8 @@ bulletApp.directive('bullet', function () {
         scope: {
             bullet: '=',
             removeFn: '&',
-            addFn: '&',
+            addFn: '=',
+            idx: '@',
             header: '@'
         },
         link: function (scope, element) {
@@ -61,7 +62,7 @@ bulletApp.directive('bullet', function () {
             });
 
             element.on('focusout', function (e) {
-                if(!scope.bullet.rev) scope.addFn()
+                if(!scope.bullet.rev) scope.addFn(scope.bullet)
                 else scope.bullet.save();
             });
         }
