@@ -5,7 +5,7 @@ bulletApp.config(function($stateProvider) {
     controller: 'MonthlyTrackerCtrl',
     resolve: {
       targetMonth: function($stateParams) {
-        return Collection.fetchAll({title: $stateParams.monthString});
+        return Collection.fetchAllWithBullets({title: $stateParams.monthString});
       },
       numOfDays: function($stateParams) {
         var daysInMonth = Moment().month($stateParams.monthString).daysInMonth();

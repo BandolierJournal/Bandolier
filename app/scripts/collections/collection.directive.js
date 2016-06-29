@@ -10,14 +10,14 @@ bulletApp.directive('collection', function($log){
         link: function(scope) {
             Collection.findOrReturn(scope.collection)
             .then(function(res){
-                angular.extend(scope, res);
+                scope.collection = res;
                 scope.formattedTitle = formatTitle(scope.collection);
                 scope.muted = false;
                 scope.$evalAsync();
             })
             .catch($log.err);
 
-            scope.newBullet = new Bullet.Task()
+            scope.newBullet = new Bullet.Task();
 
             function formatTitle(collection) {
                 switch(collection.type) {

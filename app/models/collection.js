@@ -9,7 +9,7 @@ const Bullet = require('./bullet');
 function convertToInstances(res) {
     const bullets = res.bullets;
     const collections = res.collections.map(collection => {
-        new Collection(collection).deserializeBullets(bullets);
+        return new Collection(collection).deserializeBullets(bullets);
     });
 
     return collections.length > 1 ? collections : collections[0];
@@ -28,9 +28,8 @@ class Collection {
     }
 
     deserializeBullets(bulletInstances) {
-        this.bullets = this.bullets.map(bulletId => {
-            _.find(bulletInstances, 'id', bulletId);
-        });
+        this.bullets = this.bullets.map(bulletId => bulletInstances.find(b => b.id === bulletId));
+        return this;
     }
 
     serializeBullets() {
@@ -41,7 +40,7 @@ class Collection {
 
     addBullet(bullet, index) {
         index = index || this.bullets.length; //so we can preserver ordering in collections.bullet array
-        this.bullets = this.bullets.slice(0, index).concat(bullet.id).concat(this.bullets.slice(index));
+        this.bullets = this.bullets.slice(0, index).concat(bullet).concat(this.bullets.slice(index));
         if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
         return Promise.all([this.save(), bullet.save()])
             .catch(err => console.error('error ', err))
@@ -57,7 +56,7 @@ class Collection {
 
     save() {
         this.serializeBullets();
-        return db.rel.save('collection', this);
+        return db.rel.save('collection', this)
     }
 
     static fetchById(id) {
@@ -78,7 +77,6 @@ class Collection {
     static fetchAll(props) {
         return db.rel.find('collectionShort')
             .then(res => {
-                debugger;
                 if (props) return _.filter(res.collectionShorts, props);
                 else return res.collectionShorts;
             })
