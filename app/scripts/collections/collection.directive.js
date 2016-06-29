@@ -50,7 +50,7 @@ bulletApp.directive('collection', function($log){
                 .catch($log.err);
             };
             scope.addBullet = function(bullet) {
-                if (bullet.content.length > 0) {
+                if (bullet.content) {
                   scope.collection.addBullet(bullet)
                   .then(function(res){
                       scope.bullets.push(res[1].bullets[0]);
