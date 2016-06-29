@@ -1,7 +1,7 @@
 bulletApp.config(function ($stateProvider) {
 
   $stateProvider.state('daily', {
-    url: '/daily',
+    url: '/daily/:day',
     templateUrl: 'scripts/daily/daily.template.html',
     controller: 'DailyCtrl',
     resolve: {
@@ -12,9 +12,13 @@ bulletApp.config(function ($stateProvider) {
             var days = [];
             var today = new Date();
             for (var i = 2; i > -4; i--) {
-                days.push(Moment(today).subtract(i, 'days').toISOString());
+                days.push(Moment(today).startOf('day').subtract(i, 'days').toISOString()); //refactor after Sabrina pulls her branch
             }
-            return days.map(day => new Collection(day, 'day'));
+            return days.map((day, index) => new Collection({
+                title: day,
+                type: 'day',
+                id: Moment().add(index, 'milliseconds').toISOString()
+              }));
         }
     }
   });

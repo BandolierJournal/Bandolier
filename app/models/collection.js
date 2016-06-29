@@ -1,5 +1,5 @@
 /*jshint node: true, esversion: 6*/
-'use strict'
+'use strict';
 
 const db = require('./index');
 const _ = require('lodash');
@@ -23,6 +23,9 @@ class Collection {
             this.bullets = [];
             this.type = type || 'generic'; // day, month, month-cal, future, generic
         } else {
+            if (!this.id) this.id = new Date().toISOString();
+            if (!this.title) this.title = props;
+            if (!this.bullets) this.bullets = [];
             _.extend(this, props);
         }
     }
@@ -41,6 +44,7 @@ class Collection {
         }
     }
 
+// <<<<<<< HEAD
     addBullet(bullet, index, direction) {
         let bulletPromise;
 
@@ -61,6 +65,15 @@ class Collection {
 
         return Promise.all([this.save(), bulletPromise])
             .catch(err => console.error('error ', err));
+// =======
+//     addBullet(bullet, index) {
+//         bullet = new Bullet[bullet.type](bullet) //this attaches id if needed
+//         index = index || this.bullets.length; //so we can preserve ordering in collections.bullet array
+//         this.bullets = this.bullets.slice(0, index).concat(bullet).concat(this.bullets.slice(index));
+//         if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
+//         return Promise.all([this.save(), bullet.save()])
+//             .catch(err => console.error('error ', err))
+// >>>>>>> master
     }
 
     removeBullet(bullet) {
@@ -79,20 +92,16 @@ class Collection {
             return this;
         })
     }
-    static fetchById(id) { //can delete
-        return db.rel.find('collection', id)
-            .then(convertToInstances)
-            .catch(err => console.error(`Could not fetch collection ${id}: ${err}`));
-    }
 
     static findOrReturn(props) {
-        return db.rel.find('collection', props.id)
-            .then(res => {
-                if (!res.collections.length) return new Collection(props)
-                else return convertToInstances(res);
-            })
-            .catch(err => console.error(err));
-    }
+       return db.rel.find('collection', props.id)
+           .then(res => {
+               if (res.collections.length > 1) res.collections = [res.collections.find(c => c.id === props.id)]; //this is a hack to fix something wierd in PouchDB
+               if (!res.collections.length) return new Collection(props)
+               else return convertToInstances(res);
+           })
+           .catch(err => console.error(err));
+   }
 
     static fetchAll(props) {
         return db.rel.find('collectionShort')
@@ -104,15 +113,20 @@ class Collection {
             .catch(err => console.error('could not fetch all collections'));
     }
 
-
-    static fetchAllWithBullets(props) { //can delete
-        return this.fetchAll(props) // andrew's refactoring comment
-            .then(collections => {
-                return Promise.all(collections.map(collection => this.fetchById(collection.id)));
-            })
-            .catch(err => console.error('could not fetch all collections'));
+    //Not sure this is needed, but it works
+    static fetchAllWithBullets(props) {
+      return db.rel.find('collection')
+          .then(res => {
+              if (props) {
+                res.collections = _.filter(res.collections, props);
+              }
+              return res;
+          })
+          .then(res => {
+              return Promise.all(res.collections.map(collection => convertToInstances({collections: [collection], bullets: res.bullets})));
+          })
+          .catch(err => console.error('could not fetch all collections'));
     }
-
 }
 
 module.exports = Collection;

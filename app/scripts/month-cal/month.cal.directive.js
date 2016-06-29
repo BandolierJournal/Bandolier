@@ -24,7 +24,7 @@ bulletApp.directive('monthCal', function($log){
             scope.bulletList = scope.numOfDays.map((day, index) => {
               if(scope.bulletList[index + 1]) return scope.bulletList[index + 1];
               else return new Bullet.Task({
-                id: Moment().add(index, 'milliseconds').toISOString() + index,
+                id: Moment().add(index, 'milliseconds').toISOString(),
                 date: Moment(scope.collection.title).add(index, 'days').toISOString(),
                 collections: [scope.collection.id]});
             })
