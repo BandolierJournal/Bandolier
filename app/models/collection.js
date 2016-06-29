@@ -72,13 +72,13 @@ class Collection {
     }
 
     static findOrReturn(props) {
-        return db.rel.find('collection', props.id)
-            .then(convertToInstances)
-            .catch(err => {
-                console.log('created new collection');
-                return new Collection(props); //this does NOT create instance in database
-            });
-    }
+       return db.rel.find('collection', props.id)
+           .then(res => {
+               if (!res.collections.length) return new Collection(props)
+               else return convertToInstances(res);
+           })
+           .catch(err => console.error(err));
+   }
 
     static fetchAll(props) {
         return db.rel.find('collectionShort')

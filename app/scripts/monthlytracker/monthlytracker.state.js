@@ -17,7 +17,7 @@ bulletApp.config(function($stateProvider) {
           arrDays.push(current);
           daysInMonth--;
         }
-        return arrDays;
+        return arrDays.reverse();
       }
     }
   })
