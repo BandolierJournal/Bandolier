@@ -1,5 +1,5 @@
 /*jshint node: true, esversion: 6*/
-'use strict'
+'use strict';
 
 const db = require('./index');
 const _ = require('lodash');
@@ -39,18 +39,41 @@ class Collection {
     }
 
     serializeBullets() {
-        if(this.bullets.every(b => typeof b !== "string")){
+        if (this.bullets.every(b => typeof b !== "string")) {
             this.bullets = this.bullets.map(bullet => bullet.id); //beforeSave, converts bullet instances to ids
         }
     }
 
-    addBullet(bullet, index) {
-        bullet = new Bullet[bullet.type](bullet) //this attaches id if needed
-        index = index || this.bullets.length; //so we can preserve ordering in collections.bullet array
-        this.bullets = this.bullets.slice(0, index).concat(bullet).concat(this.bullets.slice(index));
-        if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
-        return Promise.all([this.save(), bullet.save()])
-            .catch(err => console.error('error ', err))
+// <<<<<<< HEAD
+    addBullet(bullet, index, direction) {
+        let bulletPromise;
+
+        // - If no index is passed, the bullet gets added to the end of the list
+        // - you should never try to move DOWN a bullet at the end of the list
+        if ((!index && index !== 0) || index > this.bullets.length) index = this.bullets.length;
+
+        // Associate bullet with collection
+        if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id);
+
+        // If the bullet is already in the list (i.e. this is a reordering) delete it.
+        if (this.bullets.find(b => b.id === bullet.id)) this.bullets.splice(index + direction, 1);
+        // Otherwise save it.
+        else bulletPromise = bullet.save();
+
+        // Splice the bullet back into the right index
+        this.bullets.splice(index, 0, bullet);
+
+        return Promise.all([this.save(), bulletPromise])
+            .catch(err => console.error('error ', err));
+// =======
+//     addBullet(bullet, index) {
+//         bullet = new Bullet[bullet.type](bullet) //this attaches id if needed
+//         index = index || this.bullets.length; //so we can preserve ordering in collections.bullet array
+//         this.bullets = this.bullets.slice(0, index).concat(bullet).concat(this.bullets.slice(index));
+//         if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
+//         return Promise.all([this.save(), bullet.save()])
+//             .catch(err => console.error('error ', err))
+// >>>>>>> master
     }
 
     removeBullet(bullet) {
@@ -69,7 +92,6 @@ class Collection {
             return this;
         })
     }
-
 
     static findOrReturn(props) {
        return db.rel.find('collection', props.id)
