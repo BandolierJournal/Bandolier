@@ -31,6 +31,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
+    -webkit-app-region: drag
 }
 .footer {
     position: fixed;

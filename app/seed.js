@@ -10,9 +10,7 @@ var status = ['incomplete', 'complete'];
 function generateTaskBullet(i) {
     return new Bullet.Task({
         id: i.toString(),
-        content: chance.sentence({
-            words: 5
-        }),
+        content: chance.sentence(),
         date: new Date(2016, Math.floor(i / 12), chance.integer({
             min: 1,
             max: 28
@@ -30,9 +28,10 @@ bullets.push(new Bullet.Event({
     content: 'Fullstack Hot Seat',
     date: new Date(2016, 5, 24)
 }));
+
 bullets.push(new Bullet.Note({
     id: '121',
-    content: 'Super fun day trying to debug electron/node/pouchdb/leveldown'
+    content: chance.sentence()
 }));
 
 var collections = [];
@@ -41,10 +40,10 @@ for (var j = 0; j < 12; j++) {
     var thisBullet = bullets.map(e => e.id).slice(j * 10, j * 10 + 10);
 
     collections.push(new Collection({
-        title: new Date(2016, j),
+        title: new Date(2016, j, chance.integer({min: 1, max:28})),
         id: j.toString(),
         bullets: thisBullet,
-        type: 'month'
+        type: 'day'
     }));
 }
 
@@ -56,9 +55,16 @@ collections.push(new Collection({
 }));
 
 collections.push(new Collection({
-    title: new Date(2016, 0, 1),
+    title: new Date(2016, 5, 28),
     id: '14',
     bullets: ['1', '2'],
+    type: 'day'
+}));
+
+collections.push(new Collection({
+    title: new Date(2016, 6, 03),
+    id: '16',
+    bullets: ['7', '20'],
     type: 'day'
 }));
 
