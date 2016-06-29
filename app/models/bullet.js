@@ -8,7 +8,6 @@ const Collection = require('./collection');
 class Bullet {
 	constructor(content) {
 		if (typeof content === 'string' || !content) {
-			this.id = new Date().toISOString();
 			this.content = content;
 			this.strike = false;
 			this.collections = [];
@@ -25,7 +24,11 @@ class Bullet {
 	}
 
 	save() {
-		if (this.content || this.rev) return db.rel.save('bullet', this);
+		if (this.content || this.rev) {
+			//this seems kind of hacky, but I think we should only assign ids before save to avoid conflicts
+			if (!this.id) this.id = new Date().toISOString();
+			return db.rel.save('bullet', this);
+		}
 	}
 
 	convert() {	//not in use yet

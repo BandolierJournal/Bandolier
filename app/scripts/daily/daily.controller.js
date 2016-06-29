@@ -2,6 +2,7 @@ bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory) {
     
     const aged = collections[0];
     const future = collections[1];
+    let index = aged.length;
 
     function new6(offset) {
         $scope.collections = [];
@@ -18,7 +19,7 @@ bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory) {
     
     new6(0);
 
-    let index = aged.length;
+    
 
     $scope.prev6 = function() {
         if (index < 6) $scope.collections = aged.slice(0, index);
