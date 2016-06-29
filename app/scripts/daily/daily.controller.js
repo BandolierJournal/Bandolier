@@ -4,4 +4,5 @@ bulletApp.controller('DailyCtrl', function ($scope, collections, displayDays) {
 		const use = collections.find(el => el.title===day.title) || day;
 		$scope.collections.push(use);
 	})
+	console.log($scope.collections)
 });

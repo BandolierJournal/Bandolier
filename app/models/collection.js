@@ -23,6 +23,9 @@ class Collection {
             this.bullets = [];
             this.type = type || 'generic'; // day, month, month-cal, future, generic
         } else {
+            if (!this.id) this.id = new Date().toISOString();
+            if (!this.title) this.title = props;
+            if (!this.bullets) this.bullets = [];
             _.extend(this, props);
         }
     }
@@ -42,7 +45,8 @@ class Collection {
     }
 
     addBullet(bullet, index) {
-        index = index || this.bullets.length; //so we can preserver ordering in collections.bullet array
+        bullet = new Bullet[bullet.type](bullet) //this attaches id if needed
+        index = index || this.bullets.length; //so we can preserve ordering in collections.bullet array
         this.bullets = this.bullets.slice(0, index).concat(bullet).concat(this.bullets.slice(index));
         if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
         return Promise.all([this.save(), bullet.save()])
@@ -70,6 +74,7 @@ class Collection {
     static findOrReturn(props) {
        return db.rel.find('collection', props.id)
            .then(res => {
+               if (res.collections.length > 1) res.collections = [res.collections.find(c => c.id === props.id)]; //this is a hack to fix something wierd in PouchDB
                if (!res.collections.length) return new Collection(props)
                else return convertToInstances(res);
            })
@@ -86,7 +91,31 @@ class Collection {
             .catch(err => console.error('could not fetch all collections'));
     }
 
+    static fetchAllWithoutBullets(props) {
+      return db.rel.find('collection')
+          .then(res => {
+              if (props) {
+                res.collections = _.filter(res.collections, props);
+              }
+              return res.collections.map(collection => new Collection(collection));
+          })
+          .catch(err => console.error('could not fetch all collections'));
+    }
 
+    //Not sure this is needed, but it works
+    static fetchAllWithBullets(props) {
+      return db.rel.find('collection')
+          .then(res => {
+              if (props) {
+                res.collections = _.filter(res.collections, props);
+              }
+              return res;
+          })
+          .then(res => {
+              return Promise.all(res.collections.map(collection => convertToInstances({collections: [collection], bullets: res.bullets})));
+          })
+          .catch(err => console.error('could not fetch all collections'));
+    }
 }
 
 module.exports = Collection;
