@@ -42,8 +42,8 @@ class Collection {
     }
 
     addBullet(bullet, index, direction) {
-        let bulletPromise = 'lol';
-        
+        let bulletPromise;
+
         // - If no index is passed, the bullet gets added to the end of the list
         // - you should never try to move DOWN a bullet at the end of the list
         if ((!index && index !== 0) || index > this.bullets.length) index = this.bullets.length;
