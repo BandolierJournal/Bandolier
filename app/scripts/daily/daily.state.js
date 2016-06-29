@@ -6,7 +6,7 @@ bulletApp.config(function ($stateProvider) {
     controller: 'DailyCtrl',
     resolve: {
         collections: function() {
-            return Collection.fetchAllWithoutBullets({type: 'day'});
+            return Collection.fetchAll({type: 'day'});
         },
         displayDays: function() {
             var days = [];

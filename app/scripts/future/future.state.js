@@ -6,7 +6,7 @@ bulletApp.config(function ($stateProvider) {
     controller: 'FutureCtrl',
     resolve: {
         collections: function() {
-            return Collection.fetchAllWithoutBullets({type: 'future'});
+            return Collection.fetchAll({type: 'future'});
         },
         displayMonths: function() {
             var months = [];
