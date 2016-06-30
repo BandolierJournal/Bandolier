@@ -6,4 +6,5 @@
         <bullet bullet="newBullet" remove-fn="removeBullet(newBullet)" add-fn="addBullet(newBullet)">
         </bullet>
     </div>
+    <add-collection collection-type="{{collection.type}}" ng-if="collection.type !== 'day' && collection.type !== 'future'"></add-collection>
 </div>
