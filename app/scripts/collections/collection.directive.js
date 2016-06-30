@@ -8,16 +8,7 @@ bulletApp.directive('collection', function($log, currentStates){
             collection: '='
         },
         link: function(scope) {
-            Collection.findOrReturn(scope.collection)
-            .then(function(res){
-                scope.collection = res;
-                scope.formattedTitle = formatTitle(scope.collection);
-                scope.muted = false;
-                if (res.type === 'generic') currentStates.genericTitle = res.title //set the current state for the footer
-                scope.$evalAsync();
-            })
-            .catch($log.err);
-
+            scope.formattedTitle = formatTitle(scope.collection);
             scope.newBullet = new Bullet.Task();
 
             function formatTitle(collection) {
@@ -32,6 +23,7 @@ bulletApp.directive('collection', function($log, currentStates){
                         return Moment(collection.title).format('MMM DD');
                         break;
                     default:
+
                         return collection.title;
                 }
 

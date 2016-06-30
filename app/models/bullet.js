@@ -25,7 +25,6 @@ class Bullet {
 
 	save() {
 		if (this.content || this.rev) {
-			//this seems kind of hacky, but I think we should only assign ids before save to avoid conflicts
 			if (!this.id) this.id = new Date().toISOString();
 			return db.rel.save('bullet', this);
 		}
@@ -47,7 +46,7 @@ class Task extends Bullet {
 	constructor(content, date, status) {
 		super(content);
 		this.date = date || this.date;
-		this.status = status || this.status || 'incomplete'; // complete, migrated, scheduled, struck ?
+		this.status = status || this.status || 'incomplete'; // complete, migrated, scheduled, struckout
 		this.type = 'Task';
 	}
 

@@ -12,7 +12,7 @@ function convertToInstances(res) {
         return new Collection(collection).deserializeBullets(bullets);
     });
 
-    return collections.length > 1 ? collections : collections[0];
+    return collections;
 }
 
 class Collection {
@@ -81,12 +81,16 @@ class Collection {
    }
 
     static fetchAll(props) {
-        return db.rel.find('collectionShort')
+        return db.rel.find('collection')
             .then(res => {
-                if (props) return _.filter(res.collectionShorts, props);
-                else return res.collectionShorts;
+                if (!res.collections.length) return new Collection(props)
+                else return convertToInstances(res)
             })
-            .then(collections => collections.map(collection => new Collection(collection)))
+            .then(collections => {
+               
+                if (props) return _.filter(collections, props);
+                else return collections;
+            })
             .catch(err => console.error('could not fetch all collections'));
     }
 }

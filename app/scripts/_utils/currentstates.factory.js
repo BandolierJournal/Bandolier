@@ -9,10 +9,10 @@ bulletApp.factory('currentStates', function ($rootScope) {
   $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     currentStates[toState.name] = toParams
     // These are useful for testing
-    console.log('ts', toState);
-    console.log('tp', toParams);
-    console.log('fs', fromState);
-    console.log('fp', fromParams);
+    // console.log('ts', toState);
+    // console.log('tp', toParams);
+    // console.log('fs', fromState);
+    // console.log('fp', fromParams);
   });
 
   $rootScope.$on('pageChange', function(event, args){

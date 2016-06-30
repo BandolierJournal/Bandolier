@@ -1,9 +1,3 @@
 bulletApp.controller('GenericCtrl', function ($scope, collection) {
-  $scope.collection = collection; // just an instance w/ ID
+  $scope.collection = collection[0];
 });
-
-
-
-//prettify html
-//consistent semicolon
-//eslintrc
