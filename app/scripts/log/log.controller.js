@@ -1,8 +1,16 @@
-bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, last, type) {
+bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, last, type, $rootScope, $stateParams) {
 
     const aged = collections[0];
     const future = collections[1];
     let index = aged.length;
+
+    if ($stateParams.index && $stateParams.index.length) {
+      index = +$stateParams.index
+      if (index < 0) $scope.collections = aged.slice(0, index + 6);
+      else navigate()
+    } else {
+      new6(0);
+    }
 
     function new6(offset) {
         $scope.collections = [];
@@ -13,8 +21,6 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, last,
         });
     }
 
-    new6(0);
-
     $scope.title = ((type === 'day') ? 'DAILY' : 'FUTURE') + ' LOG';
 
     $scope.prev6 = function() {
@@ -22,6 +28,7 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, last,
         if (index < 6) {
             $scope.collections = aged.slice(0, index);
             index -= 6;
+            $rootScope.$broadcast('pageChange', {index: index, type: type})
         } else {
             index -= 6;
             navigate();
@@ -34,6 +41,7 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, last,
     }
 
     function navigate() {
+        $rootScope.$broadcast('pageChange', {index: index, type: type})
         if (index >= aged.length) new6(index - aged.length);
         else $scope.collections = aged.slice(index, index + 6);
     }
