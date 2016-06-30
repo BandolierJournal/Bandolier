@@ -1,27 +1,28 @@
 body,
 html {
-    font-family: proxima-nova,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 1.4;
     vertical-align: middle;
     font-size: 14px;
     color: #555;
 }
+
 // Bullet Related
 .strikethrough {
     text-decoration: line-through;
 }
+
 .fa {
-	font-size: 12px
+    font-size: 12px
 }
 
 .bullet-text {
-	padding-left: 0;
+    padding-left: 0;
 }
 
-
 .bullet {
-	padding-right: 0;
-	text-align: right
+    padding-right: 0;
+    text-align: right
 }
 
 // Sticky Footer
@@ -29,11 +30,13 @@ html {
     position: relative;
     min-height: 100%;
 }
+
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     // -webkit-app-region: drag
 }
+
 .navbar {
     height: 60px;
     background-color: #eee;

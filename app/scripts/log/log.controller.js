@@ -1,4 +1,4 @@
-bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory, day) {
+bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, last, type) {
 
     const aged = collections[0];
     const future = collections[1];
@@ -7,25 +7,28 @@ bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory, day
     function new6(offset) {
         $scope.collections = [];
 
-        DateFactory.display(offset, 'day').forEach((day) => {
-            let use = future.find(el => el.title === day.title) || day;
+        DateFactory.display(offset, type).forEach((c) => {
+            let use = future.find(el => el.title === c.title) || c;
             $scope.collections.push(use);
         });
     }
 
     new6(0);
 
+    $scope.title = ((type === 'day') ? 'DAILY' : 'FUTURE') + ' LOG';
+
     $scope.prev6 = function() {
-        if (index===0) return;
-        if (index < 6) $scope.collections = aged.slice(0, index);
-        else {
+        if (index <= 0) return;
+        if (index < 6) {
+            $scope.collections = aged.slice(0, index);
+            index -= 6;
+        } else {
             index -= 6;
             navigate();
         }
     }
 
     $scope.next6 = function() {
-        // TODO: @sechu says there's a small glitch here
         index += 6;
         navigate();
     }

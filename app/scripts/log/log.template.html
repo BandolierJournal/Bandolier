@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h1 class="page-header" id="indexTitle">DAILY LOG</h1>
+            <h1 class="page-header">{{title}}</h1>
             <button ng-click="prev6()">Go Back</button>
             <button ng-click="next6()">Go Forward</button>
             <div ng-repeat="collection in collections">
@@ -9,6 +9,4 @@
             </div>
         </div>
     </div>
-    <add-collection collection-type="generic"></add-collection>
-
 </div>
