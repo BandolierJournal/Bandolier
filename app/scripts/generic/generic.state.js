@@ -5,8 +5,8 @@ bulletApp.config(function ($stateProvider) {
     templateUrl: 'scripts/generic/generic.template.html',
     controller: 'GenericCtrl',
     resolve: {
-        collection: function($stateParams) { //changed this, we are double fetching o/w
-            return new Collection({id: $stateParams.id}); // bc the collection directive has a fetch
+        collection: function($stateParams) { 
+            return Collection.findOrReturn({id: $stateParams.id}); 
         }
     }
   });

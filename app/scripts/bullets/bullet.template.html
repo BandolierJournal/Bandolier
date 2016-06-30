@@ -1,9 +1,6 @@
 
 <div ng-show="!header" class="row">
-	<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bullet">
-		<i ng-show="bullet.content.length" class="fa fa-fw" ng-class="bullet.status === 'complete' ? typeDict['Done'] : typeDict[bullet.type]" ng-click="bullet.toggleDone()"></i>
-	</div>
-
+	<bulleticon bullet="bullet"></bulleticon>
 	<div contenteditable class = "col-lg-11 col-md-11 col-sm-11 col-xs-11" ng-model="bullet.content" only-text="true" ng-class="{strikethrough: bullet.strike}">
 	</div>
 </div>
