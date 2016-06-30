@@ -1,7 +1,7 @@
 bulletApp.factory('DateFactory', function() {
-    const today = roundDate(new Date());
-    const yesterday = new Date(Moment(today).subtract(1, 'days').toISOString());
-    const thisMonth = roundMonth(today);
+    let today = roundDate(new Date()); // TODO: make this a function (so today is always up to date)
+    let yesterday = new Date(Moment(today).subtract(1, 'days').toISOString());
+    let thisMonth = roundMonth(today);
 
     function splitCollections(collections) {
         const split = _.partition(collections, function(c) {

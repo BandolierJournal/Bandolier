@@ -25,6 +25,7 @@ bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory, day
     }
 
     $scope.next6 = function() {
+        // TODO: @sechu says there's a small glitch here
         index += 6;
         navigate();
     }
