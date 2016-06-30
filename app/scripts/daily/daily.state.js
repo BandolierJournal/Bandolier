@@ -1,7 +1,7 @@
 bulletApp.config(function ($stateProvider) {
 
   $stateProvider.state('daily', {
-    url: '/daily/:day',
+    url: '/daily/:dailyIndex',
     templateUrl: 'scripts/daily/daily.template.html',
     controller: 'DailyCtrl',
     resolve: {

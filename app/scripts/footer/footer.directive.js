@@ -9,8 +9,7 @@ bulletApp.directive('footer', function(currentStates, $state) {
                 else $state.go('month', { monthString: Moment().startOf('month').toISOString() }) //DateFactory.thisMonth.toISOString()
             };
             scope.lastDaily = function() {
-                //currently does not use params
-                $state.go('daily') //, currentStates.day)
+                $state.go('daily', currentStates.daily)
             };
             scope.lastFuture = function() {
                 $state.go('future', currentStates.future)

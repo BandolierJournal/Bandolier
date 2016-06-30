@@ -13,7 +13,12 @@ bulletApp.factory('currentStates', function ($rootScope) {
     // console.log('tp', toParams);
     // console.log('fs', fromState);
     // console.log('fp', fromParams);
- });
+  });
+  $rootScope.$on('pageChange', function(event, args){
+
+    if (args.futureIndex) currentStates.future = args;
+    if (args.dailyIndex) currentStates.daily = args;
+  });
 
   return currentStates
 })

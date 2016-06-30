@@ -1,9 +1,15 @@
-bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory, day) {
+bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory, day, $rootScope, $stateParams) {
 
     const aged = collections[0];
     const future = collections[1];
     let index = aged.length;
 
+    if ($stateParams.dailyIndex) {
+      index = +$stateParams.dailyIndex
+      navigate()
+    } else {
+      new6(0);
+    }
     function new6(offset) {
         $scope.collections = [];
 
@@ -13,7 +19,7 @@ bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory, day
         });
     }
 
-    new6(0);
+
 
     $scope.prev6 = function() {
         if (index===0) return;
@@ -31,6 +37,7 @@ bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory, day
     }
 
     function navigate() {
+        $rootScope.$broadcast('pageChange', {dailyIndex: index})
         if (index >= aged.length) new6(index - aged.length);
         else $scope.collections = aged.slice(index, index + 6);
     }

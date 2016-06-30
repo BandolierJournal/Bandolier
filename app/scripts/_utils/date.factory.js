@@ -62,6 +62,16 @@ bulletApp.factory('DateFactory', function() {
         return weekday;
     }
 
+    function lastMonth(currentMonth) {
+      currentMonth = currentMonth || thisMonth
+      return Moment(currentMonth).subtract(1, 'month').toISOString()
+    }
+
+    function nextMonth(currentMonth) {
+      currentMonth = currentMonth || thisMonth
+      return Moment(currentMonth).add(1, 'month').toISOString()
+    }
+
     return {
         display: display,
         roundDate: roundDate,
@@ -69,6 +79,8 @@ bulletApp.factory('DateFactory', function() {
         monthCal: monthCal,
         splitCollections: splitCollections,
         today: today,
-        thisMonth: thisMonth
+        thisMonth: thisMonth,
+        lastMonth: lastMonth,
+        nextMonth: nextMonth
     }
 })
