@@ -15,13 +15,14 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, last,
 
     new6(0);
 
+    $scope.title = ((type === 'day') ? 'DAILY' : 'FUTURE') + ' LOG';
+
     $scope.prev6 = function() {
-        if (index < 0) return;
+        if (index <= 0) return;
         if (index < 6) {
             $scope.collections = aged.slice(0, index);
             index -= 6;
-        }
-        else {
+        } else {
             index -= 6;
             navigate();
         }

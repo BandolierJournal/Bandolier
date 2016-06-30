@@ -1,40 +1,34 @@
 bulletApp.factory('DateFactory', function() {
-    let today = roundDate(new Date()); // TODO: make this a function (so today is always up to date)
-    let yesterday = new Date(Moment(today).subtract(1, 'days').toISOString());
-    let thisMonth = roundMonth(today);
+    let today = Moment().startOf('day').toISOString(); // TODO: make this a function (so today is always up to date)
+    let yesterday = Moment(today).subtract(1, 'days').toISOString();
+    let thisMonth = Moment().startOf('month').toISOString();
+    let lastMonth = Moment(thisMonth).subtract(1, 'months').toISOString();
 
     function splitCollections(collections) {
-        const split = _.partition(collections, function(c) {
-            return new Date(c.title) < yesterday; //or last month for future log
+
+        let last = (collections[0].type === "day") ? yesterday : lastMonth;
+        let split = _.partition(collections, function(c) {
+            return c.title < last;
         })
-        const aged = split[0].sort(chronoSort);
-        const future = split[1];
+        let aged = split[0].sort(chronoSort);
+        let future = split[1];
         return [aged, future];
     }
 
     function chronoSort(a, b) {
-        a = new Date(a.title);
-        b = new Date(b.title);
-        return a - b;
+        return a.title - b.title;
     }
 
-    function chronoFilter(a) {
-        return new Date(a.title) < yesterday;  //not used
-    }
-
-    function roundDate(date) {
-        return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    }
-
-    function roundMonth(date) {
-        return new Date(date.getFullYear(), date.getMonth());
+    function roundDate(date, type) {
+        type = type || 'day'; // or month
+        return Moment(date).startOf(type).toISOString();
     }
 
     function display(offset, type) { //offset from today
-        const display = [];
-        const rounded = (type === 'day') ? today : roundMonth(today);
+        let display = [];
+        let current = (type === 'day') ? today : thisMonth;
         for (let i = 1; i > -5; i--) {
-            display.push(Moment(rounded).subtract(i - offset, type + 's').toISOString());
+            display.push(Moment(current).subtract(i - offset, type + 's').toISOString());
         }
         if (type === 'month') type = 'future';
         return display.map((e, index) => new Collection({
@@ -47,10 +41,10 @@ bulletApp.factory('DateFactory', function() {
     function monthCal(month) {
         month = new Date(month);
         let day = month;
-        const dayArray = [day.toISOString()];
+        let dayArray = [];
         while (day.getMonth() == month.getMonth()) {
+            dayArray.push(day.toISOString());
             day = Moment(day).add(1, 'days').toISOString();
-            dayArray.push(day);
             day = new Date(day);
         }
         return dayArray.map(getWeekday);
@@ -65,7 +59,6 @@ bulletApp.factory('DateFactory', function() {
     return {
         display: display,
         roundDate: roundDate,
-        roundMonth: roundMonth,
         monthCal: monthCal,
         splitCollections: splitCollections,
         today: today,

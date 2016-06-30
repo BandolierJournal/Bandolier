@@ -2,7 +2,7 @@ bulletApp.config(function($stateProvider) {
 
     $stateProvider.state('future', {
         url: '/future/:lastMonth',
-        templateUrl: 'scripts/future/future.template.html',
+        templateUrl: 'scripts/daily/daily.template.html',
         controller: 'LogCtrl',
         resolve: {
             collections: function(DateFactory) {

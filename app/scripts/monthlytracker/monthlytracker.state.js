@@ -9,7 +9,7 @@ bulletApp.config(function($stateProvider) {
         return Collection.fetchAll({title: monthString});
       },
       month: function($stateParams, DateFactory) {
-        return $stateParams.monthString || DateFactory.roundMonth(new Date).toISOString();
+        return $stateParams.monthString || DateFactory.thisMonth;
       }
     }
   })
