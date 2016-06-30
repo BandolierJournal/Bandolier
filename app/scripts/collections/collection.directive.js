@@ -1,6 +1,6 @@
 /*jshint esversion: 6*/
 
-bulletApp.directive('collection', function($log){
+bulletApp.directive('collection', function($log, currentStates){
     return {
         restrict: 'E',
         templateUrl: 'scripts/collections/collection.template.html',
@@ -13,6 +13,7 @@ bulletApp.directive('collection', function($log){
                 scope.collection = res;
                 scope.formattedTitle = formatTitle(scope.collection);
                 scope.muted = false;
+                if (res.type === 'generic') currentStates.genericTitle = res.title //set the current state for the footer
                 scope.$evalAsync();
             })
             .catch($log.err);

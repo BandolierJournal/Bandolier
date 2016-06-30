@@ -2,10 +2,12 @@
     <div class="container">
         <ul class="menu pagination">
             <li class="text-muted"><a class="navbar-link" ui-sref="index">index</a></li>
-            <li class="text-muted"><a class="navbar-link" ui-sref="future">future log</a></li>
-            <li class="text-muted"><a class="navbar-link" ui-sref="month({monthString: monthString})">monthly tracker</a></li>
-            <li class="text-muted"><a class="navbar-link" ui-sref="daily">daily log</a></li>
-            <li class="text-muted"><a class="navbar-link" ui-sref="daily">pinned</a></li>
+            <li class="text-muted"><a class="navbar-link" ng-click="lastFuture()">future log</a></li>
+            <li class="text-muted"><a class="navbar-link" ng-click="lastMonth()">monthly tracker</a></li>
+            <li class="text-muted"><a class="navbar-link" ng-click="lastDaily()">daily log</a></li>
+            <li class="text-muted"><a class="navbar-link" ng-if="currentStates.genericTitle" ng-click="lastGeneric()">{{currentStates.genericTitle}}</a></li>
+            <br>
+            <li class="text-muted"><a class="navbar-link" ui-sref="index">pinned</a></li>
         </ul>
     </div>
     <!-- TODO: The following sections should be moved into either menus or modals -->
