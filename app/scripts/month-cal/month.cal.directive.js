@@ -1,6 +1,6 @@
 /*jshint esversion: 6*/
 
-bulletApp.directive('monthCal', function($log){
+bulletApp.directive('monthCal', function($log, DateFactory){
     return {
         restrict: 'E',
         templateUrl: 'scripts/month-cal/month.cal.template.html',
@@ -9,27 +9,19 @@ bulletApp.directive('monthCal', function($log){
             numOfDays: '=',
         },
         link: function(scope) {
-          Collection.findOrReturn(scope.collection)
-          .then(function(res){
-              scope.collection = res;
-              scope.formattedTitle = Moment(scope.collection.title).format('MMM YY').toUpperCase();
-              scope.muted = false;
-              scope.$evalAsync();
+          scope.formattedTitle = Moment(scope.collection.title).format('MMM YY').toUpperCase();
+          scope.muted = false;
+          scope.bulletList = {}
+          scope.collection.bullets.forEach(bullet => {
+            scope.bulletList[Moment(bullet.date).date()] = bullet
           })
-          .then(function () {
-            scope.bulletList = {}
-            scope.collection.bullets.forEach(bullet => {
-              scope.bulletList[Moment(bullet.date).date()] = bullet
-            })
-            scope.bulletList = scope.numOfDays.map((day, index) => {
-              if(scope.bulletList[index + 1]) return scope.bulletList[index + 1];
-              else return new Bullet.Task({
-                id: Moment().add(index, 'milliseconds').toISOString(),
-                date: Moment(scope.collection.title).add(index, 'days').toISOString(),
-                collections: [scope.collection.id]});
-            })
+          scope.bulletList = scope.numOfDays.map((day, index) => {
+            if(scope.bulletList[index + 1]) return scope.bulletList[index + 1];
+            else return new Bullet.Task({
+              id: Moment().add(index, 'milliseconds').toISOString(),
+              date: Moment(scope.collection.title).add(index, 'days').toISOString(),
+              collections: [scope.collection.id]});
           })
-          .catch($log.err);
 
             /**********************************************************
             * This function will remove the bullet from the collection
