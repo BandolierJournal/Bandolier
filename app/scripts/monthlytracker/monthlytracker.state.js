@@ -4,20 +4,12 @@ bulletApp.config(function($stateProvider) {
     templateUrl: 'scripts/monthlytracker/monthlytracker.template.html',
     controller: 'MonthlyTrackerCtrl',
     resolve: {
-      targetMonth: function($stateParams) {
-        return Collection.fetchAll({title: $stateParams.monthString});
+      collections: function($stateParams, DateFactory) {
+        const monthString = $stateParams.monthString || DateFactory.roundMonth(new Date).toISOString();
+        return Collection.fetchAll({title: monthString});
       },
-      numOfDays: function($stateParams) {
-        var daysInMonth = Moment().month($stateParams.monthString).daysInMonth();
-        var arrDays = [];
-
-        while(daysInMonth) {
-          var current = Moment().date(daysInMonth).isoWeekday();
-          current = Moment().isoWeekday(current).format('ddd')
-          arrDays.push(current);
-          daysInMonth--;
-        }
-        return arrDays.reverse();
+      month: function($stateParams, DateFactory) {
+        return $stateParams.monthString || DateFactory.roundMonth(new Date).toISOString();
       }
     }
   })

@@ -5,20 +5,12 @@ bulletApp.config(function ($stateProvider) {
     templateUrl: 'scripts/daily/daily.template.html',
     controller: 'DailyCtrl',
     resolve: {
-        collections: function() {
-            return Collection.fetchAll({type: 'day'});
+        collections: function(DateFactory) {
+            return Collection.fetchAll({type: 'day'})
+                .then(DateFactory.splitCollections);
         },
-        displayDays: function() {
-            var days = [];
-            var today = new Date();
-            for (var i = 2; i > -4; i--) {
-                days.push(Moment(today).startOf('day').subtract(i, 'days').toISOString()); //refactor after Sabrina pulls her branch
-            }
-            return days.map((day, index) => new Collection({
-                title: day,
-                type: 'day',
-                id: Moment().add(index, 'milliseconds').toISOString()
-              }));
+        day: function($stateParams) {
+            return $stateParams.day || null;
         }
     }
   });
