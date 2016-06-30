@@ -1,4 +1,4 @@
-bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory, day) {
+bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, last, type) {
 
     const aged = collections[0];
     const future = collections[1];
@@ -7,8 +7,8 @@ bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory, day
     function new6(offset) {
         $scope.collections = [];
 
-        DateFactory.display(offset, 'day').forEach((day) => {
-            let use = future.find(el => el.title === day.title) || day;
+        DateFactory.display(offset, type).forEach((c) => {
+            let use = future.find(el => el.title === c.title) || c;
             $scope.collections.push(use);
         });
     }
