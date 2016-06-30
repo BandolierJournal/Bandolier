@@ -31,13 +31,18 @@ bulletApp.factory('DateFactory', function() {
         return new Date(date.getFullYear(), date.getMonth());
     }
 
-    function display(offset, type) { // where date is always given as the top left index
+    function display(offset, type) { //offset from today
         const display = [];
         const rounded = (type === 'day') ? today : roundMonth(today);
         for (let i = 1; i > -5; i--) {
             display.push(Moment(rounded).subtract(i - offset, type + 's').toISOString());
         }
-        return display.map(el => new Collection(el, type));
+        if (type === 'month') type = 'future';
+        return display.map((e, index) => new Collection({
+            title: e,
+            type: type,
+            id: Moment().add(index, 'milliseconds').toISOString()
+        }));
     }
 
     function monthCal(month) {

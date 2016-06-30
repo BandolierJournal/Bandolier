@@ -9,7 +9,6 @@ bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory) {
 
         DateFactory.display(offset, 'day').forEach((day) => {
             let use = future.find(el => el.title === day.title) || day;
-            console.log(use.rev);
             $scope.collections.push(use);
         });
     }
