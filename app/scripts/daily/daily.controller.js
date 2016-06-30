@@ -1,4 +1,4 @@
-bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory) {
+bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory, day) {
 
     const aged = collections[0];
     const future = collections[1];

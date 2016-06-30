@@ -1,10 +1,11 @@
 bulletApp.factory('DateFactory', function() {
     const today = roundDate(new Date());
-    const yesterday = new Date(Moment(today).subtract(2, 'days').toISOString());
+    const yesterday = new Date(Moment(today).subtract(1, 'days').toISOString());
+    const thisMonth = roundMonth(today);
 
     function splitCollections(collections) {
         const split = _.partition(collections, function(c) {
-            return new Date(c.title) < yesterday;
+            return new Date(c.title) < yesterday; //or last month for future log
         })
         const aged = split[0].sort(chronoSort);
         const future = split[1];
@@ -14,13 +15,11 @@ bulletApp.factory('DateFactory', function() {
     function chronoSort(a, b) {
         a = new Date(a.title);
         b = new Date(b.title);
-        if (a < yesterday || b < yesterday) {
-            return a - b;
-        }
+        return a - b;
     }
 
     function chronoFilter(a) {
-        return new Date(a.title) < yesterday;
+        return new Date(a.title) < yesterday;  //not used
     }
 
     function roundDate(date) {
@@ -68,6 +67,8 @@ bulletApp.factory('DateFactory', function() {
         roundDate: roundDate,
         roundMonth: roundMonth,
         monthCal: monthCal,
-        splitCollections: splitCollections
+        splitCollections: splitCollections,
+        today: today,
+        thisMonth: thisMonth
     }
 })

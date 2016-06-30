@@ -8,7 +8,7 @@ bulletApp.controller('FutureCtrl', function($scope, collections, DateFactory) {
         $scope.collections = [];
 
         DateFactory.display(offset, 'month').forEach((month) => {
-            let use = future.find(el => el.title === day.title) || month;
+            let use = future.find(el => el.title === month.title) || month;
             $scope.collections.push(use);
         });
     }

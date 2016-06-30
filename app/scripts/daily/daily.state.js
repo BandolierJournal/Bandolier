@@ -8,6 +8,9 @@ bulletApp.config(function ($stateProvider) {
         collections: function(DateFactory) {
             return Collection.fetchAll({type: 'day'})
                 .then(DateFactory.splitCollections);
+        },
+        day: function($stateParams) {
+            return $stateParams.day || null;
         }
     }
   });
