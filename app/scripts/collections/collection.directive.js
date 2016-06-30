@@ -37,7 +37,6 @@ bulletApp.directive('collection', function($log, currentStates){
 
             }
 
-
             /**********************************************************
             * This function will remove the bullet from the collection
             * and then make sure the bullet is also removed from the

@@ -1,8 +1,11 @@
 <div class="container">
     <div class="row">
             <h1 class="page-header" id="indexTitle">FUTURE LOG</h1>
-            <div ng-repeat="collection in collections track by $index">
+            <button ng-click="prev6()">Go Back</button>
+            <button ng-click="next6()">Go Forward</button>
+            <div ng-repeat="collection in collections">
             	<collection collection="collection"></collection>
             </div>
     </div>
+    <add-collection collection-type="future"></add-collection>
 </div>

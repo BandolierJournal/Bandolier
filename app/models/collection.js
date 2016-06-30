@@ -70,7 +70,6 @@ class Collection {
         })
     }
 
-
     static findOrReturn(props) {
        return db.rel.find('collection', props.id)
            .then(res => {
@@ -89,21 +88,6 @@ class Collection {
             })
             .then(collections => collections.map(collection => new Collection(collection)))
             .catch(err => console.error('could not fetch all collections'));
-    }
-
-    //Not sure this is needed, but it works
-    static fetchAllWithBullets(props) {
-      return db.rel.find('collection')
-          .then(res => {
-              if (props) {
-                res.collections = _.filter(res.collections, props);
-              }
-              return res;
-          })
-          .then(res => {
-              return Promise.all(res.collections.map(collection => convertToInstances({collections: [collection], bullets: res.bullets})));
-          })
-          .catch(err => console.error('could not fetch all collections'));
     }
 }
 
