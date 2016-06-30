@@ -16,8 +16,11 @@ bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory, day
     new6(0);
 
     $scope.prev6 = function() {
-        if (index===0) return;
-        if (index < 6) $scope.collections = aged.slice(0, index);
+        if (index < 0) return;
+        if (index < 6) {
+            $scope.collections = aged.slice(0, index);
+            index -= 6;
+        }
         else {
             index -= 6;
             navigate();
@@ -25,7 +28,6 @@ bulletApp.controller('DailyCtrl', function($scope, collections, DateFactory, day
     }
 
     $scope.next6 = function() {
-        // TODO: @sechu says there's a small glitch here
         index += 6;
         navigate();
     }
