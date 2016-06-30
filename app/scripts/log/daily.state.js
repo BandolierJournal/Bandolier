@@ -1,7 +1,7 @@
 bulletApp.config(function($stateProvider) {
 
     $stateProvider.state('daily', {
-        url: '/daily/:day',
+        url: '/daily/:index',
         templateUrl: 'scripts/log/log.template.html',
         controller: 'LogCtrl',
         resolve: {
@@ -10,7 +10,7 @@ bulletApp.config(function($stateProvider) {
                     .then(DateFactory.splitCollections);
             },
             last: function($stateParams) {
-                return $stateParams.day || null;
+                return $stateParams.index || null;
             },
             type: () => 'day'
         }
