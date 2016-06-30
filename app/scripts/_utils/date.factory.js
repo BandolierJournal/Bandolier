@@ -5,7 +5,7 @@ bulletApp.factory('DateFactory', function() {
     let lastMonth = Moment(thisMonth).subtract(1, 'months').toISOString();
 
     function splitCollections(collections) {
-
+        if (!collections.length) return [[],[]];
         let last = (collections[0].type === "day") ? yesterday : lastMonth;
         let split = _.partition(collections, function(c) {
             return c.title < last;

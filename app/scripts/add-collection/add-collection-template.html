@@ -1,4 +1,6 @@
-<form>
-  <input ng-model="collectionName" type="text" name="collection-input" class="form-control">
-  <button ng-click="createCollection(collectionName)" class="btn btn-default">Create {{collectionType | displayType}} Collection</button>
+<form class="form-inline">
+    <button ng-click="createCollection(collectionName)" class="btn btn-default btn-sm">
+    <i class="glyphicon glyphicon-plus"></i>
+     {{collectionType | displayType}} Collection</button>
+    <input ng-model="collectionName" type="text" name="collection-input" class="form-control">
 </form>
