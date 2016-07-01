@@ -2,8 +2,7 @@
 'use strict'
 const db = require('./index');
 const _ = require('lodash');
-const moment = require('moment');
-
+const Moment = require('moment');
 
 class Bullet {
 	constructor(content) {
@@ -17,6 +16,12 @@ class Bullet {
 			if (!this.collections) this.collections = [];
 			_.extend(this, content);
 		}
+	}
+
+	moveTo(collection) {
+		let newBullet = new Bullets[this.type](this);
+		newBullet.id = Moment().toISOString();
+		return collection.addBullet(newBullet);
 	}
 
 	toggleStrike() {
@@ -34,24 +39,6 @@ class Bullet {
     	return new Bullet[this.type](this);
 	}
 
-	migrate() {
-		let destBullet = new Bullet(this.content)
-		destBullet.type = this.type
-
-		destBullet.date = moment(this.date).add(1, 'month').startOf('month').toISOString();
-		return (function FetchAllWithoutBullets () {
-			return db.rel.find('collectionShorts')
-			.then(res => res.collectionShorts.find(r => r.title === destBullet.date && r.type === 'month'))
-			.then(match => {
-				const Collection = require('./collection');
-				match = match ? new Collection (match) : new Collection(destBullet.date, 'month')
-				return match.addBullet(destBullet)
-			})
-		})()
-		.then(res => this.status = 'migrated')
-		.catch(err => console.error('//this never runs because code is perfect', err))
-	}
-
 	static fetchById(id) {	//not in use yet
 		return db.rel.find('bulletShort', id)
 			.then(bullet => bullet.convert)
@@ -66,6 +53,17 @@ class Task extends Bullet {
 		this.date = date || this.date;
 		this.status = status || this.status || 'incomplete'; // complete, migrated, scheduled, struckout
 		this.type = 'Task';
+	}
+
+	migrate() {
+		const Collection = require('./collection');
+		const nextMonth = Moment(this.date).add(1, 'month').startOf('month').toISOString();
+		return Collection.fetchAll({title: nextMonth, type: 'month'})
+		.then(collection => {
+			return this.moveTo(collection[0])
+		})
+		.then(res => this.status = 'migrated')
+		.catch(err => console.error('Migration Failed: ', err));
 	}
 
 	toggleDone() {

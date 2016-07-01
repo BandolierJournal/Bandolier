@@ -46,12 +46,12 @@ class Collection {
     }
 
     addBullet(bullet, index) {
-        bullet = new Bullet[bullet.type](bullet) //this attaches id if needed
+        bullet = new Bullet[bullet.type](bullet); //this attaches id if needed
         index = index || this.bullets.length; //so we can preserve ordering in collections.bullet array
         this.bullets = this.bullets.slice(0, index).concat(bullet).concat(this.bullets.slice(index));
-        if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
+        if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id);
         return Promise.all([this.save(), bullet.save()])
-        .catch(err => console.error('error ', err))
+        .catch(err => console.error('error ', err));
     }
 
     removeBullet(bullet) {
@@ -68,14 +68,14 @@ class Collection {
         return db.rel.save('collection', this).then(() => {
             this.bullets = bulletInstances;
             return this;
-        })
+        });
     }
 
     static findOrReturn(props) {
        return db.rel.find('collection', props.id)
            .then(res => {
                if (res.collections.length > 1) res.collections = [res.collections.find(c => c.id === props.id)]; //this is a hack to fix something wierd in PouchDB
-               if (!res.collections.length) return new Collection(props)
+               if (!res.collections.length) return new Collection(props);
                else return convertToInstances(res);
            })
            .catch(err => console.error(err));
@@ -83,13 +83,11 @@ class Collection {
 
     static fetchAll(props) {
         return db.rel.find('collection')
-            .then(res => {
-                if (!res.collections.length) return new Collection(props)
-                else return convertToInstances(res)
-            })
+            .then(res => convertToInstances(res))
             .then(collections => {
-                if (props) return _.filter(collections, props);
-                else return collections;
+                if (props) collections = _.filter(collections, props);
+                if (!collections.length) return [new Collection(props)];
+                return collections;
             })
             .catch(err => console.error('could not fetch all collections', err));
     }
