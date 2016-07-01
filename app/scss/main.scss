@@ -13,25 +13,31 @@ html {
 }
 
 .fa {
-    font-size: 13px
+    font-size: 12px
 }
 
-.bullet-text {
-    padding-left: 5px;
+.collection td,
+tr {
+    vertical-align: top;
+    padding: 2px 5px 5px 2px;
 }
 
-.bullet {
-    padding: 3px;
-    text-align: right;
+.collection {
+    min-height: 250px;
+}
+
+[contenteditable]:focus {
+    outline: 0 solid transparent;
+    border-bottom: 1px dashed #A2AFC2;
 }
 
 .new {
     border-bottom: 1px solid #F5F5F5;
+    width: 380px;
 }
 
-
 //not yet in use
-.new-collection:hover {
+.collection:hover {
     -webkit-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
     box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);

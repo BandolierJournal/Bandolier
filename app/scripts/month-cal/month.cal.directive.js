@@ -15,7 +15,8 @@ bulletApp.directive('monthCal', function($log) {
                     date: day
                 });
             })
-
+            scope.header = true;
+            
             scope.removeBullet = function(bullet) {
                 scope.collection.removeBullet(bullet)
                     .then(function() {

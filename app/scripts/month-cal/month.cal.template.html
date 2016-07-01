@@ -1,6 +1,13 @@
 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <h4 class="page-header">{{formattedTitle}}</h4>
-    <div ng-repeat="bullet in bulletList track by $index">
-        <bullet header="{{$index+1}} {{bullet.date | date: 'EEE'}}" bullet="bullet" remove-fn="removeBullet(bullet)" add-fn="addBullet(bullet)"></bullet>
-    </div>
+    <h4 class="page-header" ng-class="{'text-muted': muted}">{{formattedTitle}}</h4>
+    <table class="collection">
+        <tr ng-repeat="bullet in bulletList track by $index">
+            <td>
+                <bullet-icon class="pull-right" bullet="bullet" override="{{$index+1}} {{bullet.date | date: 'EEE'}}"></bullet-icon>
+            </td>
+            <td>
+                <bullet bullet="bullet" remove-fn="removeBullet(bullet)" add-fn="addBullet(bullet)"></bullet>
+            </td>
+        </tr>
+    </table>
 </div>

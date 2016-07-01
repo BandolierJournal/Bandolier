@@ -1,4 +1,2 @@
-<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bullet">
-    <i ng-if="!header" ng-show="isNew" class="fa fa-fw" ng-class="bullet.status === 'complete' ? typeDict['Done'] : typeDict[bullet.type]" ng-click="bullet.toggleDone()"></i>
-    <span ng-if="header">{{header}}</span>
-</div>
+<i ng-if="!override" ng-show="isNew" class="fa fa-fw" ng-class="bullet.status === 'complete' ? typeDict['Done'] : typeDict[bullet.type]" ng-click="bullet.toggleDone()"></i>
+<b ng-if="override">{{override}}</b>

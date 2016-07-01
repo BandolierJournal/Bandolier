@@ -5,10 +5,12 @@ bulletApp.directive('bulletIcon', function () {
         templateUrl: 'scripts/bullets/icon.template.html',
         scope: {
             bullet: '=',
-            header: '='
+            override: '@'
         },
         link: function (scope, element) {
             scope.isNew = (scope.bullet) ? scope.bullet.content : false;
+            if (scope.override) console.log(scope.override);
+
             scope.typeDict = {
                 "Task": "fa-circle-o", //fa-square-o
                 "Event": "fa-first-order",

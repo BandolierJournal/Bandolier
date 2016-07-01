@@ -6,12 +6,13 @@ bulletApp.directive('bullet', function () {
         scope: {
             bullet: '=',
             removeFn: '&',
-            addFn: '&',
-            header: '@'
+            addFn: '&'
         },
-        link: function (scope, element) {
-
+        link: function (scope, element) {    
+                
             const OS = process.platform;
+            
+            scope.empty = () => !scope.bullet.content;
 
             function editBullet(e) {
                 if(!scope.bullet.strike) {
