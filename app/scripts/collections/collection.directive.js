@@ -52,10 +52,6 @@ bulletApp.directive('collection', function($log, currentStates){
                   .catch($log.err);
               };
             }
-
-            
-            //if type is future also add bullet to {title: collection.title, type: 'month'}
-            //if a bullet is an event, we should add it to the right day collection.
         }
     };
 });

@@ -46,7 +46,6 @@ class Collection {
 
     addBullet(bullet) {
         bullet.id = bullet.id || new Date().toISOString();
-        // bullet = new Bullet[bullet.type](bullet) //this attaches id if needed
         if (this.bullets.find(b => b.id === bullet.id)) return;
         this.bullets.push(bullet);
         bullet.collections.push(this.id);

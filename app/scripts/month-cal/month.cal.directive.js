@@ -6,22 +6,14 @@ bulletApp.directive('monthCal', function($log) {
         templateUrl: 'scripts/month-cal/month.cal.template.html',
         scope: {
             collection: '=',
-            numOfDays: '=',
+            days: '=',
         },
         link: function(scope) {
             scope.formattedTitle = Moment(scope.collection.title).format('MMMM YYYY').toUpperCase();
-            scope.muted = false; // still needed?
-
-            scope.bulletList = {};
-            scope.collection.bullets.forEach(bullet => {
-                scope.bulletList[Moment(bullet.date).date()] = bullet
-            });
-
-            scope.bulletList = scope.numOfDays.map((day, index) => {
-                if (scope.bulletList[index + 1]) return scope.bulletList[index + 1];
-                else return new Bullet.Task({
-                    date: day,
-                    collections: [scope.collection.id]
+            
+            scope.bulletList = scope.days.map(day => {
+                return scope.collection.bullets.find(bullet => bullet.date === day) || new Bullet.Task({
+                    date: day
                 });
             })
 
@@ -32,6 +24,7 @@ bulletApp.directive('monthCal', function($log) {
                     })
                     .catch($log.err);
             };
+
             scope.addBullet = function(bullet) {
                 if (bullet.content && bullet.content.length > 0) {
                     scope.collection.addBullet(bullet);
