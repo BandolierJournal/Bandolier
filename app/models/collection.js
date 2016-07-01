@@ -32,6 +32,7 @@ class Collection {
 
     deserializeBullets(bulletInstances) {
         this.bullets = this.bullets.map(bulletId => {
+            // this needs to be more robust in case any relations are broken in our DB
             const bullet = bulletInstances.find(b => b.id === bulletId);
             return new Bullet[bullet.type](bullet);
         });
@@ -50,7 +51,7 @@ class Collection {
         this.bullets = this.bullets.slice(0, index).concat(bullet).concat(this.bullets.slice(index));
         if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
         return Promise.all([this.save(), bullet.save()])
-            .catch(err => console.error('error ', err))
+        .catch(err => console.error('error ', err))
     }
 
     removeBullet(bullet) {
@@ -87,11 +88,10 @@ class Collection {
                 else return convertToInstances(res)
             })
             .then(collections => {
-               
                 if (props) return _.filter(collections, props);
                 else return collections;
             })
-            .catch(err => console.error('could not fetch all collections'));
+            .catch(err => console.error('could not fetch all collections', err));
     }
 }
 

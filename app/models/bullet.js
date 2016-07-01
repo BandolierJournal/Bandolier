@@ -2,7 +2,7 @@
 'use strict'
 const db = require('./index');
 const _ = require('lodash');
-const Collection = require('./collection');
+const moment = require('moment');
 
 
 class Bullet {
@@ -32,6 +32,24 @@ class Bullet {
 
 	convert() {	//not in use yet
     	return new Bullet[this.type](this);
+	}
+
+	migrate() {
+		let destBullet = new Bullet(this.content)
+		destBullet.type = this.type
+
+		destBullet.date = moment(this.date).add(1, 'month').startOf('month').toISOString();
+		return (function FetchAllWithoutBullets () {
+			return db.rel.find('collectionShorts')
+			.then(res => res.collectionShorts.find(r => r.title === destBullet.date && r.type === 'month'))
+			.then(match => {
+				const Collection = require('./collection');
+				match = match ? new Collection (match) : new Collection(destBullet.date, 'month')
+				return match.addBullet(destBullet)
+			})
+		})()
+		.then(res => this.status = 'migrated')
+		.catch(err => console.error('//this never runs because code is perfect', err))
 	}
 
 	static fetchById(id) {	//not in use yet

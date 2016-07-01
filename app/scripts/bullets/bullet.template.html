@@ -1,8 +1,10 @@
 
 <div ng-show="!header" class="row">
+
 	<bulleticon bullet="bullet"></bulleticon>
-	<div contenteditable class = "col-lg-11 col-md-11 col-sm-11 col-xs-11" ng-model="bullet.content" only-text="true" ng-class="{strikethrough: bullet.strike}">
+	<div contenteditable class = "col-lg-9 col-md-9 col-sm-9 col-xs-9" ng-model="bullet.content" only-text="true" ng-class="{strikethrough: bullet.strike}">
 	</div>
+	<button class="btn btn-default" ng-click="migrate()" ng-hide="bullet.status === 'migrated'">magic</button>
 </div>
 
 <div ng-show="header" class="row">
