@@ -1,17 +1,7 @@
-
-<div ng-show="!header" class="row">
-
-	<bulleticon bullet="bullet"></bulleticon>
-	<div contenteditable class = "col-lg-9 col-md-9 col-sm-9 col-xs-9" ng-model="bullet.content" only-text="true" ng-class="{strikethrough: bullet.strike}">
-	</div>
+<div class="row">
+    <bullet-icon bullet="bullet" header="header"></bullet-icon>
+    <div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 bullet-text" ng-class="{strikethrough: bullet.strike, new: !bullet.content.length}">
+        <div contenteditable ng-model="bullet.content" only-text="true"></div>
+    </div>
 	<button class="btn btn-default" ng-click="migrate()" ng-hide="bullet.status === 'migrated'">magic</button>
-</div>
-
-<div ng-show="header" class="row">
-	<div class="col-lg-2 col-md-2 col-sm-3 col-xs-3">
-		<i>{{header}}</i>
-	</div>
-	<div class = "col-lg-10 col-md-10 col-sm-9 col-xs-9">
-		<span class="bullet-text" contenteditable ng-model="bullet.content" only-text="true" ng-class="{strikethrough: bullet.strike, done: bullet.status === 'complete'}"></span>
-	</div>
 </div>

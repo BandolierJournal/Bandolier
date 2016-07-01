@@ -10,6 +10,7 @@ bulletApp.directive('bullet', function () {
             header: '@'
         },
         link: function (scope, element) {
+
             scope.migrate = function() {
               scope.bullet.migrate()
               .then(() => scope.$evalAsync())

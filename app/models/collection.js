@@ -3,6 +3,7 @@
 
 const db = require('./index');
 const _ = require('lodash');
+const Moment = require('moment');
 
 const Bullet = require('./bullet');
 
@@ -32,26 +33,38 @@ class Collection {
 
     deserializeBullets(bulletInstances) {
         this.bullets = this.bullets.map(bulletId => {
-            // this needs to be more robust in case any relations are broken in our DB
-            const bullet = bulletInstances.find(b => b.id === bulletId);
+            let bullet = bulletInstances.find(b => b.id === bulletId);
             return new Bullet[bullet.type](bullet);
         });
         return this;
     }
 
     serializeBullets() {
-        if(this.bullets.every(b => typeof b !== "string")){
+        if (this.bullets.every(b => typeof b !== "string")) {
             this.bullets = this.bullets.map(bullet => bullet.id); //beforeSave, converts bullet instances to ids
         }
     }
 
-    addBullet(bullet, index) {
-        bullet = new Bullet[bullet.type](bullet) //this attaches id if needed
-        index = index || this.bullets.length; //so we can preserve ordering in collections.bullet array
-        this.bullets = this.bullets.slice(0, index).concat(bullet).concat(this.bullets.slice(index));
-        if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
+    addBullet(bullet) {
+        bullet.id = bullet.id || new Date().toISOString();
+        if (this.bullets.find(b => b.id === bullet.id)) return;
+        this.bullets.push(bullet);
+        bullet.collections.push(this.id);
+
+        if(!bullet.date && Moment(this.title).isValid()) bullet.date = this.title;
+
+        //add to other collections check
+        let search;
+        if (this.type === 'month-cal' || bullet.type === 'Event') search = { title: Moment(bullet.date).startOf('day').toISOString(), type: 'day' };
+        if (this.type === 'future') search = { title: this.title, type: 'month' };
+        if (search) {
+            Collection.fetchAll(search)
+                .then(c => c[0].addBullet(bullet))
+                .catch(err => console.error(err));
+        }
+
         return Promise.all([this.save(), bullet.save()])
-        .catch(err => console.error('error ', err))
+        .catch(err => console.error('error ', err));
     }
 
     removeBullet(bullet) {
@@ -63,33 +76,29 @@ class Collection {
     }
 
     save() {
-        const bulletInstances = this.bullets;
+        let bulletInstances = this.bullets;
         this.serializeBullets();
         return db.rel.save('collection', this).then(() => {
             this.bullets = bulletInstances;
             return this;
-        })
+        });
     }
 
     static findOrReturn(props) {
-       return db.rel.find('collection', props.id)
-           .then(res => {
-               if (res.collections.length > 1) res.collections = [res.collections.find(c => c.id === props.id)]; //this is a hack to fix something wierd in PouchDB
-               if (!res.collections.length) return new Collection(props)
-               else return convertToInstances(res);
-           })
-           .catch(err => console.error(err));
-   }
+        return db.rel.find('collection', props.id)
+            .then(res => {
+                if (res.collections.length > 1) res.collections = [res.collections.find(c => c.id === props.id)]; //this is a hack to fix something wierd in PouchDB
+                return res.collection.length ? convertToInstances(res) : [new Collection(props)];
+            })
+            .catch(err => console.error(err));
+    }
 
     static fetchAll(props) {
         return db.rel.find('collection')
-            .then(res => {
-                if (!res.collections.length) return new Collection(props)
-                else return convertToInstances(res)
-            })
+            .then(res => convertToInstances(res))
             .then(collections => {
-                if (props) return _.filter(collections, props);
-                else return collections;
+                if (props) collections = _.filter(collections, props);
+                return collections.length ? collections : [new Collection(props)];
             })
             .catch(err => console.error('could not fetch all collections', err));
     }
