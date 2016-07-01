@@ -22,6 +22,10 @@ tr {
     padding: 2px 5px 5px 2px;
 }
 
+.collection td.bullet-text {
+    min-width: 395px;
+}
+
 .collection {
     min-height: 250px;
 }
@@ -31,17 +35,15 @@ tr {
     border-bottom: 1px dashed #A2AFC2;
 }
 
-.new {
-    border-bottom: 1px solid #F5F5F5;
-    width: 380px;
+.new:hover {
+    border-bottom: 1px dashed #A2AFC2;
 }
 
-//not yet in use
-.collection:hover {
-    -webkit-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
-    box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
-}
+// .collection:hover {
+//     -webkit-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
+//     -moz-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
+//     box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
+// }
 
 .done {
     font-style: italic;
