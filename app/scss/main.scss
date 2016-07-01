@@ -1,6 +1,6 @@
 body,
 html {
-    font-family: proxima-nova, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
     line-height: 1.4;
     vertical-align: middle;
     font-size: 14px;
@@ -17,13 +17,15 @@ html {
 }
 
 .bullet-text {
-    padding-left: 0;
+    padding-left: 5px;
 }
 
 .bullet {
     padding-right: 0;
-    text-align: right
+    text-align: right;
+    font-size: 12px;
 }
+
 
 // Sticky Footer
 html {
@@ -34,7 +36,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    // -webkit-app-region: drag
+    -webkit-app-region: drag
 }
 
 .navbar {

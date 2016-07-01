@@ -52,7 +52,7 @@ bulletApp.factory('DateFactory', function() {
 
     function getWeekday(date) {
         let weekday = Moment(date).isoWeekday();
-        weekday = Moment().isoWeekday(weekday).format('ddd')
+        weekday = Moment().isoWeekday(weekday).format('dd')
         return weekday;
     }
 

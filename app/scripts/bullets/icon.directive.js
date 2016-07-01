@@ -4,7 +4,8 @@ bulletApp.directive('bulleticon', function () {
         restrict: 'E',
         templateUrl: 'scripts/bullets/icon.template.html',
         scope: {
-            bullet: '='
+            bullet: '=',
+            header: '='
         },
         link: function (scope, element) {
             scope.isNew = (scope.bullet) ? scope.bullet.content : false;
