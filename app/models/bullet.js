@@ -17,6 +17,11 @@ class Bullet {
 		}
 	}
 
+	schedule() {
+		if(this.type === 'note') return;
+
+	}
+
 	createCopy() {
 		let newBullet = new Bullets[this.type](this.content);
 		newBullet.type = this.type;
