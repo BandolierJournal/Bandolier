@@ -33,8 +33,7 @@ class Collection {
     deserializeBullets(bulletInstances) {
         this.bullets = this.bullets.map(bulletId => {
             let bullet = bulletInstances.find(b => b.id === bulletId);
-            bullet = new Bullet[bullet.type](bullet);
-            return bullet;
+            return new Bullet[bullet.type](bullet);
         });
         return this;
     }
@@ -46,9 +45,9 @@ class Collection {
     }
 
     addBullet(bullet) {
-        bullet = new Bullet[bullet.type](bullet) //this attaches id if needed
-        console.log(bullet, this.bullets);
-        if (this.bullets.find(b => b.id === bullet.id)) return; // make sure to check this!
+        bullet.id = bullet.id || new Date().toISOString();
+        // bullet = new Bullet[bullet.type](bullet) //this attaches id if needed
+        if (this.bullets.find(b => b.id === bullet.id)) return;
         this.bullets.push(bullet);
         bullet.collections.push(this.id);
         //add to other collections check

@@ -34,11 +34,7 @@ bulletApp.directive('monthCal', function($log) {
             };
             scope.addBullet = function(bullet) {
                 if (bullet.content && bullet.content.length > 0) {
-                    scope.collection.addBullet(bullet)
-                    .then(function() {
-                      scope.$evalAsync();
-                    })
-                    .catch($log.err);
+                    scope.collection.addBullet(bullet);
                 };
             }
         }
