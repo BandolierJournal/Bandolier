@@ -68,6 +68,7 @@ class Task extends Bullet {
 	}
 
 	toggleDone() {
+		if(this.status === 'migrated') return;
 		this.status = this.status === 'incomplete' ? 'complete' : 'incomplete';
 	}
 
