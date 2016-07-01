@@ -3,6 +3,7 @@
 
 const db = require('./index');
 const _ = require('lodash');
+const Moment = require('moment');
 
 const Bullet = require('./bullet');
 
@@ -49,6 +50,8 @@ class Collection {
         if (this.bullets.find(b => b.id === bullet.id)) return;
         this.bullets.push(bullet);
         bullet.collections.push(this.id);
+
+        if(!bullet.date && Moment(this.title).isValid()) bullet.date = this.title;
 
         //add to other collections check
         let search;
