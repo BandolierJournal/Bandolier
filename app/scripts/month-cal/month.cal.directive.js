@@ -1,5 +1,4 @@
 /*jshint esversion: 6*/
-
 bulletApp.directive('monthCal', function($log) {
     return {
         restrict: 'E',
@@ -10,7 +9,7 @@ bulletApp.directive('monthCal', function($log) {
         },
         link: function(scope) {
             scope.formattedTitle = Moment(scope.collection.title).format('MMMM YYYY').toUpperCase();
-            
+
             scope.bulletList = scope.days.map(day => {
                 return scope.collection.bullets.find(bullet => bullet.date === day) || new Bullet.Task({
                     date: day

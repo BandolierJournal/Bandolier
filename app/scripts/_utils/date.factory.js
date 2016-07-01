@@ -2,11 +2,10 @@ bulletApp.factory('DateFactory', function() {
     let today = Moment().startOf('day').toISOString(); // TODO: make this a function (so today is always up to date)
     let yesterday = Moment(today).subtract(1, 'days').toISOString();
     let thisMonth = Moment().startOf('month').toISOString();
-    let lastMonth = Moment(thisMonth).subtract(1, 'months').toISOString();
 
     function splitCollections(collections) {
         if (!collections.length) return [[],[]];
-        let last = (collections[0].type === "day") ? yesterday : lastMonth;
+        let last = (collections[0].type === "day") ? yesterday : lastMonth();
         let split = _.partition(collections, function(c) {
             return c.title < last;
         })
@@ -56,12 +55,24 @@ bulletApp.factory('DateFactory', function() {
         return weekday;
     }
 
+    function lastMonth(currentMonth) {
+      currentMonth = currentMonth || thisMonth
+      return Moment(currentMonth).subtract(1, 'month').toISOString()
+    }
+
+    function nextMonth(currentMonth) {
+      currentMonth = currentMonth || thisMonth
+      return Moment(currentMonth).add(1, 'month').toISOString()
+    }
+
     return {
         display: display,
         roundDate: roundDate,
         monthCal: monthCal,
         splitCollections: splitCollections,
         today: today,
-        thisMonth: thisMonth
+        thisMonth: thisMonth,
+        lastMonth: lastMonth,
+        nextMonth: nextMonth
     }
 })
