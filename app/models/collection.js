@@ -47,7 +47,7 @@ class Collection {
     addBullet(bullet, index) {
         bullet = new Bullet[bullet.type](bullet) //this attaches id if needed
         index = index || this.bullets.length; //so we can preserve ordering in collections.bullet array
-        this.bullets = this.bullets.slice(0, index).concat(bullet).concat(this.bullets.slice(index));
+        this.bullets.splice(index, 0, bullet);
         if (bullet.collections.indexOf(this.id) < 0) bullet.collections.push(this.id)
         return Promise.all([this.save(), bullet.save()])
             .catch(err => console.error('error ', err))
