@@ -1,5 +1,5 @@
-/*jshint node: true*/
-'use strict'
+/*jshint node: true, esversion: 6*/
+'use strict';
 const db = require('./index');
 const _ = require('lodash');
 const Moment = require('moment');
@@ -42,12 +42,6 @@ class Bullet {
 	convert() {	//not in use yet
     	return new Bullet[this.type](this);
 	}
-
-	static fetchById(id) {	//not in use yet
-		return db.rel.find('bulletShort', id)
-			.then(bullet => bullet.convert)
-			.catch(err => console.error(`Could not fetch bullet ${id}: ${err}`))
-	}
 }
 
 
@@ -64,9 +58,9 @@ class Task extends Bullet {
 		const nextMonth = Moment(this.date).add(1, 'month').startOf('month').toISOString();
 		return Collection.fetchAll({title: nextMonth, type: 'month'})
 		.then(collection => {
-			let newBullet = this.createCopy()
+			let newBullet = this.createCopy();
 			newBullet.date = nextMonth;
-			return collection[0].addBullet(newBullet)
+			return collection[0].addBullet(newBullet);
 		})
 		.then(res => this.status = 'migrated')
 		.catch(err => console.error('Migration Failed: ', err));

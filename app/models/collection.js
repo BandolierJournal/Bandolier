@@ -1,5 +1,5 @@
 /*jshint node: true, esversion: 6*/
-'use strict'
+'use strict';
 
 const db = require('./index');
 const _ = require('lodash');

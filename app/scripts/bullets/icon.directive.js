@@ -21,12 +21,12 @@ bulletApp.directive('bulletIcon', function () {
             scope.iconType= function() {
                 const type = scope.bullet.status === 'incomplete' ? scope.bullet.type : scope.bullet.status;
                 return typeDict[type];
-            }
+            };
 
             scope.toggleDone = function() {
                 scope.bullet.toggleDone();
                 scope.bullet.save();
-            }
+            };
         }
     };
 });

@@ -11,16 +11,16 @@ bulletApp.directive('bullet', function () {
         },
         link: function (scope, element) {
 
-            scope.migrate = function() {
-              scope.bullet.migrate()
-              .then(() => scope.$evalAsync())
-            }
+            scope.migrate = function () {
+                scope.bullet.migrate()
+                    .then(() => scope.$evalAsync());
+            };
 
             const OS = process.platform;
 
             function editBullet(e) {
-                if(!scope.bullet.strike && scope.bullet.status !== 'migrated') {
-                    if(!scope.bullet.status || scope.bullet.status === 'incomplete') {
+                if (!scope.bullet.strike && scope.bullet.status !== 'migrated') {
+                    if (!scope.bullet.status || scope.bullet.status === 'incomplete') {
                         // cmd-t change to task
                         if (e.which === 84) return new Bullet.Task(scope.bullet);
                         // cmd-e change to event
@@ -50,14 +50,14 @@ bulletApp.directive('bullet', function () {
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
                         scope.bullet = editBullet(e);
                         scope.bullet.save().then(() => scope.$evalAsync());
-                    } else if(scope.bullet.strike || scope.bullet.status === 'complete') {
-                        if(e.which !== 9) e.preventDefault();
+                    } else if (scope.bullet.strike || scope.bullet.status === 'complete') {
+                        if (e.which !== 9) e.preventDefault();
                     }
                 }
             });
 
             element.on('focusout', function (e) {
-                if(!scope.bullet.rev) scope.addFn()
+                if (!scope.bullet.rev) scope.addFn();
                 else scope.bullet.save();
             });
         }
