@@ -2,8 +2,7 @@
 'use strict'
 const db = require('./index');
 const _ = require('lodash');
-const Collection = require('./collection');
-
+const Moment = require('moment');
 
 class Bullet {
 	constructor(content) {
@@ -16,6 +15,12 @@ class Bullet {
 			if (!this.collections) this.collections = [];
 			_.extend(this, content);
 		}
+	}
+
+	createCopy() {
+		let newBullet = new Bullets[this.type](this.content);
+		newBullet.type = this.type;
+		return newBullet;
 	}
 
 	toggleStrike() {
@@ -49,7 +54,21 @@ class Task extends Bullet {
 		this.type = 'Task';
 	}
 
+	migrate() {
+		const Collection = require('./collection');
+		const nextMonth = Moment(this.date).add(1, 'month').startOf('month').toISOString();
+		return Collection.fetchAll({title: nextMonth, type: 'month'})
+		.then(collection => {
+			let newBullet = this.createCopy()
+			newBullet.date = nextMonth;
+			return collection[0].addBullet(newBullet)
+		})
+		.then(res => this.status = 'migrated')
+		.catch(err => console.error('Migration Failed: ', err));
+	}
+
 	toggleDone() {
+		if(this.status === 'migrated') return;
 		this.status = this.status === 'incomplete' ? 'complete' : 'incomplete';
 	}
 

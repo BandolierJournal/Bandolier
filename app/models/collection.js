@@ -3,6 +3,7 @@
 
 const db = require('./index');
 const _ = require('lodash');
+const Moment = require('moment');
 
 const Bullet = require('./bullet');
 
@@ -49,6 +50,9 @@ class Collection {
         if (this.bullets.find(b => b.id === bullet.id)) return;
         this.bullets.push(bullet);
         bullet.collections.push(this.id);
+
+        if(!bullet.date && Moment(this.title).isValid()) bullet.date = this.title;
+
         //add to other collections check
         let search;
         if (this.type === 'month-cal' || bullet.type === 'Event') search = { title: Moment(bullet.date).startOf('day').toISOString(), type: 'day' };
@@ -60,7 +64,7 @@ class Collection {
         }
 
         return Promise.all([this.save(), bullet.save()])
-            .catch(err => console.error('error ', err))
+        .catch(err => console.error('error ', err));
     }
 
     removeBullet(bullet) {
@@ -77,15 +81,14 @@ class Collection {
         return db.rel.save('collection', this).then(() => {
             this.bullets = bulletInstances;
             return this;
-        })
+        });
     }
 
     static findOrReturn(props) {
         return db.rel.find('collection', props.id)
             .then(res => {
                 if (res.collections.length > 1) res.collections = [res.collections.find(c => c.id === props.id)]; //this is a hack to fix something wierd in PouchDB
-                if (!res.collections.length) return new Collection(props)
-                else return convertToInstances(res);
+                return res.collection.length ? convertToInstances(res) : [new Collection(props)];
             })
             .catch(err => console.error(err));
     }
@@ -95,10 +98,9 @@ class Collection {
             .then(res => convertToInstances(res))
             .then(collections => {
                 if (props) collections = _.filter(collections, props);
-                if (!collections.length) return [new Collection(props)];
-                else return collections;
+                return collections.length ? collections : [new Collection(props)];
             })
-            .catch(err => console.error('could not fetch all collections'));
+            .catch(err => console.error('could not fetch all collections', err));
     }
 }
 

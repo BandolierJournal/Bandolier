@@ -11,10 +11,15 @@ bulletApp.directive('bullet', function () {
         },
         link: function (scope, element) {
 
+            scope.migrate = function() {
+              scope.bullet.migrate()
+              .then(() => scope.$evalAsync())
+            }
+
             const OS = process.platform;
 
             function editBullet(e) {
-                if(!scope.bullet.strike) {
+                if(!scope.bullet.strike && scope.bullet.status !== 'migrated') {
                     if(!scope.bullet.status || scope.bullet.status === 'incomplete') {
                         // cmd-t change to task
                         if (e.which === 84) return new Bullet.Task(scope.bullet);
@@ -38,7 +43,7 @@ bulletApp.directive('bullet', function () {
 
 
             element.on('keydown', function (e) {
-                if(e.which !== 9 && e.which !== 91) {
+                if (e.which !== 9 && e.which !== 91) {
                     if (e.which === 13) {
                         e.preventDefault();
                         e.target.blur();
