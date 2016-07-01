@@ -11,7 +11,6 @@ class Bullet {
 			this.strike = false;
 			this.collections = [];
 		} else {
-			if (!this.id) this.id = new Date().toISOString();
 			if (!this.strike) this.strike = false;
 			if (!this.collections) this.collections = [];
 			_.extend(this, content);
