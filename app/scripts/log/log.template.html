@@ -4,7 +4,7 @@
             <h1 class="page-header">{{title}}</h1>
             <button ng-click="prev6()">Go Back</button>
             <button ng-click="next6()">Go Forward</button>
-            <div ng-repeat="collection in collections">
+            <div ng-repeat="collection in collections track by collection.title">
                 <collection collection="collection"></collection>
             </div>
         </div>

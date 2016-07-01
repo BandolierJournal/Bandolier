@@ -11,15 +11,6 @@ bulletApp.directive('bullet', function () {
         },
         link: function (scope, element) {
 
-            scope.typeDict = {
-                "Task": "fa-circle-o", //fa-square-o
-                "Event": "fa-first-order",
-                "Note": "fa-long-arrow-right",
-                "Done": "fa-check-circle-o", //fa-check-square-o"
-                "Migrated": "fa-sign-out",
-                "Scheduled": "fa-angle-double-left"
-            };
-
             const OS = process.platform;
 
             function editBullet(e) {

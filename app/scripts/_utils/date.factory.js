@@ -46,12 +46,12 @@ bulletApp.factory('DateFactory', function() {
             day = Moment(day).add(1, 'days').toISOString();
             day = new Date(day);
         }
-        return dayArray.map(getWeekday);
+        return dayArray;
     }
 
     function getWeekday(date) {
         let weekday = Moment(date).isoWeekday();
-        weekday = Moment().isoWeekday(weekday).format('ddd')
+        weekday = Moment().isoWeekday(weekday).format('dd')
         return weekday;
     }
 
