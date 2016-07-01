@@ -58,7 +58,7 @@ class Task extends Bullet {
 	migrate() {
 		const Collection = require('./collection');
 		const nextMonth = Moment(this.date).add(1, 'month').startOf('month').toISOString();
-		return Collection.fetchAll({title: nextMonth, type: 'future'})
+		return Collection.fetchAll({title: nextMonth, type: 'month'})
 		.then(collection => {
 			let newBullet = this.createCopy()
 			newBullet.date = nextMonth;
