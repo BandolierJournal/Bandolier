@@ -1,13 +1,13 @@
 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
     <h4 class="page-header">{{formattedTitle}}</h4>
-    <ul>
+
       <div ng-repeat="day in numOfDays track by $index">
         <bullet
-        header="{{$index+1}} {{day}}"
+        header="{{$index+1}} {{day | date: 'EEE'}}"
         bullet="bulletList[$index + '']"
         remove-fn="removeBullet(bulletList[$index + ''])"
         add-fn="addBullet(bulletList[$index + ''])"
         ></bullet>
       </div>
-    </ul>
+
 </div>

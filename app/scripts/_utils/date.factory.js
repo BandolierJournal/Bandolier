@@ -47,7 +47,7 @@ bulletApp.factory('DateFactory', function() {
             day = Moment(day).add(1, 'days').toISOString();
             day = new Date(day);
         }
-        return dayArray.map(getWeekday);
+        return dayArray;
     }
 
     function getWeekday(date) {
@@ -62,6 +62,6 @@ bulletApp.factory('DateFactory', function() {
         monthCal: monthCal,
         splitCollections: splitCollections,
         today: today,
-        thisMonth: thisMonth
+        thisMonth: thisMonth,
     }
 })

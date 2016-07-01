@@ -1,6 +1,7 @@
-
 <div class="row">
-	<bulleticon bullet="bullet" header="header"></bulleticon>
-	<div contenteditable class = "col-lg-10 col-md-10 col-sm-9 col-xs-9 bullet-text" ng-model="bullet.content" only-text="true" ng-class="{strikethrough: bullet.strike}">
-	</div>
+    <bullet-icon bullet="bullet" header="header"></bullet-icon>
+    <div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 bullet-text" ng-class="{strikethrough: bullet.strike, new: !bullet.content.length}">
+        <div contenteditable ng-model="bullet.content" only-text="true"></div>
+    </div>
 </div>
+

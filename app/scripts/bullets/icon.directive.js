@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-bulletApp.directive('bulleticon', function () {
+bulletApp.directive('bulletIcon', function () {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/icon.template.html',
