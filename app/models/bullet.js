@@ -18,10 +18,10 @@ class Bullet {
 		}
 	}
 
-	moveTo(collection) {
-		let newBullet = new Bullets[this.type](this);
-		newBullet.id = Moment().toISOString();
-		return collection.addBullet(newBullet);
+	createCopy() {
+		let newBullet = new Bullets[this.type](this.content);
+		newBullet.type = this.type;
+		return newBullet;
 	}
 
 	toggleStrike() {
@@ -60,7 +60,9 @@ class Task extends Bullet {
 		const nextMonth = Moment(this.date).add(1, 'month').startOf('month').toISOString();
 		return Collection.fetchAll({title: nextMonth, type: 'month'})
 		.then(collection => {
-			return this.moveTo(collection[0])
+			let newBullet = this.createCopy()
+			newBullet.date = nextMonth;
+			return collection[0].addBullet(newBullet)
 		})
 		.then(res => this.status = 'migrated')
 		.catch(err => console.error('Migration Failed: ', err));

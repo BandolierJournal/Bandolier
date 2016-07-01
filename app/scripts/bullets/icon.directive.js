@@ -1,10 +1,11 @@
 /*jshint esversion: 6*/
-bulletApp.directive('bulleticon', function () {
+bulletApp.directive('bulletIcon', function () {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/icon.template.html',
         scope: {
-            bullet: '='
+            bullet: '=',
+            header: '='
         },
         link: function (scope, element) {
             scope.isNew = (scope.bullet) ? scope.bullet.content : false;
