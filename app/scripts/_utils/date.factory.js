@@ -62,6 +62,6 @@ bulletApp.factory('DateFactory', function() {
         monthCal: monthCal,
         splitCollections: splitCollections,
         today: today,
-        thisMonth: thisMonth,
+        thisMonth: thisMonth
     }
 })
