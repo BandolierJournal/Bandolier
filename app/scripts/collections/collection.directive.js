@@ -35,9 +35,11 @@ bulletApp.directive('collection', function($log, currentStates){
             * local bullets array.
             **********************************************************/
             scope.removeBullet = function(bullet) {
-                scope.collection.removeBullet(bullet)
+                return scope.collection.removeBullet(bullet)
                 .then(function(){
+                  if (bullet.id) {
                     scope.collection.bullets = scope.collection.bullets.filter(b => b.id !== bullet.id);
+                  }
                 })
                 .catch($log.err);
             };
