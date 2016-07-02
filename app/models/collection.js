@@ -68,11 +68,22 @@ class Collection {
     }
 
     removeBullet(bullet) {
-        let bulletIdx = this.bullets.indexOf(bullet.id);
+        let bulletPromise = function(){};
+        let bulletIdx = this.bullets.indexOf(bullet);
         if (bulletIdx > -1) {
+            bulletPromise = bullet.save
             this.bullets.splice(bulletIdx, 1);
+            let collectionIdx = bullet.collections.indexOf(this.id)
+            if (collectionIdx > -1) {
+              bullet.collections.splice(collectionIdx, 1);
+              if (bullets.collections.length < 1) {
+                bulletPromise = bullet.delete
+              }
+            }
+            else throw new Error('Database is so broken...')
         }
-        return this.save();
+        return Promise.all([this.save(), bulletPromise()])
+        .catch(err => console.error('error ', err))
     }
 
     save() {
