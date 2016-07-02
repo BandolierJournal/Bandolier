@@ -32,9 +32,9 @@ class Bullet {
 		return Collection.fetchAll({title: collectionName, type: type})
 		.then(collection => {
 			let newBullet = this.createCopy();
-			return Promise.all([newBullet, collection[0].addBullet(newBullet)]);
+			return collection[0].addBullet(newBullet);
 		})
-		.catch(err => console.error(`Move Error: could not move ${this.content} to ${collection[0].title}`));
+		.catch(err => console.error(`Move Error: could not move ${this.content} to ${collectionName}`));
 	}
 
 	save() {
@@ -60,11 +60,11 @@ class DatedBullet extends Bullet {
 		this.status = status || this.status || 'incomplete';
 	}
 
-	schedule(date) {
-
+	schedule(date, type) {
+		return this.moveTo(date, type)
+		.then(res => this.status = 'scheduled')
+		.catch(err => console.err('Scheduling Failed: ', err));
 	}
-
-
 }
 
 
@@ -75,15 +75,9 @@ class Task extends DatedBullet {
 	}
 
 	migrate() {
-		debugger;
 		const nextMonth = Moment(this.date).add(1, 'month').startOf('month').toISOString();
 		return this.moveTo(nextMonth, 'month')
-		.then(res => {
-			let newBullet = res[0];
-			newBullet.date = nextMonth;
-			this.status = 'migrated';
-			return newBullet.save();
-		})
+		.then(res => this.status = 'migrated')
 		.catch(err => console.error('Migration Failed: ', err));
 	}
 
