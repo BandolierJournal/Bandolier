@@ -4,7 +4,6 @@
      ng-show="isOpen() && !moveInProgress"
      aria-hidden="{{!isOpen()}}">
     <p class="message">select date</p>
-
     <ul class="dropdown-menu" role="listbox">
         <li ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
             ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">

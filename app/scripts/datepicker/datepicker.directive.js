@@ -5,9 +5,11 @@ bulletApp.directive('datePicker', function () {
         link: function(scope, el, attrs) {
             const date = attrs.date;
             scope.getDates = function(input) {
-                // input = input.split(' ');
-                const matchedMonths = Moment.months().filter(m => m.toLowerCase().match(input.toLowerCase()));
-                return matchedMonths;
+                let [month, day, year] = input.split(' ');
+                console.log(month, day, year);
+                let matches;
+                if(!day) matches = Moment.months().filter(m => m.toLowerCase().match(input.toLowerCase()));
+                return matches;
             }
         }
     };
