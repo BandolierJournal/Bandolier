@@ -17,11 +17,6 @@ class Bullet {
 		}
 	}
 
-	schedule() {
-		if(this.type === 'note') return;
-
-	}
-
 	createCopy() {
 		let newBullet = new Bullets[this.type](this.content);
 		newBullet.type = this.type;
@@ -32,6 +27,16 @@ class Bullet {
 		this.strike = !this.strike;
 	}
 
+	moveTo(collectionName, type) {
+		const Collection = require('./collection');
+		return Collection.fetchAll({title: collectionName, type: type})
+		.then(collection => {
+			let newBullet = this.createCopy();
+			return Promise.all([newBullet, collection[0].addBullet(newBullet)]);
+		})
+		.catch(err => console.error(`Move Error: could not move ${this.content} to ${collection[0].title}`));
+	}
+
 	save() {
 		if (this.content || this.rev) {
 			if (!this.id) this.id = new Date().toISOString();
@@ -39,30 +44,46 @@ class Bullet {
 		}
 	}
 
-	convert() {	//not in use yet
-    	return new Bullet[this.type](this);
+}
+
+class Note extends Bullet {
+	constructor(content) {
+		super(content);
+		this.type = 'Note';
 	}
 }
 
-
-class Task extends Bullet {
+class DatedBullet extends Bullet {
 	constructor(content, date, status) {
 		super(content);
 		this.date = date || this.date;
-		this.status = status || this.status || 'incomplete'; // complete, migrated, scheduled, struckout
+		this.status = status || this.status || 'incomplete';
+	}
+
+	schedule(date) {
+
+	}
+
+
+}
+
+
+class Task extends DatedBullet {
+	constructor(content, date, status) {
+		super(content, date, status);
 		this.type = 'Task';
 	}
 
 	migrate() {
-		const Collection = require('./collection');
+		debugger;
 		const nextMonth = Moment(this.date).add(1, 'month').startOf('month').toISOString();
-		return Collection.fetchAll({title: nextMonth, type: 'month'})
-		.then(collection => {
-			let newBullet = this.createCopy();
+		return this.moveTo(nextMonth, 'month')
+		.then(res => {
+			let newBullet = res[0];
 			newBullet.date = nextMonth;
-			return collection[0].addBullet(newBullet);
+			this.status = 'migrated';
+			return newBullet.save();
 		})
-		.then(res => this.status = 'migrated')
 		.catch(err => console.error('Migration Failed: ', err));
 	}
 
@@ -73,20 +94,13 @@ class Task extends Bullet {
 
 }
 
-class EventBullet extends Bullet {
-	constructor(content, date) {
-		super(content);
-		this.date = date || this.date;
+class EventBullet extends DatedBullet {
+	constructor(content, date, status) {
+		super(content, date, status);
 		this.type = 'Event';
 	}
 }
 
-class Note extends Bullet {
-	constructor(content) {
-		super(content);
-		this.type = 'Note';
-	}
-}
 
 const Bullets = {
 	Task: Task,
