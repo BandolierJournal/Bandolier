@@ -32,16 +32,20 @@ bulletApp.directive('bullet', function ($timeout) {
                         if (e.which === 78) return new Bullet.Note(scope.bullet);
                     }
                     // cmd-d toggle done for tasks
-                    if (e.which === 68 && scope.bullet.type === 'Task') scope.bullet.toggleDone();
+                    if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
                 }
                 // cmd-x cross out
-                if (e.which === 88) scope.bullet.toggleStrike();
+                if (e.which === 88) return scope.bullet.toggleStrike();
                 // cmd-del remove from collection
                 if (e.which === 8) {
+                  if (scope.bullet.rev) {
                     e.preventDefault();
-                    scope.removeFn();
+                    scope.removeFn()
+                    .then(() => {
+                      scope.$evalAsync()
+                    });
+                  }
                 }
-                return scope.bullet;
             }
 
 
@@ -51,8 +55,8 @@ bulletApp.directive('bullet', function ($timeout) {
                         e.preventDefault();
                         e.target.blur();
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
-                        scope.bullet = editBullet(e);
-                        scope.bullet.save().then(() => scope.$evalAsync());
+                        let updatedBullet = editBullet(e);
+                        if (updatedBullet) scope.bullet.save().then(() => scope.$evalAsync());
                     } else if(scope.bullet.strike || scope.bullet.status === 'complete') {
                         if(e.which !== 9) e.preventDefault();
                     }

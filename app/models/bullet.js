@@ -25,6 +25,7 @@ class Bullet {
 
 	toggleStrike() {
 		this.strike = !this.strike;
+		return this;
 	}
 
 	save() {
@@ -32,6 +33,10 @@ class Bullet {
 			if (!this.id) this.id = new Date().toISOString();
 			return db.rel.save('bullet', this);
 		}
+	}
+
+	delete() {
+		if (this.rev) return db.rel.del('bullets', this)
 	}
 
 	convert() {	//not in use yet
@@ -68,8 +73,8 @@ class Task extends Bullet {
 	}
 
 	toggleDone() {
-		if(this.status === 'migrated') return;
-		this.status = this.status === 'incomplete' ? 'complete' : 'incomplete';
+		if(this.status !== 'migrated') this.status = this.status === 'incomplete' ? 'complete' : 'incomplete';
+		return this;
 	}
 
 }
