@@ -9,6 +9,7 @@ bulletApp.directive('bulletIcon', function () {
         },
         link: function (scope, element) {
             scope.isNew = (scope.bullet) ? scope.bullet.content : false;
+            console.log(scope.isNew)
             scope.typeDict = {
                 "Task": "fa-circle-o", //fa-square-o
                 "Event": "fa-first-order",

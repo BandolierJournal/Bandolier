@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-bulletApp.directive('bullet', function () {
+bulletApp.directive('bullet', function ($timeout) {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/bullet.template.html',
@@ -10,6 +10,9 @@ bulletApp.directive('bullet', function () {
             header: '@'
         },
         link: function (scope, element) {
+
+            scope.showButton = 0
+            scope.enableButton = 0
 
             scope.migrate = function() {
               scope.bullet.migrate()
@@ -57,8 +60,12 @@ bulletApp.directive('bullet', function () {
             });
 
             element.on('focusout', function (e) {
-                if(!scope.bullet.rev) scope.addFn()
-                else scope.bullet.save();
+              if(!scope.bullet.rev) scope.addFn();
+              else scope.bullet.save();
+
+              $timeout(function() {
+                scope.enableButton = 0
+              }, 1000)
             });
         }
     };
