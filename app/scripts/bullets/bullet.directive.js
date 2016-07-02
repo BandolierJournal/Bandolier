@@ -35,11 +35,13 @@ bulletApp.directive('bullet', function () {
                 if (e.which === 88) return scope.bullet.toggleStrike();
                 // cmd-del remove from collection
                 if (e.which === 8) {
+                  if (scope.bullet.rev) {
                     e.preventDefault();
                     scope.removeFn()
                     .then(() => {
                       scope.$evalAsync()
                     });
+                  }
                 }
             }
 

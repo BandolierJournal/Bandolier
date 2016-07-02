@@ -1,5 +1,4 @@
 <div class="row">
-    <pre>{{bullet | json}}</pre>
     <bullet-icon bullet="bullet" header="header"></bullet-icon>
     <div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 bullet-text" ng-class="{strikethrough: bullet.strike, new: !bullet.content.length}">
         <div contenteditable ng-model="bullet.content" only-text="true"></div>

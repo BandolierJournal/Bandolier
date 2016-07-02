@@ -71,13 +71,13 @@ class Collection {
         let bulletPromise = function(){};
         let bulletIdx = this.bullets.indexOf(bullet);
         if (bulletIdx > -1) {
-            bulletPromise = bullet.save
+            bulletPromise = bullet.save.bind(bullet)
             this.bullets.splice(bulletIdx, 1);
             let collectionIdx = bullet.collections.indexOf(this.id)
             if (collectionIdx > -1) {
               bullet.collections.splice(collectionIdx, 1);
-              if (bullets.collections.length < 1) {
-                bulletPromise = bullet.delete
+              if (bullet.collections.length < 1) {
+                bulletPromise = bullet.delete.bind(bullet)
               }
             }
             else throw new Error('Database is so broken...')
