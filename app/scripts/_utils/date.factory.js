@@ -1,12 +1,15 @@
-bulletApp.factory('DateFactory', function() {
+bulletApp.factory('DateFactory', function () {
     let today = Moment().startOf('day').toISOString(); // TODO: make this a function (so today is always up to date)
     let yesterday = Moment(today).subtract(1, 'days').toISOString();
     let thisMonth = Moment().startOf('month').toISOString();
 
     function splitCollections(collections) {
-        if (!collections.length) return [[],[]];
+        if (!collections.length) return [
+            [],
+            []
+        ];
         let last = (collections[0].type === "day") ? yesterday : lastMonth();
-        let split = _.partition(collections, function(c) {
+        let split = _.partition(collections, function (c) {
             return c.title < last;
         })
         let aged = split[0].sort(chronoSort);
@@ -37,6 +40,7 @@ bulletApp.factory('DateFactory', function() {
         }));
     }
 
+
     function monthCal(month) {
         month = new Date(month);
         let day = month;
@@ -49,6 +53,27 @@ bulletApp.factory('DateFactory', function() {
         return dayArray;
     }
 
+    function getChoices(input) {
+        let [month, day, year] = input.split(' ');
+        let choices = [];
+        if (!day) choices = Moment.months()
+        else if (!year) {
+            for (let y of nextNYears(10)) {
+                choices.push(`${month} ${y}`);
+            }
+            choices = [
+                ...monthCal(Moment().month(month).startOf('month'))
+                .map(d => `${month} ${Moment(d).date()}`),
+                ...choices
+            ];
+        } else {
+            for (let y of nextNYears(10)) {
+                choices.push(`${month} ${day} ${y}`);
+            }
+        }
+        return choices;
+    }
+
     function getWeekday(date) {
         let weekday = Moment(date).isoWeekday();
         weekday = Moment().isoWeekday(weekday).format('dd')
@@ -56,23 +81,35 @@ bulletApp.factory('DateFactory', function() {
     }
 
     function lastMonth(currentMonth) {
-      currentMonth = currentMonth || thisMonth
-      return Moment(currentMonth).subtract(1, 'month').toISOString()
+        currentMonth = currentMonth || thisMonth
+        return Moment(currentMonth).subtract(1, 'month').toISOString()
     }
 
     function nextMonth(currentMonth) {
-      currentMonth = currentMonth || thisMonth
-      return Moment(currentMonth).add(1, 'month').toISOString()
+        currentMonth = currentMonth || thisMonth
+        return Moment(currentMonth).add(1, 'month').toISOString()
     }
+
+    function* nextNYears(n) {
+        let i = 0;
+        const thisYear = Moment(thisMonth).year();
+        while (i < n) {
+            yield thisYear + i;
+            i++;
+        }
+    }
+
 
     return {
         display: display,
         roundDate: roundDate,
         monthCal: monthCal,
         splitCollections: splitCollections,
+        getChoices: getChoices,
         today: today,
         thisMonth: thisMonth,
         lastMonth: lastMonth,
-        nextMonth: nextMonth
+        nextMonth: nextMonth,
+        nextNYears: nextNYears
     }
 })

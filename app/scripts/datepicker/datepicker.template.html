@@ -1,1 +1,1 @@
-<input type="text" ng-model="select" placeholder="schedule for..." uib-typeahead="date for date in getDates($viewValue)" typeahead-popup-template-url="scripts/datepicker/dateSelect.template.html" class="form-control typeahead">
+<input type="text" ng-model="select" placeholder="schedule for..." uib-typeahead="date for date in getDates($viewValue) | filter:$viewValue | limitTo:5" typeahead-popup-template-url="scripts/datepicker/dateSelect.template.html" class="form-control typeahead">
