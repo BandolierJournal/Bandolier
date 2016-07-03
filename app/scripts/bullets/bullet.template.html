@@ -1,12 +1,9 @@
-<div class="row">
-    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6 bullet-text" ng-class="{strikethrough: bullet.status==='struck', new: !bullet.content.length, done: bullet.status !== 'incomplete'}">
-        <div uib-popover-template="templateUrl" popover-trigger="focus" popover-placement="left" popover-popup-close-delay="10" contenteditable ng-model="bullet.content" ng-focus="enableButtons = true; showButtons = 1" ng-blur="showButtons = 0; save()"></div>
+<div>
+    <div ng-class="{strikethrough: bullet.status==='struck', new: !bullet.content.length, done: bullet.status !== 'incomplete'}">
+        <div uib-popover-template="templateUrl"; popover-trigger="focus" popover-placement="left" popover-popup-close-delay="10" contenteditable ng-model="bullet.content" ng-focus="enableButtons = true; showButtons = 1" ng-blur="showButtons = 0; save()"></div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-show="showButtonPanel(bullet)" style="opacity:{{showButtons}}">
+    <div class="pull-right" ng-if="showButtonPanel(bullet)" style="opacity:{{showButtons}}">
         <i class="fa fa-fw fa-paper-plane" ng-click="migrate()" ng-show="showMigrateButton(bullet)" title="migrate"></i>
         <i class="fa fa-fw fa-calendar" ng-click="showScheduler = true" ng-show="showScheduleButton(bullet)" title="schedule"></i>
     </div>
-
-    <!-- TODO: the date picker is here for now but eventually it should be a modal -->
-    <date-picker ng-show="showScheduler" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></date-picker>
 </div>

@@ -33,6 +33,7 @@ bulletApp.directive('bulletIcon', function() {
                 scope.bullet.toggleDone();
                 scope.bullet.save();
             };
+
         }
     };
 });

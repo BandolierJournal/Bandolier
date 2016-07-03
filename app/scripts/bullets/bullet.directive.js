@@ -19,7 +19,13 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
             scope.templateUrl = 'scripts/bullets/type.template.html';
 
             scope.selectType = function(type) {
-                scope.bullet = new Bullet[type](scope.bullet);
+                scope.bullet.type = type; //new Bullet[type](scope.bullet);
+                // console.log(scope.bullet);
+                scope.$evalAsync();
+            }
+
+            scope.showIcon = function(bullet) {
+
             }
 
             scope.typeDict = {
