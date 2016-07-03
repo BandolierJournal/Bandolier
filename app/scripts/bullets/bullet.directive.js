@@ -11,12 +11,28 @@ bulletApp.directive('bullet', function () {
         },
         link: function (scope, element) {
 
+            const bullet = scope.bullet;
+            const OS = process.platform;
+
+            scope.showButtonPanel = function() {
+                return bullet.status === 'incomplete' &&
+                    bullet.rev &&
+                    !bullet.strike &&
+                    !scope.showScheduler;
+            }
+
+            scope.showScheduleButton = function () {
+                return bullet.type !== 'Note'
+            };
+
+            scope.showMigrateButton = function () {
+                return bullet.type === 'Task'
+            };
+
             scope.migrate = function () {
                 scope.bullet.migrate()
                     .then(() => scope.$evalAsync());
             };
-
-            const OS = process.platform;
 
             function editBullet(e) {
                 if (!scope.bullet.strike && scope.bullet.status !== 'migrated') {

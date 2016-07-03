@@ -1,8 +1,11 @@
 <div class="row">
     <bullet-icon bullet="bullet" header="header"></bullet-icon>
-    <div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 bullet-text" ng-class="{strikethrough: bullet.strike, new: !bullet.content.length}">
+    <div class="col-lg-8 col-md-8 col-sm-7 col-xs-7 bullet-text" ng-class="{strikethrough: bullet.strike, new: !bullet.content.length}">
         <div contenteditable ng-model="bullet.content" only-text="true"></div>
     </div>
-	<!-- <button class="btn btn-default" ng-click="migrate()" ng-hide="bullet.status !== 'incomplete'">magic</button> -->
-    <date-picker date="{{bullet.date}}"></date-picker>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" ng-show="showButtonPanel()">
+        <i class="fa fa-fw fa-paper-plane" ng-click="migrate()" ng-show="showMigrateButton()" title="migrate"></i>
+        <i class="fa fa-fw fa-calendar" ng-click="showScheduler = true" ng-show="showScheduleButton()" title="schedule"></i>
+    </div>
+    <date-picker date="{{bullet.date}}" ng-show="showScheduler" class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></date-picker>
 </div>
