@@ -13,11 +13,15 @@ bulletApp.directive('bulletIcon', function() {
                 "Note": "fa-long-arrow-right",
                 "complete": "fa-check-circle-o", //fa-check-square-o"
                 "migrated": "fa-sign-out",
-                "scheduled": "fa-angle-double-left"
+                "scheduled": "fa-angle-double-left",
+                "struck": "strikethrough"
             };
 
-            scope.isNew = function (bullet) {       //not sure you need to pass in bullet
-                return (bullet) ? bullet.content : false;
+            scope.hasContent = function () {       //not sure you need to pass in bullet
+                if (scope.bullet) {
+                    return scope.bullet.content;
+                } 
+                return false;
             };
 
             scope.iconType = function () {

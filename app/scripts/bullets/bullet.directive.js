@@ -1,4 +1,3 @@
-
 bulletApp.directive('bullet', function(DateFactory, $timeout) {
     return {
         restrict: 'E',
@@ -13,23 +12,14 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
             scope.showButton = 0;
             scope.enableButton = false;
 
-            scope.showButton = 0;
-            scope.enableButton = false;
-
             const OS = process.platform;
 
             scope.empty = () => !scope.bullet.content;
             scope.logbullet = () => console.log(scope.bullet);
             scope.templateUrl = 'scripts/bullets/type.template.html';
 
-            scope.assigned = (scope.bullet) ? scope.bullet.content : false;
-
             scope.selectType = function(type) {
                 scope.bullet = new Bullet[type](scope.bullet);
-                scope.bullet.content = '';
-                if (type === 'Event') {
-                    // datepicker();
-                }
             }
 
             scope.typeDict = {
@@ -45,25 +35,24 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
             scope.showButtonPanel = function(b) {
                 return b.status === 'incomplete' &&
                     b.rev &&
-                    !b.strike &&
                     !scope.showScheduler &&
                     scope.enableButtons;
             };
 
-            scope.showScheduleButton = function (b) {
+            scope.showScheduleButton = function(b) {
                 return b.type !== 'Note';
             };
 
-            scope.showMigrateButton = function (b) {
+            scope.showMigrateButton = function(b) {
                 return b.type === 'Task';
             };
 
-            scope.migrate = function () {
+            scope.migrate = function() {
                 scope.bullet.migrate()
                     .then(() => scope.$evalAsync());
             };
 
-            scope.schedule = function (date) {
+            scope.schedule = function(date) {
                 scope.bullet.schedule(...DateFactory.convertDate(date))
                     .then(() => {
                         scope.$evalAsync();
@@ -72,7 +61,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
             };
 
             function editBullet(e) {
-                if (!scope.bullet.strike && scope.bullet.status !== 'migrated') {
+                if (scope.bullet.status !== 'migrated') {
                     if (!scope.bullet.status || scope.bullet.status === 'incomplete') {
                         // cmd-t change to task
                         if (e.which === 84) return new Bullet.Task(scope.bullet);
@@ -83,9 +72,9 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
                     }
                     // cmd-d toggle done for tasks
                     if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
+                    // cmd-x cross out
+                    if (e.which === 88 && scope.bullet.type === 'Task') return scope.bullet.toggleStrike();
                 }
-                // cmd-x cross out
-                if (e.which === 88) return scope.bullet.toggleStrike();
                 // cmd-del remove from collection
                 if (e.which === 8) {
                     if (scope.bullet.rev) {
@@ -97,13 +86,6 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
                     }
                 }
             }
-
-
-
-            // function datepicker() {
-            //     scope.showPicker = true;
-            //     scope.bullet.date = 
-            // }
 
             element.on('keydown', function(e) {
                 if (e.which !== 9 && e.which !== 91) {
@@ -118,21 +100,23 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
                             scope.bullet = updatedBullet; //check if this icon scope
                             scope.bullet.save().then(() => scope.$evalAsync());
                         }
-                    } else if (scope.bullet.strike || scope.bullet.status === 'complete') {
+                    } else if (scope.bullet.status === 'complete' || 'struck') {
                         if (e.which !== 9) e.preventDefault();
                     }
                 }
             });
 
-            element.on('focusout', function(e) {
-                if (!scope.bullet.rev) scope.addFn();
-                else scope.bullet.save();
+            scope.save = function() {
+                $timeout(function() {
+                    if (!scope.bullet.rev) scope.addFn();
+                    else scope.bullet.save();
+                }, 10);
 
                 $timeout(function() {
                     scope.enableButtons = false;
                 }, 300);
+            }
 
-            });
         }
     };
 });

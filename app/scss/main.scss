@@ -35,6 +35,10 @@ tr {
     border-bottom: 1px dashed #A2AFC2;
 }
 
+[contenteditable] {
+    color: red;
+}
+
 .new:hover {
     border-bottom: 1px dashed #A2AFC2;
 }
@@ -44,9 +48,20 @@ tr {
 //     -moz-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
 //     box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
 // }
-
 .done {
     font-style: italic;
+}
+
+.popover {
+    border: none;
+}
+
+.popover-content {
+    padding: 3px;
+}
+
+.popover.left .arrow {
+    display: none;
 }
 
 // Sticky Footer
@@ -70,7 +85,6 @@ body {
     margin-top: 10px;
 }
 
-
 // Custom Datepicker typeahead
 date-picker .custom-popup-wrapper {
     position: absolute;
@@ -79,15 +93,15 @@ date-picker .custom-popup-wrapper {
     z-index: 1000;
     display: none;
     background-color: #f9f9f9;
-  }
+}
 
-  date-picker .custom-popup-wrapper > .message {
+date-picker .custom-popup-wrapper > .message {
     padding: 10px 20px;
     border-bottom: 1px solid #ddd;
     color: #868686;
-  }
+}
 
-  date-picker .custom-popup-wrapper > .dropdown-menu {
+date-picker .custom-popup-wrapper > .dropdown-menu {
     position: static;
     float: none;
     display: block;
@@ -96,4 +110,4 @@ date-picker .custom-popup-wrapper {
     border: none;
     border-radius: 0;
     box-shadow: none;
-  }
+}

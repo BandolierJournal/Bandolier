@@ -98,7 +98,6 @@ class Collection {
     static findOrReturn(props) {
         return db.rel.find('collection', props.id)
             .then(res => {
-                console.log(res)
                 if (res.collections.length > 1) res.collections = [res.collections.find(c => c.id === props.id)]; //this is a hack to fix something wierd in PouchDB
                 return res.collections.length ? convertToInstances(res) : [new Collection(props)];
             })
