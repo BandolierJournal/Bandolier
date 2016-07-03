@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-bulletApp.directive('bullet', function () {
+bulletApp.directive('bullet', function() {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/bullet.template.html',
@@ -8,15 +8,36 @@ bulletApp.directive('bullet', function () {
             removeFn: '&',
             addFn: '&'
         },
-        link: function (scope, element) {    
-                
+        link: function(scope, element) {
+
             const OS = process.platform;
-            
+
             scope.empty = () => !scope.bullet.content;
+            scope.logbullet = () => console.log(scope.bullet);
+            scope.templateUrl ='scripts/bullets/type.template.html';
+
+            scope.assigned = (scope.bullet) ? scope.bullet.content : false;
+
+            scope.selectType = function(type) {
+                scope.bullet = new Bullet[type](scope.bullet);
+                scope.bullet.content = '';
+                if (type === 'Event') {
+                    // datepicker();
+                }
+            }
+
+            scope.typeDict = {
+                "Task": "fa-circle-o", //fa-square-o
+                "Event": "fa-first-order",
+                "Note": "fa-long-arrow-right",
+                "Done": "fa-check-circle-o", //fa-check-square-o"
+                "Migrated": "fa-sign-out",
+                "Scheduled": "fa-angle-double-left"
+            };
 
             function editBullet(e) {
-                if(!scope.bullet.strike) {
-                    if(!scope.bullet.status || scope.bullet.status === 'incomplete') {
+                if (!scope.bullet.strike) {
+                    if (!scope.bullet.status || scope.bullet.status === 'incomplete') {
                         // cmd-t change to task
                         if (e.which === 84) return new Bullet.Task(scope.bullet);
                         // cmd-e change to event
@@ -38,22 +59,28 @@ bulletApp.directive('bullet', function () {
             }
 
 
-            element.on('keydown', function (e) {
-                if(e.which !== 9 && e.which !== 91) {
+            // function datepicker() {
+            //     scope.showPicker = true;
+            //     scope.bullet.date = 
+            // }
+
+
+            element.on('keydown', function(e) {
+                if (e.which !== 9 && e.which !== 91) {
                     if (e.which === 13) {
                         e.preventDefault();
                         e.target.blur();
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
                         scope.bullet = editBullet(e);
                         scope.bullet.save().then(() => scope.$evalAsync());
-                    } else if(scope.bullet.strike || scope.bullet.status === 'complete') {
-                        if(e.which !== 9) e.preventDefault();
+                    } else if (scope.bullet.strike || scope.bullet.status === 'complete') {
+                        if (e.which !== 9) e.preventDefault();
                     }
                 }
             });
 
-            element.on('focusout', function (e) {
-                if(!scope.bullet.rev) scope.addFn()
+            element.on('focusout', function(e) {
+                if (!scope.bullet.rev) scope.addFn()
                 else scope.bullet.save();
             });
         }

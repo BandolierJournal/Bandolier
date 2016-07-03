@@ -8,7 +8,7 @@ bulletApp.directive('monthCal', function($log) {
             days: '=',
         },
         link: function(scope) {
-            scope.formattedTitle = Moment(scope.collection.title).format('MMMM YYYY').toUpperCase();
+            scope.formattedTitle = 'Calendar'; //Moment(scope.collection.title).format('MMMM YYYY').toUpperCase();
 
             scope.bulletList = scope.days.map(day => {
                 return scope.collection.bullets.find(bullet => bullet.date === day) || new Bullet.Task({

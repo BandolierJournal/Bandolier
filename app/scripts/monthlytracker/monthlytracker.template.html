@@ -1,8 +1,12 @@
 <div class="container">
     <div class="row">
+        <h1 class="page-header">{{month | date: 'MMMM yyyy' | uppercase}}
+            <div class="pull-right">
+                <button class="btn btn-sm" ng-click="lastMonth()"><i class="glyphicon glyphicon-arrow-left"></i></button>
+                <button class="btn btn-sm" ng-click="nextMonth()"><i class="glyphicon glyphicon-arrow-right"></i></button>
+            </div>
+            </h1>
         <month-cal collection="cal" days="daysInMonth"></month-cal>
         <collection collection="log"></collection>
     </div>
-    <button class="btn btn-default" ng-click="lastMonth()">Go Back</button>
-    <button class="btn btn-default" ng-click="nextMonth()">Go Forward</button>
 </div>

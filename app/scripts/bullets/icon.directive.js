@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-bulletApp.directive('bulletIcon', function () {
+bulletApp.directive('bulletIcon', function() {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/icon.template.html',
@@ -7,9 +7,8 @@ bulletApp.directive('bulletIcon', function () {
             bullet: '=',
             override: '@'
         },
-        link: function (scope, element) {
+        link: function(scope, element) {
             scope.isNew = (scope.bullet) ? scope.bullet.content : false;
-            if (scope.override) console.log(scope.override);
 
             scope.typeDict = {
                 "Task": "fa-circle-o", //fa-square-o
