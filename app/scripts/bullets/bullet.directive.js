@@ -1,4 +1,3 @@
-/*jshint esversion: 6*/
 
 bulletApp.directive('bullet', function(DateFactory, $timeout) {
     return {
@@ -10,6 +9,9 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
             addFn: '&'
         },
         link: function(scope, element) {
+
+            scope.showButton = 0;
+            scope.enableButton = false;
 
             scope.showButton = 0;
             scope.enableButton = false;
@@ -48,20 +50,20 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
                     scope.enableButtons;
             };
 
-            scope.showScheduleButton = function(b) {
+            scope.showScheduleButton = function (b) {
                 return b.type !== 'Note';
             };
 
-            scope.showMigrateButton = function(b) {
+            scope.showMigrateButton = function (b) {
                 return b.type === 'Task';
             };
 
-            scope.migrate = function() {
+            scope.migrate = function () {
                 scope.bullet.migrate()
                     .then(() => scope.$evalAsync());
             };
 
-            scope.schedule = function(date) {
+            scope.schedule = function (date) {
                 scope.bullet.schedule(...DateFactory.convertDate(date))
                     .then(() => {
                         scope.$evalAsync();
@@ -111,7 +113,6 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
                             e.target.blur();
                         }
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
-
                         let updatedBullet = editBullet(e);
                         if (updatedBullet) {
                             scope.bullet = updatedBullet; //check if this icon scope
@@ -122,7 +123,6 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
                     }
                 }
             });
-
 
             element.on('focusout', function(e) {
                 if (!scope.bullet.rev) scope.addFn();
