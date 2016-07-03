@@ -1,9 +1,9 @@
 <div class="row">
     <bullet-icon bullet="bullet" header="header"></bullet-icon>
-    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6 bullet-text" ng-class="{strikethrough: bullet.strike, new: !bullet.content.length}">
-        <div contenteditable ng-model="bullet.content" only-text="true"></div>
+    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6 bullet-text" ng-class="{strikethrough: bullet.strike, new: !bullet.content.length, done: bullet.status === 'complete'}">
+        <div contenteditable ng-model="bullet.content" ng-focus="enableButtons = true; showButtons = 1" ng-blur="showButtons = 0"></div>
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-show="showButtonPanel(bullet)">
+    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-show="showButtonPanel(bullet)" style="opacity:{{showButtons}}">
         <i class="fa fa-fw fa-paper-plane" ng-click="migrate()" ng-show="showMigrateButton(bullet)" title="migrate"></i>
         <i class="fa fa-fw fa-calendar" ng-click="showScheduler = true" ng-show="showScheduleButton(bullet)" title="schedule"></i>
     </div>

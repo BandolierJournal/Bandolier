@@ -8,7 +8,6 @@ bulletApp.directive('bulletIcon', function () {
             header: '='
         },
         link: function (scope, element) {
-            scope.isNew = (scope.bullet) ? scope.bullet.content : false;
             const typeDict = {
                 "Task": "fa-circle-o", //fa-square-o
                 "Event": "fa-first-order",
@@ -18,12 +17,16 @@ bulletApp.directive('bulletIcon', function () {
                 "scheduled": "fa-angle-double-left"
             };
 
-            scope.iconType= function() {
+            scope.isNew = function (bullet) {
+                return (bullet) ? bullet.content : false;
+            };
+
+            scope.iconType = function () {
                 const type = scope.bullet.status === 'incomplete' ? scope.bullet.type : scope.bullet.status;
                 return typeDict[type];
             };
 
-            scope.toggleDone = function() {
+            scope.toggleDone = function () {
                 scope.bullet.toggleDone();
                 scope.bullet.save();
             };
