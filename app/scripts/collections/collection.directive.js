@@ -1,6 +1,6 @@
 /*jshint esversion: 6*/
 
-bulletApp.directive('collection', function($log, currentStates){
+bulletApp.directive('collection', function($log, $rootScope, currentStates){
     return {
         restrict: 'E',
         templateUrl: 'scripts/collections/collection.template.html',

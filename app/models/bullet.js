@@ -1,5 +1,5 @@
-/*jshint node: true*/
-'use strict'
+/*jshint node: true, esversion: 6*/
+'use strict';
 const db = require('./index');
 const _ = require('lodash');
 const Moment = require('moment');
@@ -28,6 +28,16 @@ class Bullet {
 		return this;
 	}
 
+	moveTo(collectionName, type) {
+		const Collection = require('./collection');
+		return Collection.fetchAll({title: collectionName, type: type})
+		.then(collection => {
+			let newBullet = this.createCopy();
+			return collection[0].addBullet(newBullet);
+		})
+		.catch(err => console.error(`Move Error: could not move ${this.content} to ${collectionName}`));
+	}
+
 	save() {
 		if (this.content || this.rev) {
 			if (!this.id) this.id = new Date().toISOString();
@@ -36,39 +46,50 @@ class Bullet {
 	}
 
 	delete() {
-		if (this.rev) return db.rel.del('bullets', this)
-	}
-
-	convert() {	//not in use yet
-    	return new Bullet[this.type](this);
-	}
-
-	static fetchById(id) {	//not in use yet
-		return db.rel.find('bulletShort', id)
-			.then(bullet => bullet.convert)
-			.catch(err => console.error(`Could not fetch bullet ${id}: ${err}`))
+		if (this.rev) return db.rel.del('bullets', this);
 	}
 }
 
 
-class Task extends Bullet {
+
+class Note extends Bullet {
+	constructor(content) {
+		super(content);
+		this.type = 'Note';
+	}
+}
+
+class DatedBullet extends Bullet {
 	constructor(content, date, status) {
 		super(content);
 		this.date = date || this.date;
-		this.status = status || this.status || 'incomplete'; // complete, migrated, scheduled, struckout
+		this.status = status || this.status || 'incomplete';
+	}
+
+	schedule(date, type) {
+		return this.moveTo(date, type)
+		.then(res => {
+			this.status = 'scheduled';
+			return this.save();
+		})
+		.catch(err => console.err('Scheduling Failed: ', err));
+	}
+}
+
+
+class Task extends DatedBullet {
+	constructor(content, date, status) {
+		super(content, date, status);
 		this.type = 'Task';
 	}
 
 	migrate() {
-		const Collection = require('./collection');
 		const nextMonth = Moment(this.date).add(1, 'month').startOf('month').toISOString();
-		return Collection.fetchAll({title: nextMonth, type: 'month'})
-		.then(collection => {
-			let newBullet = this.createCopy()
-			newBullet.date = nextMonth;
-			return collection[0].addBullet(newBullet)
+		return this.moveTo(nextMonth, 'month')
+		.then(res => {
+			this.status = 'migrated';
+			return this.save();
 		})
-		.then(res => this.status = 'migrated')
 		.catch(err => console.error('Migration Failed: ', err));
 	}
 
@@ -79,20 +100,13 @@ class Task extends Bullet {
 
 }
 
-class EventBullet extends Bullet {
-	constructor(content, date) {
-		super(content);
-		this.date = date || this.date;
+class EventBullet extends DatedBullet {
+	constructor(content, date, status) {
+		super(content, date, status);
 		this.type = 'Event';
 	}
 }
 
-class Note extends Bullet {
-	constructor(content) {
-		super(content);
-		this.type = 'Note';
-	}
-}
 
 const Bullets = {
 	Task: Task,
