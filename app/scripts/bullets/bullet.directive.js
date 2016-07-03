@@ -12,7 +12,7 @@ bulletApp.directive('bullet', function ($timeout) {
         link: function (scope, element) {
 
             scope.showButton = 0
-            scope.enableButton = 0
+            scope.enableButton = false
 
             scope.migrate = function() {
               scope.bullet.migrate()
@@ -56,7 +56,10 @@ bulletApp.directive('bullet', function ($timeout) {
                         e.target.blur();
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
                         let updatedBullet = editBullet(e);
-                        if (updatedBullet) scope.bullet.save().then(() => scope.$evalAsync());
+                        if (updatedBullet) {
+                          scope.bullet = updatedBullet
+                          scope.bullet.save().then(() => scope.$evalAsync());
+                        }
                     } else if(scope.bullet.strike || scope.bullet.status === 'complete') {
                         if(e.which !== 9) e.preventDefault();
                     }
@@ -68,8 +71,8 @@ bulletApp.directive('bullet', function ($timeout) {
               else scope.bullet.save();
 
               $timeout(function() {
-                scope.enableButton = 0
-              }, 1000)
+                scope.enableButton = false
+              }, 300)
             });
         }
     };

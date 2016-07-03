@@ -1,8 +1,7 @@
 <div class="row">
-    <pre>{{bullet}}</pre>
     <bullet-icon bullet="bullet" header="header"></bullet-icon>
     <div class="col-lg-10 col-md-10 col-sm-9 col-xs-9 bullet-text" ng-class="{strikethrough: bullet.strike, new: !bullet.content.length}">
-        <div contenteditable ng-model="bullet.content" only-text="true" ng-focus="enableButton = 0; showButton = 1" ng-blur="showButton = 0"></div>
+        <div contenteditable ng-model="bullet.content" only-text="true" ng-focus="enableButton = true; showButton = 1" ng-blur="showButton = 0"></div>
     </div>
-	<div ng-click="migrate()" ng-hide="bullet.status === 'migrated' || !bullet.rev" style="opacity:{{showButton}}" ng-disabled="!enableButton" class="fa fa-fw fa-paper-plane"></div>
+	<div ng-click="migrate()" ng-hide="bullet.status === 'migrated' || !bullet.rev || !enableButton" style="opacity:{{showButton}}" class="fa fa-fw fa-paper-plane"></div>
 </div>
