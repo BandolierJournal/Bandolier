@@ -100,7 +100,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
                             scope.bullet = updatedBullet; //check if this icon scope
                             scope.bullet.save().then(() => scope.$evalAsync());
                         }
-                    } else if (scope.bullet.status === 'complete' || 'struck') {
+                    } else if (scope.bullet.status === 'struck' || scope.bullet.status === 'complete') {
                         if (e.which !== 9) e.preventDefault();
                     }
                 }
