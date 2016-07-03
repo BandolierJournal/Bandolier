@@ -74,6 +74,18 @@ bulletApp.factory('DateFactory', function () {
         return choices;
     }
 
+    function convertDate(dateInput) {
+        let [month, day, year] = dateInput.split(' ');
+        let date = Moment().month(month);
+        let type = 'day';
+
+        if(!year) {
+            if(day < 32) date = date.date(day);
+            else [date, type] = [roundDate(date.year(day), 'month'), 'future']
+        } else date = date.date(day).year(year);
+        return [roundDate(date), type];
+    }
+
     function getWeekday(date) {
         let weekday = Moment(date).isoWeekday();
         weekday = Moment().isoWeekday(weekday).format('dd')
@@ -106,6 +118,7 @@ bulletApp.factory('DateFactory', function () {
         monthCal: monthCal,
         splitCollections: splitCollections,
         getChoices: getChoices,
+        convertDate: convertDate,
         today: today,
         thisMonth: thisMonth,
         lastMonth: lastMonth,

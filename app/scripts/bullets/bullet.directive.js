@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-bulletApp.directive('bullet', function () {
+bulletApp.directive('bullet', function ($rootScope, DateFactory) {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/bullet.template.html',
@@ -11,7 +11,6 @@ bulletApp.directive('bullet', function () {
         },
         link: function (scope, element) {
 
-            const bullet = scope.bullet;
             const OS = process.platform;
 
             scope.showButtonPanel = function(b) {
@@ -31,7 +30,17 @@ bulletApp.directive('bullet', function () {
 
             scope.migrate = function () {
                 scope.bullet.migrate()
-                    .then(() => scope.$evalAsync());
+                    .then(() => {
+                        scope.$evalAsync();
+                    });
+            };
+
+            scope.schedule = function(date){
+                scope.bullet.schedule(...DateFactory.convertDate(date))
+                .then(() => {
+                    scope.$evalAsync();
+                    scope.showScheduler = false;
+                })
             };
 
             function editBullet(e) {
@@ -65,11 +74,16 @@ bulletApp.directive('bullet', function () {
             element.on('keydown', function (e) {
                 if (e.which !== 9 && e.which !== 91) {
                     if (e.which === 13) {
-                        e.preventDefault();
-                        e.target.blur();
+                        if(!e.target.className.split(' ').includes('scheduler')) {
+                            e.preventDefault();
+                            e.target.blur();
+                        }
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
                         let updatedBullet = editBullet(e);
-                        if (updatedBullet) scope.bullet.save().then(() => scope.$evalAsync());
+                        if (updatedBullet) {
+                            scope.bullet = updatedBullet;
+                            scope.bullet.save().then(() => scope.$evalAsync());
+                        }
                     } else if(scope.bullet.strike || scope.bullet.status === 'complete') {
                         if(e.which !== 9) e.preventDefault();
                     }

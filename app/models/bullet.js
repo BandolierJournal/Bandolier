@@ -68,7 +68,10 @@ class DatedBullet extends Bullet {
 
 	schedule(date, type) {
 		return this.moveTo(date, type)
-		.then(res => this.status = 'scheduled')
+		.then(res => {
+			this.status = 'scheduled';
+			return this.save();
+		})
 		.catch(err => console.err('Scheduling Failed: ', err));
 	}
 }
@@ -83,7 +86,10 @@ class Task extends DatedBullet {
 	migrate() {
 		const nextMonth = Moment(this.date).add(1, 'month').startOf('month').toISOString();
 		return this.moveTo(nextMonth, 'month')
-		.then(res => this.status = 'migrated')
+		.then(res => {
+			this.status = 'migrated';
+			return this.save();
+		})
 		.catch(err => console.error('Migration Failed: ', err));
 	}
 
