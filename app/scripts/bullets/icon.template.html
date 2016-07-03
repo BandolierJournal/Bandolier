@@ -1,1 +1,1 @@
-<i ng-if="isNew" class="fa fa-fw" ng-class="bullet.status === 'complete' ? typeDict['Done'] : typeDict[bullet.type]" ng-click="bullet.toggleDone()"></i>
+<i ng-if="isNew(bullet)" class="fa fa-fw" ng-class="iconType()" ng-click="toggleDone()"></i>

@@ -1,5 +1,6 @@
 /*jshint esversion: 6*/
-bulletApp.directive('bullet', function() {
+
+bulletApp.directive('bullet', function(DateFactory, $timeout) {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/bullet.template.html',
@@ -10,11 +11,14 @@ bulletApp.directive('bullet', function() {
         },
         link: function(scope, element) {
 
+            scope.showButton = 0;
+            scope.enableButton = false;
+
             const OS = process.platform;
 
             scope.empty = () => !scope.bullet.content;
             scope.logbullet = () => console.log(scope.bullet);
-            scope.templateUrl ='scripts/bullets/type.template.html';
+            scope.templateUrl = 'scripts/bullets/type.template.html';
 
             scope.assigned = (scope.bullet) ? scope.bullet.content : false;
 
@@ -35,8 +39,38 @@ bulletApp.directive('bullet', function() {
                 "Scheduled": "fa-angle-double-left"
             };
 
+
+            scope.showButtonPanel = function(b) {
+                return b.status === 'incomplete' &&
+                    b.rev &&
+                    !b.strike &&
+                    !scope.showScheduler &&
+                    scope.enableButtons;
+            };
+
+            scope.showScheduleButton = function(b) {
+                return b.type !== 'Note';
+            };
+
+            scope.showMigrateButton = function(b) {
+                return b.type === 'Task';
+            };
+
+            scope.migrate = function() {
+                scope.bullet.migrate()
+                    .then(() => scope.$evalAsync());
+            };
+
+            scope.schedule = function(date) {
+                scope.bullet.schedule(...DateFactory.convertDate(date))
+                    .then(() => {
+                        scope.$evalAsync();
+                        scope.showScheduler = false;
+                    });
+            };
+
             function editBullet(e) {
-                if (!scope.bullet.strike) {
+                if (!scope.bullet.strike && scope.bullet.status !== 'migrated') {
                     if (!scope.bullet.status || scope.bullet.status === 'incomplete') {
                         // cmd-t change to task
                         if (e.which === 84) return new Bullet.Task(scope.bullet);
@@ -46,17 +80,22 @@ bulletApp.directive('bullet', function() {
                         if (e.which === 78) return new Bullet.Note(scope.bullet);
                     }
                     // cmd-d toggle done for tasks
-                    if (e.which === 68 && scope.bullet.type === 'Task') scope.bullet.toggleDone();
+                    if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
                 }
                 // cmd-x cross out
-                if (e.which === 88) scope.bullet.toggleStrike();
+                if (e.which === 88) return scope.bullet.toggleStrike();
                 // cmd-del remove from collection
                 if (e.which === 8) {
-                    e.preventDefault();
-                    scope.removeFn();
+                    if (scope.bullet.rev) {
+                        e.preventDefault();
+                        scope.removeFn()
+                            .then(() => {
+                                scope.$evalAsync();
+                            });
+                    }
                 }
-                return scope.bullet;
             }
+
 
 
             // function datepicker() {
@@ -64,24 +103,35 @@ bulletApp.directive('bullet', function() {
             //     scope.bullet.date = 
             // }
 
-
             element.on('keydown', function(e) {
                 if (e.which !== 9 && e.which !== 91) {
                     if (e.which === 13) {
-                        e.preventDefault();
-                        e.target.blur();
+                        if (!e.target.className.split(' ').includes('scheduler')) {
+                            e.preventDefault();
+                            e.target.blur();
+                        }
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
-                        scope.bullet = editBullet(e);
-                        scope.bullet.save().then(() => scope.$evalAsync());
+
+                        let updatedBullet = editBullet(e);
+                        if (updatedBullet) {
+                            scope.bullet = updatedBullet; //check if this icon scope
+                            scope.bullet.save().then(() => scope.$evalAsync());
+                        }
                     } else if (scope.bullet.strike || scope.bullet.status === 'complete') {
                         if (e.which !== 9) e.preventDefault();
                     }
                 }
             });
 
+
             element.on('focusout', function(e) {
-                if (!scope.bullet.rev) scope.addFn()
+                if (!scope.bullet.rev) scope.addFn();
                 else scope.bullet.save();
+
+                $timeout(function() {
+                    scope.enableButtons = false;
+                }, 300);
+
             });
         }
     };

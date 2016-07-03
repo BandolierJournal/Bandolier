@@ -1,8 +1,9 @@
 /*jshint node: true, esversion: 6*/
-'use strict'
+'use strict';
 
 const db = require('./index');
 const _ = require('lodash');
+const Moment = require('moment');
 
 const Bullet = require('./bullet');
 
@@ -49,6 +50,9 @@ class Collection {
         if (this.bullets.find(b => b.id === bullet.id)) return;
         this.bullets.push(bullet);
         bullet.collections.push(this.id);
+
+        if(!bullet.date && Moment(this.title).isValid()) bullet.date = this.title;
+
         //add to other collections check
         let search;
         if (this.type === 'month-cal' || bullet.type === 'Event') search = { title: Moment(bullet.date).startOf('day').toISOString(), type: 'day' };
@@ -60,15 +64,26 @@ class Collection {
         }
 
         return Promise.all([this.save(), bullet.save()])
-            .catch(err => console.error('error ', err))
+        .catch(err => console.error('error ', err));
     }
 
     removeBullet(bullet) {
-        let bulletIdx = this.bullets.indexOf(bullet.id);
+        let bulletPromise = function(){};
+        let bulletIdx = this.bullets.indexOf(bullet);
         if (bulletIdx > -1) {
+            bulletPromise = bullet.save.bind(bullet)
             this.bullets.splice(bulletIdx, 1);
+            let collectionIdx = bullet.collections.indexOf(this.id)
+            if (collectionIdx > -1) {
+              bullet.collections.splice(collectionIdx, 1);
+              if (bullet.collections.length < 1) {
+                bulletPromise = bullet.delete.bind(bullet)
+              }
+            }
+            else throw new Error('Database is so broken...')
         }
-        return this.save();
+        return Promise.all([this.save(), bulletPromise()])
+        .catch(err => console.error('error ', err))
     }
 
     save() {
@@ -77,15 +92,15 @@ class Collection {
         return db.rel.save('collection', this).then(() => {
             this.bullets = bulletInstances;
             return this;
-        })
+        });
     }
 
     static findOrReturn(props) {
         return db.rel.find('collection', props.id)
             .then(res => {
+                console.log(res)
                 if (res.collections.length > 1) res.collections = [res.collections.find(c => c.id === props.id)]; //this is a hack to fix something wierd in PouchDB
-                if (!res.collections.length) return new Collection(props)
-                else return convertToInstances(res);
+                return res.collections.length ? convertToInstances(res) : [new Collection(props)];
             })
             .catch(err => console.error(err));
     }
@@ -95,10 +110,9 @@ class Collection {
             .then(res => convertToInstances(res))
             .then(collections => {
                 if (props) collections = _.filter(collections, props);
-                if (!collections.length) return [new Collection(props)];
-                else return collections;
+                return collections.length ? collections : [new Collection(props)];
             })
-            .catch(err => console.error('could not fetch all collections'));
+            .catch(err => console.error('could not fetch all collections', err));
     }
 }
 

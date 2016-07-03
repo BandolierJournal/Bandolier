@@ -37,7 +37,7 @@ bullets.push(new Bullet.Note({
 var collections = [];
 
 for (var j = 0; j < 12; j++) {
-    var thisBullet = bullets.map(e => e.id).slice(j * 10, j * 10 + 10);
+    var thisBullet = bullets.map(e => e.id).slice(j * 12, j * 12 + 12);
 
     collections.push(new Collection({
         title: new Date(2016, j, chance.integer({min: 1, max:28})),
@@ -57,7 +57,7 @@ collections.push(new Collection({
 collections.push(new Collection({
     title: new Date(2016, 5, 28),
     id: '14',
-    bullets: ['1', '2'],
+    bullets: ['61', '62'],
     type: 'day'
 }));
 
