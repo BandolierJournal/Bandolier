@@ -14,19 +14,19 @@ bulletApp.directive('bullet', function () {
             const bullet = scope.bullet;
             const OS = process.platform;
 
-            scope.showButtonPanel = function() {
-                return bullet.status === 'incomplete' &&
-                    bullet.rev &&
-                    !bullet.strike &&
+            scope.showButtonPanel = function(b) {
+                return b.status === 'incomplete' &&
+                    b.rev &&
+                    !b.strike &&
                     !scope.showScheduler;
-            }
-
-            scope.showScheduleButton = function () {
-                return bullet.type !== 'Note'
             };
 
-            scope.showMigrateButton = function () {
-                return bullet.type === 'Task'
+            scope.showScheduleButton = function (b) {
+                return b.type !== 'Note';
+            };
+
+            scope.showMigrateButton = function (b) {
+                return b.type === 'Task';
             };
 
             scope.migrate = function () {
@@ -45,16 +45,20 @@ bulletApp.directive('bullet', function () {
                         if (e.which === 78) return new Bullet.Note(scope.bullet);
                     }
                     // cmd-d toggle done for tasks
-                    if (e.which === 68 && scope.bullet.type === 'Task') scope.bullet.toggleDone();
+                    if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
                 }
                 // cmd-x cross out
-                if (e.which === 88) scope.bullet.toggleStrike();
+                if (e.which === 88) return scope.bullet.toggleStrike();
                 // cmd-del remove from collection
                 if (e.which === 8) {
+                  if (scope.bullet.rev) {
                     e.preventDefault();
-                    scope.removeFn();
+                    scope.removeFn()
+                    .then(() => {
+                      scope.$evalAsync();
+                    });
+                  }
                 }
-                return scope.bullet;
             }
 
 
@@ -64,10 +68,10 @@ bulletApp.directive('bullet', function () {
                         e.preventDefault();
                         e.target.blur();
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
-                        scope.bullet = editBullet(e);
-                        scope.bullet.save().then(() => scope.$evalAsync());
-                    } else if (scope.bullet.strike || scope.bullet.status === 'complete') {
-                        if (e.which !== 9) e.preventDefault();
+                        let updatedBullet = editBullet(e);
+                        if (updatedBullet) scope.bullet.save().then(() => scope.$evalAsync());
+                    } else if(scope.bullet.strike || scope.bullet.status === 'complete') {
+                        if(e.which !== 9) e.preventDefault();
                     }
                 }
             });

@@ -10,18 +10,25 @@ bulletApp.directive('monthCal', function($log) {
         link: function(scope) {
             scope.formattedTitle = Moment(scope.collection.title).format('MMMM YYYY').toUpperCase();
 
-            scope.bulletList = scope.days.map(day => {
-                return scope.collection.bullets.find(bullet => bullet.date === day) || new Bullet.Task({
-                    date: day
-                });
-            })
+            generateBulletList()
+
+            function generateBulletList () {
+              scope.bulletList = scope.days.map(day => {
+                  return scope.collection.bullets.find(bullet => bullet.date === day) || new Bullet.Task({
+                      date: day
+                  });
+              })
+            }
 
             scope.removeBullet = function(bullet) {
-                scope.collection.removeBullet(bullet)
-                    .then(function() {
-                        scope.bullets = scope.bullets.filter(b => b.id !== bullet.id);
-                    })
-                    .catch($log.err);
+                return scope.collection.removeBullet(bullet)
+                .then(() => {
+                  if (bullet.id) {
+                    generateBulletList()
+                  }
+                  scope.$evalAsync()
+                })
+                .catch($log.err);
             };
 
             scope.addBullet = function(bullet) {

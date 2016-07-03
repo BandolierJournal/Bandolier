@@ -18,7 +18,7 @@ bulletApp.factory('DateFactory', function () {
     }
 
     function chronoSort(a, b) {
-        return a.title - b.title;
+        return new Date(a.title) - new Date(b.title);
     }
 
     function roundDate(date, type) {

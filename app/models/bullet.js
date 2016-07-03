@@ -25,6 +25,7 @@ class Bullet {
 
 	toggleStrike() {
 		this.strike = !this.strike;
+		return this;
 	}
 
 	moveTo(collectionName, type) {
@@ -44,7 +45,12 @@ class Bullet {
 		}
 	}
 
+	delete() {
+		if (this.rev) return db.rel.del('bullets', this);
+	}
 }
+
+
 
 class Note extends Bullet {
 	constructor(content) {
@@ -82,8 +88,8 @@ class Task extends DatedBullet {
 	}
 
 	toggleDone() {
-		if(this.status === 'migrated') return;
-		this.status = this.status === 'incomplete' ? 'complete' : 'incomplete';
+		if(this.status !== 'migrated') this.status = this.status === 'incomplete' ? 'complete' : 'incomplete';
+		return this;
 	}
 
 }
