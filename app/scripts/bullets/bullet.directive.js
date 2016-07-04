@@ -5,38 +5,28 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
         scope: {
             bullet: '=',
             removeFn: '&',
-            addFn: '&'
+            addFn: '&',
         },
-        link: function(scope, element) {
+        link: function(scope, element, attrs) {
 
             scope.showButton = 0;
             scope.enableButton = false;
 
-            const OS = process.platform;
+            scope.showIcon = function() {
+                if (attrs.noIcon) return false;
+                return scope.bullet.content;
+            }
 
-            scope.empty = () => !scope.bullet.content;
-            scope.logbullet = () => console.log(scope.bullet);
+            scope.typeDict = typeDict;
+
             scope.templateUrl = 'scripts/bullets/type.template.html';
 
             scope.selectType = function(type) {
-                scope.bullet.type = type; //new Bullet[type](scope.bullet);
-                // console.log(scope.bullet);
-                scope.$evalAsync();
+                scope.bullet = new Bullet[type](scope.bullet);
+                scope.assigned = true;
             }
 
-            scope.showIcon = function(bullet) {
-
-            }
-
-            scope.typeDict = {
-                "Task": "fa-circle-o", //fa-square-o
-                "Event": "fa-first-order",
-                "Note": "fa-long-arrow-right",
-                "Done": "fa-check-circle-o", //fa-check-square-o"
-                "Migrated": "fa-sign-out",
-                "Scheduled": "fa-angle-double-left"
-            };
-
+            const OS = process.platform;
 
             scope.showButtonPanel = function(b) {
                 return b.status === 'incomplete' &&
@@ -44,6 +34,10 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
                     !scope.showScheduler &&
                     scope.enableButtons;
             };
+
+            scope.openCalendar = function() {
+                scope.popup = true;
+            }
 
             scope.showScheduleButton = function(b) {
                 return b.type !== 'Note';
@@ -61,10 +55,22 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
             scope.schedule = function(date) {
                 scope.bullet.schedule(...DateFactory.convertDate(date))
                     .then(() => {
-                        scope.$evalAsync();
+                        // scope.$evalAsync();
                         scope.showScheduler = false;
                     });
             };
+
+            scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            scope.format = scope.formats[0];
+            scope.altInputFormats = ['M!/d!/yyyy'];
+
+            // scope.dateOptions = {
+            //     dateDisabled: disabled,
+            //     formatYear: 'yy',
+            //     maxDate: new Date(2020, 5, 22),
+            //     minDate: new Date(),
+            //     startingDay: 1
+            // };
 
             function editBullet(e) {
                 if (scope.bullet.status !== 'migrated') {
@@ -111,6 +117,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
                     }
                 }
             });
+
 
             scope.save = function() {
                 $timeout(function() {

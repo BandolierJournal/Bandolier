@@ -1,9 +1,11 @@
-<div>
-    <div ng-class="{strikethrough: bullet.status==='struck', new: !bullet.content.length, done: bullet.status !== 'incomplete'}">
-        <div uib-popover-template="templateUrl"; popover-trigger="focus" popover-placement="left" popover-popup-close-delay="10" contenteditable ng-model="bullet.content" ng-focus="enableButtons = true; showButtons = 1" ng-blur="showButtons = 0; save()"></div>
-    </div>
-    <div class="pull-right" ng-if="showButtonPanel(bullet)" style="opacity:{{showButtons}}">
+<div class="bullet-row">
+    <bullet-icon ng-show="showIcon()||assigned" class="bullet-icon" bullet="bullet"></bullet-icon>
+    <div class="bullet-text" ng-class="{strikethrough: bullet.status==='struck', new: !scope.bullet.content, done: bullet.status !== 'incomplete'}" uib-popover-template="templateUrl" popover-enable="!showIcon()&&!assigned" popover-trigger="focus" popover-placement="left" contenteditable ng-model="bullet.content" ng-focus="enableButtons = true; showButtons = 1" ng-blur="showButtons = 0; save()"></div>
+    <div class="bullet-menu" ng-if="showButtonPanel(bullet)">
+        <button ng-click="openCalendar()" ng-show="showScheduleButton(bullet) "><i class="fa fa-fw fa-calendar" title="schedule "></i></button>
         <i class="fa fa-fw fa-paper-plane" ng-click="migrate()" ng-show="showMigrateButton(bullet)" title="migrate"></i>
-        <i class="fa fa-fw fa-calendar" ng-click="showScheduler = true" ng-show="showScheduleButton(bullet)" title="schedule"></i>
     </div>
+    <!-- <pre>Selected date is: <em>{{date | date:'fullDate' }}</em></pre> -->
 </div>
+<div ng-if="popup" type="text" uib-datepicker-popup="{{format}}" ng-model="bullet.date" is-open="popup" close-text="Close" alt-input-formats="altInputFormats"></div>
+<pre ng-if="popup">{{bullet|json}}</pre>

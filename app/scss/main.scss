@@ -16,14 +16,23 @@ html {
     font-size: 12px
 }
 
-.collection td,
-tr {
-    vertical-align: top;
-    padding: 2px 5px 5px 2px;
+.bullet-row {
+    display: flex;
 }
 
-.collection td.bullet-text {
+.bullet-icon {
+    margin-right: 7px;
+}
+
+.bullet-text {
     min-width: 395px;
+}
+
+.bullet-menu {
+    margin-left: auto;
+    min-width: 35px;
+    margin-top: auto;
+
 }
 
 .collection {
@@ -50,6 +59,7 @@ tr {
 
 .popover {
     border: none;
+    margin: none;
 }
 
 .popover-content {
