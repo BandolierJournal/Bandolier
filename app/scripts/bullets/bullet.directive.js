@@ -12,10 +12,6 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
             scope.showButton = 0;
             scope.enableButton = false;
             scope.assigned = false;
-            scope.showIcon = function(b) {
-                if (attrs.noIcon) return false;
-                return (b.content) ? b.content.length : b.content;
-            }
 
             scope.typeDict = typeDict;
 
