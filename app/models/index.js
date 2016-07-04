@@ -4,7 +4,7 @@ PouchDB.plugin(require('pouchdb-authentication'));
 
 
 module.exports = function(dbname) {
-    var db = new PouchDB('bullet');
+    var db = new PouchDB(dbname);
 
     db.setSchema([
         {
