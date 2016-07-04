@@ -1,27 +1,28 @@
 {
-    "name": "Bullet",
-    "productName": "Bullet",
-    "version": "1.0.0",
-    "main": "main.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "electron .",
-        "postinstall": "cd node_modules/leveldown && HOME=~/.electron-gyp node-gyp rebuild --target=1.2.5 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
-        "seed": "./db_destroy.sh && node seed"
-    },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "chance": "^1.0.3",
-        "electron-packager": "^7.0.4",
-        "electron-prebuilt": "^1.2.0"
-    },
-    "dependencies": {
-        "lodash": "^4.13.1",
-        "moment": "^2.13.0",
-        "pouchdb": "^5.4.4",
-        "relational-pouch": "^1.4.3"
-    },
-    "keywords": [],
-    "description": ""
+  "name": "Bullet",
+  "productName": "Bullet",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "postinstall": "cd node_modules/leveldown && HOME=~/.electron-gyp node-gyp rebuild --target=1.2.5 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
+    "seed": "./db_destroy.sh && node seed"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chance": "^1.0.3",
+    "electron-packager": "^7.0.4",
+    "electron-prebuilt": "^1.2.0"
+  },
+  "dependencies": {
+    "lodash": "^4.13.1",
+    "moment": "^2.13.0",
+    "pouchdb": "^5.4.4",
+    "pouchdb-authentication": "^0.5.2",
+    "relational-pouch": "^1.4.3"
+  },
+  "keywords": [],
+  "description": ""
 }
