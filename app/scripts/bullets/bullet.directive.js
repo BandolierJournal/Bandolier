@@ -55,7 +55,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
             scope.schedule = function(date) {
                 scope.bullet.schedule(...DateFactory.convertDate(date))
                     .then(() => {
-                        // scope.$evalAsync();
+                        scope.$evalAsync();
                         scope.showScheduler = false;
                     });
             };
@@ -64,13 +64,6 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
             scope.format = scope.formats[0];
             scope.altInputFormats = ['M!/d!/yyyy'];
 
-            // scope.dateOptions = {
-            //     dateDisabled: disabled,
-            //     formatYear: 'yy',
-            //     maxDate: new Date(2020, 5, 22),
-            //     minDate: new Date(),
-            //     startingDay: 1
-            // };
 
             function editBullet(e) {
                 if (scope.bullet.status !== 'migrated') {
