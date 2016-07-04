@@ -1,6 +1,7 @@
 
-var Collection = require('./models/collection')
-var Bullet = require('./models/bullet')
+var db = require('./models')('bullet');
+var Collection = require('./models/collection')(db);
+var Bullet = require('./models/bullet')(db);
 var chance = require('chance')(123);
 var Promise = require('bluebird');
 

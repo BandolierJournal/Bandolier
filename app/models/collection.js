@@ -1,119 +1,121 @@
 /*jshint node: true, esversion: 6*/
 'use strict';
 
-const db = require('./index');
+// const db = require('./index')('bullet');
 const _ = require('lodash');
 const Moment = require('moment');
 
-const Bullet = require('./bullet');
 
-function convertToInstances(res) {
-    const bullets = res.bullets;
-    const collections = res.collections.map(collection => {
-        return new Collection(collection).deserializeBullets(bullets);
-    });
+module.exports = function(db) {
+    const Bullet = require('./bullet')(db);
 
-    return collections;
-}
-
-class Collection {
-    constructor(props, type) {
-        if (typeof props === 'string' || !props) {
-            this.id = new Date().toISOString();
-            this.title = props;
-            this.bullets = [];
-            this.type = type || 'generic'; // day, month, month-cal, future, generic
-        } else {
-            if (!this.id) this.id = new Date().toISOString();
-            if (!this.title) this.title = props;
-            if (!this.bullets) this.bullets = [];
-            _.extend(this, props);
-        }
-    }
-
-    deserializeBullets(bulletInstances) {
-        this.bullets = this.bullets.map(bulletId => {
-            let bullet = bulletInstances.find(b => b.id === bulletId);
-            return new Bullet[bullet.type](bullet);
+    function convertToInstances(res) {
+        const bullets = res.bullets;
+        const collections = res.collections.map(collection => {
+            return new Collection(collection).deserializeBullets(bullets);
         });
-        return this;
+
+        return collections;
     }
 
-    serializeBullets() {
-        if (this.bullets.every(b => typeof b !== "string")) {
-            this.bullets = this.bullets.map(bullet => bullet.id); //beforeSave, converts bullet instances to ids
+    class Collection {
+        constructor(props, type) {
+            if (typeof props === 'string' || !props) {
+                this.id = new Date().toISOString();
+                this.title = props;
+                this.bullets = [];
+                this.type = type || 'generic'; // day, month, month-cal, future, generic
+            } else {
+                if (!this.id) this.id = new Date().toISOString();
+                if (!this.title) this.title = props;
+                if (!this.bullets) this.bullets = [];
+                _.extend(this, props);
+            }
         }
-    }
 
-    addBullet(bullet) {
-        bullet.id = bullet.id || new Date().toISOString();
-        if (this.bullets.find(b => b.id === bullet.id)) return;
-        this.bullets.push(bullet);
-        bullet.collections.push(this.id);
+        deserializeBullets(bulletInstances) {
+            this.bullets = this.bullets.map(bulletId => {
+                let bullet = bulletInstances.find(b => b.id === bulletId);
+                return new Bullet[bullet.type](bullet);
+            });
+            return this;
+        }
 
-        if(!bullet.date && Moment(this.title).isValid()) bullet.date = this.title;
+        serializeBullets() {
+            if (this.bullets.every(b => typeof b !== "string")) {
+                this.bullets = this.bullets.map(bullet => bullet.id); //beforeSave, converts bullet instances to ids
+            }
+        }
 
-        //add to other collections check
-        let search;
-        if (this.type === 'month-cal' || bullet.type === 'Event') search = { title: Moment(bullet.date).startOf('day').toISOString(), type: 'day' };
-        if (this.type === 'future') search = { title: this.title, type: 'month' };
-        if (search) {
-            Collection.fetchAll(search)
+        addBullet(bullet) {
+            bullet.id = bullet.id || new Date().toISOString();
+            if (this.bullets.find(b => b.id === bullet.id)) return;
+            this.bullets.push(bullet);
+            bullet.collections.push(this.id);
+
+            if(!bullet.date && Moment(this.title).isValid()) bullet.date = this.title;
+
+            //add to other collections check
+            let search;
+            if (this.type === 'month-cal' || bullet.type === 'Event') search = { title: Moment(bullet.date).startOf('day').toISOString(), type: 'day' };
+            if (this.type === 'future') search = { title: this.title, type: 'month' };
+            if (search) {
+                Collection.fetchAll(search)
                 .then(c => c[0].addBullet(bullet))
                 .catch(err => console.error(err));
-        }
-
-        return Promise.all([this.save(), bullet.save()])
-        .catch(err => console.error('error ', err));
-    }
-
-    removeBullet(bullet) {
-        let bulletPromise = function(){};
-        let bulletIdx = this.bullets.indexOf(bullet);
-        if (bulletIdx > -1) {
-            bulletPromise = bullet.save.bind(bullet)
-            this.bullets.splice(bulletIdx, 1);
-            let collectionIdx = bullet.collections.indexOf(this.id)
-            if (collectionIdx > -1) {
-              bullet.collections.splice(collectionIdx, 1);
-              if (bullet.collections.length < 1) {
-                bulletPromise = bullet.delete.bind(bullet)
-              }
             }
-            else throw new Error('Database is so broken...')
+
+            return Promise.all([this.save(), bullet.save()])
+            .catch(err => console.error('error ', err));
         }
-        return Promise.all([this.save(), bulletPromise()])
-        .catch(err => console.error('error ', err))
-    }
 
-    save() {
-        let bulletInstances = this.bullets;
-        this.serializeBullets();
-        return db.rel.save('collection', this).then(() => {
-            this.bullets = bulletInstances;
-            return this;
-        });
-    }
+        removeBullet(bullet) {
+            let bulletPromise = function(){};
+            let bulletIdx = this.bullets.indexOf(bullet);
+            if (bulletIdx > -1) {
+                bulletPromise = bullet.save.bind(bullet);
+                this.bullets.splice(bulletIdx, 1);
+                let collectionIdx = bullet.collections.indexOf(this.id);
+                if (collectionIdx > -1) {
+                    bullet.collections.splice(collectionIdx, 1);
+                    if (bullet.collections.length < 1) {
+                        bulletPromise = bullet.delete.bind(bullet);
+                    }
+                }
+                else throw new Error('Database is so broken...');
+            }
+            return Promise.all([this.save(), bulletPromise()])
+            .catch(err => console.error('error ', err));
+        }
 
-    static findOrReturn(props) {
-        return db.rel.find('collection', props.id)
+        save() {
+            let bulletInstances = this.bullets;
+            this.serializeBullets();
+            return db.rel.save('collection', this).then(() => {
+                this.bullets = bulletInstances;
+                return this;
+            });
+        }
+
+        static findOrReturn(props) {
+            return db.rel.find('collection', props.id)
             .then(res => {
-                console.log(res)
                 if (res.collections.length > 1) res.collections = [res.collections.find(c => c.id === props.id)]; //this is a hack to fix something wierd in PouchDB
                 return res.collections.length ? convertToInstances(res) : [new Collection(props)];
             })
             .catch(err => console.error(err));
-    }
+        }
 
-    static fetchAll(props) {
-        return db.rel.find('collection')
+        static fetchAll(props) {
+            return db.rel.find('collection')
             .then(res => convertToInstances(res))
             .then(collections => {
                 if (props) collections = _.filter(collections, props);
                 return collections.length ? collections : [new Collection(props)];
             })
             .catch(err => console.error('could not fetch all collections', err));
+        }
     }
-}
 
-module.exports = Collection;
+    return Collection;
+};
