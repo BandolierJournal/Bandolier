@@ -17,3 +17,15 @@ bulletApp.directive('contenteditable', function ($sanitize) {
     }
   };
 });
+
+
+bulletApp.directive('eatClick', function () {
+  return {
+    restrict: 'A',
+    link: function (scope, element) {
+      element.on('click', function () {
+        return false;
+      });
+    }
+  };
+});

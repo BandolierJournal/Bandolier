@@ -11,18 +11,18 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
 
             scope.showButton = 0;
             scope.enableButton = false;
-
-            scope.showIcon = function() {
+            scope.assigned = false;
+            scope.showIcon = function(b) {
                 if (attrs.noIcon) return false;
-                return scope.bullet.content;
+                return (b.content) ? b.content.length : b.content;
             }
 
             scope.typeDict = typeDict;
 
             scope.templateUrl = 'scripts/bullets/type.template.html';
 
-            scope.selectType = function(type) {
-                scope.bullet = new Bullet[type](scope.bullet);
+            scope.selectType = function(b, type) {
+                scope.bullet = new Bullet[type](b);
                 scope.assigned = true;
             }
 
@@ -115,7 +115,9 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
             scope.save = function() {
                 $timeout(function() {
                     if (!scope.bullet.rev) scope.addFn();
-                    else scope.bullet.save();
+                    else scope.bullet.save().then(() => {
+                        scope.assigned = false;
+                    });
                 }, 10);
 
                 $timeout(function() {

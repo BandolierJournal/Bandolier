@@ -46,7 +46,7 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
 
             scope.addBullet = function(bullet) {
                 if (bullet.content && bullet.content.length > 0) {
-                  scope.collection.addBullet(bullet)
+                  return scope.collection.addBullet(bullet)
                   .then(function(){
                       scope.newBullet = new Bullet.Task({date: scope.collection.title})
                       scope.$evalAsync()
