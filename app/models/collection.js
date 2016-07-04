@@ -55,7 +55,7 @@ class Collection {
 
         //add to other collections check
         let search;
-        if (this.type === 'month-cal' || bullet.type === 'Event') search = { title: Moment(bullet.date).startOf('day').toISOString(), type: 'day' };
+        if (this.type === 'month-cal') search = { title: Moment(bullet.date).startOf('day').toISOString(), type: 'day' };
         if (this.type === 'future') search = { title: this.title, type: 'month' };
         if (search) {
             Collection.fetchAll(search)
