@@ -1,6 +1,6 @@
 /*jshint esversion: 6*/
 
-bulletApp.directive('collection', function($log, $rootScope, currentStates){
+bulletApp.directive('collection', function($log, $rootScope, currentStates, DateFactory){
     return {
         restrict: 'E',
         templateUrl: 'scripts/collections/collection.template.html',
@@ -9,18 +9,18 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates){
         },
         link: function(scope) {
             scope.formattedTitle = formatTitle(scope.collection);
-            scope.newBullet = new Bullet.Task();
+            scope.newBullet = new Bullet.Task({date: scope.collection.title});
 
             function formatTitle(collection) {
                 switch(collection.type) {
                     case 'month':
-                        return Moment(collection.title).format('MMMM')+' Log';
+                        return 'Log'; //Moment(collection.title).format('MMMM')+' Log';
                         break;
                     case 'future':
-                        return Moment(collection.title).format('MMM YY').toUpperCase();
+                        return Moment(collection.title).format('MMM YYYY').toUpperCase();
                         break;
                     case 'day':
-                        return Moment(collection.title).format('MMM DD');
+                        return DateFactory.getWeekday(collection.title)+', '+Moment(collection.title).format('MMMM D');
                         break;
                     default:
 
@@ -46,9 +46,9 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates){
 
             scope.addBullet = function(bullet) {
                 if (bullet.content && bullet.content.length > 0) {
-                  scope.collection.addBullet(bullet)
+                  return scope.collection.addBullet(bullet)
                   .then(function(){
-                      scope.newBullet = new Bullet.Task()
+                      scope.newBullet = new Bullet.Task({date: scope.collection.title})
                       scope.$evalAsync()
                   })
                   .catch($log.err);

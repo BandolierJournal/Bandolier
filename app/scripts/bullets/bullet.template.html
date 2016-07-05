@@ -1,13 +1,21 @@
-<div class="row">
-    <bullet-icon bullet="bullet" header="header"></bullet-icon>
-    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6 bullet-text" ng-class="{strikethrough: bullet.strike, new: !bullet.content.length, done: bullet.status === 'complete'}">
-        <div contenteditable ng-model="bullet.content" ng-focus="enableButtons = true; showButtons = 1" ng-blur="showButtons = 0"></div>
-    </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-show="showButtonPanel(bullet)" style="opacity:{{showButtons}}">
+<div class="bullet-row">
+    <bullet-icon ng-show="bullet.content.length||assigned" class="bullet-icon" bullet="bullet"></bullet-icon>
+    <div class="bullet-text" ng-class="{strikethrough: bullet.status==='struck', new: !scope.bullet.content, done: bullet.status !== 'incomplete'}" uib-popover-template="templateUrl" popover-enable="bullet.status==='incomplete'" popover-trigger="focus" popover-placement="bottom-left" contenteditable ng-model="bullet.content" ng-focus="enableButtons = true; showButtons = 1" ng-blur="showButtons = 0; save()"></div>
+    <div class="bullet-menu" ng-if="showButtonPanel(bullet)">
+        <i ng-click="openCalendar()" ng-show="showScheduleButton(bullet) "><i class="fa fa-fw fa-calendar" title="schedule "></i></i>
         <i class="fa fa-fw fa-paper-plane" ng-click="migrate()" ng-show="showMigrateButton(bullet)" title="migrate"></i>
-        <i class="fa fa-fw fa-calendar" ng-click="showScheduler = true" ng-show="showScheduleButton(bullet)" title="schedule"></i>
     </div>
-
-    <!-- TODO: the date picker is here for now but eventually it should be a modal -->
-    <date-picker ng-show="showScheduler" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></date-picker>
 </div>
+<span ng-if="popup" class="col-lg-3 col-md-3 col-sm-3">
+    <form class="btn-group" data-toggle="buttons">
+        <label>
+            <input type="radio" ng-model="options.minMode" value="day"/> Day
+        </label>
+        <label>
+            <input type="radio" ng-model="options.minMode" value="month"/> Future
+        </label>    
+    <uib-datepicker ng-model="bullet.date" close-text="Close" datepicker-options="options" datepicker-mode = "options.minMode" alt-input-formats="altInputFormats"></uib-datepicker>
+    <br>
+    <button class="btn btn-sm btn-default" ng-click="schedule(options.minMode)">Schedule for {{bullet.date | date:'short'}}</button>
+    </form>
+</span>

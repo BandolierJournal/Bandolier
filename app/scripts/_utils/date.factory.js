@@ -88,7 +88,7 @@ bulletApp.factory('DateFactory', function () {
 
     function getWeekday(date) {
         let weekday = Moment(date).isoWeekday();
-        weekday = Moment().isoWeekday(weekday).format('dd')
+        weekday = Moment().isoWeekday(weekday).format('dddd')
         return weekday;
     }
 
@@ -123,6 +123,7 @@ bulletApp.factory('DateFactory', function () {
         thisMonth: thisMonth,
         lastMonth: lastMonth,
         nextMonth: nextMonth,
+        getWeekday: getWeekday,
         nextNYears: nextNYears
     }
 })

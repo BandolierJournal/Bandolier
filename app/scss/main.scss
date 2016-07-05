@@ -13,33 +13,63 @@ html {
 }
 
 .fa {
-    font-size: 13px
+    font-size: 12px
+}
+
+.bullet-row {
+    display: flex;
+}
+
+.bullet-icon {
+    margin-right: 7px;
 }
 
 .bullet-text {
-    padding-left: 5px;
+    min-width: 395px;
 }
 
-.bullet {
-    padding: 3px;
-    text-align: right;
+.bullet-menu {
+    margin-left: auto;
+    min-width: 35px;
+    margin-top: auto;
+
 }
 
-.new {
-    border-bottom: 1px solid #F5F5F5;
+.collection {
+    min-height: 250px;
 }
 
-
-//not yet in use
-.new-collection:hover {
-    -webkit-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
-    box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
+[contenteditable]:focus {
+    outline: 0 solid transparent;
+    border-bottom: 1px dashed #A2AFC2;
 }
 
+.new:hover {
+    border-bottom: 1px dashed #A2AFC2;
+}
+
+// .collection:hover {
+//     -webkit-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
+//     -moz-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
+//     box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
+// }
 .done {
     font-style: italic;
 }
+
+.popover.bottom {
+    border: none;
+    margin-top: -2px;
+}
+
+.popover-content {
+    padding: 3px;
+}
+
+.popover .arrow {
+    display: none;
+}
+
 
 // Sticky Footer
 html {
@@ -62,7 +92,6 @@ body {
     margin-top: 10px;
 }
 
-
 // Custom Datepicker typeahead
 date-picker .custom-popup-wrapper {
     position: absolute;
@@ -71,15 +100,15 @@ date-picker .custom-popup-wrapper {
     z-index: 1000;
     display: none;
     background-color: #f9f9f9;
-  }
+}
 
-  date-picker .custom-popup-wrapper > .message {
+date-picker .custom-popup-wrapper > .message {
     padding: 10px 20px;
     border-bottom: 1px solid #ddd;
     color: #868686;
-  }
+}
 
-  date-picker .custom-popup-wrapper > .dropdown-menu {
+date-picker .custom-popup-wrapper > .dropdown-menu {
     position: static;
     float: none;
     display: block;
@@ -88,4 +117,4 @@ date-picker .custom-popup-wrapper {
     border: none;
     border-radius: 0;
     box-shadow: none;
-  }
+}

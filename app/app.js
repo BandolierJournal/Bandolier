@@ -9,7 +9,17 @@ const Bullet = require('./models/bullet');
 
 const bulletApp = angular.module('bulletApp', ['ui.router', 'ui.bootstrap', 'ngSanitize']);
 
-bulletApp.config(function($urlRouterProvider){
+const typeDict = {
+    "Task": "fa-circle-o", //fa-square-o
+    "Event": "fa-first-order",
+    "Note": "fa-long-arrow-right",
+    "complete": "fa-check-circle-o", //fa-check-square-o"
+    "migrated": "fa-sign-out",
+    "scheduled": "fa-angle-double-left",
+    "struck": "strikethrough"
+};
+
+bulletApp.config(function($urlRouterProvider) {
     $urlRouterProvider.otherwise('/index');
 });
 

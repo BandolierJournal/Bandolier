@@ -1,6 +1,4 @@
-/*jshint esversion: 6*/
-bulletApp.directive('bullet', function (DateFactory, $timeout) {
-
+bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/bullet.template.html',
@@ -8,46 +6,67 @@ bulletApp.directive('bullet', function (DateFactory, $timeout) {
             bullet: '=',
             removeFn: '&',
             addFn: '&',
-            header: '@'
         },
-        link: function (scope, element) {
+        link: function(scope, element, attrs) {
 
             scope.showButton = 0;
             scope.enableButton = false;
+            scope.assigned = false;
+            scope.typeDict = typeDict;
+            scope.options = {
+                minMode: 'day'
+            }
+
+            scope.templateUrl = 'scripts/bullets/type.template.html';
+
+            scope.selectType = function(b, type) {
+                scope.bullet = new Bullet[type](b);
+                scope.assigned = true;
+            }
 
             const OS = process.platform;
 
-            scope.showButtonPanel = function (b) {
+            scope.showButtonPanel = function(b) {
                 return b.status === 'incomplete' &&
                     b.rev &&
-                    !b.strike &&
                     !scope.showScheduler &&
                     scope.enableButtons;
             };
 
-            scope.showScheduleButton = function (b) {
+            scope.openCalendar = function() {
+                scope.popup = true;
+            }
+
+            scope.showScheduleButton = function(b) {
                 return b.type !== 'Note';
             };
 
-            scope.showMigrateButton = function (b) {
+            scope.showMigrateButton = function(b) {
                 return b.type === 'Task';
             };
 
-            scope.migrate = function () {
+            scope.migrate = function() {
                 scope.bullet.migrate()
                     .then(() => scope.$evalAsync());
             };
 
-            scope.schedule = function (date) {
-                scope.bullet.schedule(...DateFactory.convertDate(date))
+            scope.schedule = function(mode) {
+                if (mode === 'month') mode = 'future';
+                scope.popup = false;
+                scope.bullet.schedule(scope.bullet.date.toISOString(), mode)
                     .then(() => {
-                        scope.$evalAsync();
                         scope.showScheduler = false;
+                        scope.$evalAsync();
                     });
             };
 
+            scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            scope.format = scope.formats[0];
+            scope.altInputFormats = ['M!/d!/yyyy'];
+
+
             function editBullet(e) {
-                if (!scope.bullet.strike && scope.bullet.status !== 'migrated') {
+                if (scope.bullet.status !== 'migrated') {
                     if (!scope.bullet.status || scope.bullet.status === 'incomplete') {
                         // cmd-t change to task
                         if (e.which === 84) return new Bullet.Task(scope.bullet);
@@ -58,9 +77,9 @@ bulletApp.directive('bullet', function (DateFactory, $timeout) {
                     }
                     // cmd-d toggle done for tasks
                     if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
+                    // cmd-x cross out
+                    if (e.which === 88 && scope.bullet.type === 'Task') return scope.bullet.toggleStrike();
                 }
-                // cmd-x cross out
-                if (e.which === 88) return scope.bullet.toggleStrike();
                 // cmd-del remove from collection
                 if (e.which === 8) {
                     if (scope.bullet.rev) {
@@ -73,8 +92,7 @@ bulletApp.directive('bullet', function (DateFactory, $timeout) {
                 }
             }
 
-
-            element.on('keydown', function (e) {
+            element.on('keydown', function(e) {
                 if (e.which !== 9 && e.which !== 91) {
                     if (e.which === 13) {
                         if (!e.target.className.split(' ').includes('scheduler')) {
@@ -84,24 +102,27 @@ bulletApp.directive('bullet', function (DateFactory, $timeout) {
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
                         let updatedBullet = editBullet(e);
                         if (updatedBullet) {
-                            scope.bullet = updatedBullet;
+                            scope.bullet = updatedBullet; //check if this icon scope
                             scope.bullet.save().then(() => scope.$evalAsync());
                         }
-                    } else if (scope.bullet.strike || scope.bullet.status === 'complete') {
+                    } else if (scope.bullet.status === 'struck' || scope.bullet.status === 'complete') {
                         if (e.which !== 9) e.preventDefault();
                     }
                 }
             });
 
-            element.on('focusout', function (e) {
-                if (!scope.bullet.rev) scope.addFn();
-                else scope.bullet.save();
 
-                $timeout(function () {
+            scope.save = function() {
+                $timeout(function() {
+                    if (!scope.bullet.rev) scope.addFn();
+                    else scope.bullet.save();
+                }, 100);
+
+                $timeout(function() {
                     scope.enableButtons = false;
                 }, 300);
+            }
 
-            });
         }
     };
 });
