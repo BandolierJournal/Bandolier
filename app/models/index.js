@@ -1,6 +1,6 @@
-var PouchDB = require('pouchdb');
-PouchDB.plugin(require('relational-pouch'));
-PouchDB.plugin(require('pouchdb-authentication'));
+// var PouchDB = require('pouchdb');
+// PouchDB.plugin(require('relational-pouch'));
+// PouchDB.plugin(require('pouchdb-authentication'));
 
 
 module.exports = function(dbname) {

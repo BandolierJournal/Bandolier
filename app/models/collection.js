@@ -108,7 +108,10 @@ module.exports = function(db) {
 
         static fetchAll(props) {
             return db.rel.find('collection')
-            .then(res => convertToInstances(res))
+            .then(res => {
+                console.log("RES", res);
+                return convertToInstances(res)
+            })
             .then(collections => {
                 if (props) collections = _.filter(collections, props);
                 return collections.length ? collections : [new Collection(props)];
