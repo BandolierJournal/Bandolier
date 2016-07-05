@@ -1,14 +1,7 @@
 /*jshint node:true, esversion:6*/
 bulletApp.factory('AuthFactory', function ($state) {
     let userDB;
-    // let remoteDB;
     let username;
-
-    function userDBUrl(username){
-        return `userdb-${username.toHex()}`;
-    }
-
-    console.log("things");
 
     function createUserDB(user, verb) {
         username = user.email.split('@')[0];
@@ -25,22 +18,10 @@ bulletApp.factory('AuthFactory', function ($state) {
                     live: true,
                     retry: true
                 })
+                $state.go('index')
             })
             .catch(err => console.error("Couldn't signin: ", err));
     }
-
-    remoteDB.getSession()
-    .then(res => {
-        let username = res.userCtx.name;
-        if(username) {
-            db = require('./models')(userDBUrl(username));
-            remoteDB = new PouchDB(remoteDBAddress + userDBUrl(username));
-            Collection = require('./models/collection')(db);
-            Bullet = require('./models/bullet')(db);
-        }
-
-        $state.go($state.current, {reload: true});
-    });
 
     return {
         login: function (user) {
