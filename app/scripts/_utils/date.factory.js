@@ -23,7 +23,6 @@ bulletApp.factory('DateFactory', function () {
 
     function roundDate(date, type) {
         type = type || 'day'; // or month
-        console.log(date, type);
         return Moment(date).startOf(type).toISOString();
     }
 
