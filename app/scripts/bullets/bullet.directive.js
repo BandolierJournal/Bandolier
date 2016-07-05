@@ -16,8 +16,11 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             scope.options = {
                 minMode: 'day'
             }
-
+            scope.icon = true;
+            if (attrs.noIcon) scope.icon = false;
+ 
             scope.templateUrl = 'scripts/bullets/type.template.html';
+            scope.datepickerUrl = 'scripts/bullets/datepicker.template.html';
 
             scope.selectType = function(b, type) {
                 scope.bullet = new Bullet[type](b);
@@ -33,9 +36,6 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
                     scope.enableButtons;
             };
 
-            scope.openCalendar = function() {
-                scope.popup = true;
-            }
 
             scope.showScheduleButton = function(b) {
                 return b.type !== 'Note';
@@ -113,6 +113,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
 
 
             scope.save = function() {
+                console.log('save triggered');
                 $timeout(function() {
                     if (!scope.bullet.rev) scope.addFn();
                     else scope.bullet.save();

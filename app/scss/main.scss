@@ -32,7 +32,6 @@ html {
     margin-left: auto;
     min-width: 35px;
     margin-top: auto;
-
 }
 
 .collection {
@@ -57,9 +56,24 @@ html {
     font-style: italic;
 }
 
+.popover {
+    max-width: none;
+}
+
 .popover.bottom {
     border: none;
-    margin-top: -2px;
+    margin-top: -1px;
+    box-shadow: none;
+}
+
+.dateHeader {
+    margin-right: 10px
+}
+
+.datepicker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .popover-content {
@@ -69,7 +83,6 @@ html {
 .popover .arrow {
     display: none;
 }
-
 
 // Sticky Footer
 html {
