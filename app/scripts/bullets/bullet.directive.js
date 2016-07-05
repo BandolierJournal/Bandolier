@@ -1,4 +1,4 @@
-bulletApp.directive('bullet', function(DateFactory, $timeout) {
+bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/bullet.template.html',
@@ -12,8 +12,10 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
             scope.showButton = 0;
             scope.enableButton = false;
             scope.assigned = false;
-
             scope.typeDict = typeDict;
+            scope.options = {
+                minMode: 'day'
+            }
 
             scope.templateUrl = 'scripts/bullets/type.template.html';
 
@@ -52,11 +54,13 @@ bulletApp.directive('bullet', function(DateFactory, $timeout) {
                     .then(() => scope.$evalAsync());
             };
 
-            scope.schedule = function(date) {
-                scope.bullet.schedule(...DateFactory.convertDate(date))
+            scope.schedule = function(mode) {
+                if (mode === 'month') mode = 'future';
+                scope.popup = false;
+                scope.bullet.schedule(scope.bullet.date.toISOString(), mode)
                     .then(() => {
-                        scope.$evalAsync();
                         scope.showScheduler = false;
+                        scope.$evalAsync();
                     });
             };
 
