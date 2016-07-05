@@ -21,9 +21,13 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
 
             scope.selectType = function(b, type) {
                 scope.bullet = new Bullet[type](b);
-                scope.assigned = true;
+                $timeout(function(){
+                  if (!scope.bullet.rev) scope.addFn();
+                  else scope.bullet.save()
+                }, 100)
             }
 
+            //Why is this here?
             const OS = process.platform;
 
             scope.showButtonPanel = function(b) {
@@ -60,6 +64,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
                     });
             };
 
+            //TODO: Refactor to a filter
             scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             scope.format = scope.formats[0];
             scope.altInputFormats = ['M!/d!/yyyy'];
@@ -113,10 +118,13 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
 
 
             scope.save = function() {
-                $timeout(function() {
+                if (event.relatedTarget && event.relatedTarget.id !== "typeBtn") {
                     if (!scope.bullet.rev) scope.addFn();
-                    else scope.bullet.save();
-                }, 100);
+                    else scope.bullet.save().then(() => {
+                        scope.assigned = false;
+                    });
+                }
+
 
                 $timeout(function() {
                     scope.enableButtons = false;
