@@ -1,9 +1,25 @@
 <div class="bullet-row">
-    <bullet-icon ng-if="icon" ng-show="bullet.content.length||assigned" class="bullet-icon" bullet="bullet"></bullet-icon>
-    <div class="bullet-text" ng-class="{strikethrough: bullet.status==='struck', new: !scope.bullet.content, done: bullet.status !== 'incomplete'}" uib-popover-template="templateUrl" popover-enable="bullet.status==='incomplete'" popover-trigger="focus" popover-placement="bottom-left" contenteditable ng-model="bullet.content" ng-focus="enableButtons = true; showButtons = 1" ng-model-options="{updateOn: 'blur'}" ng-blur="showButtons = 0; enableButtons = false;" ng-change="save()"></div>
-    <div class="bullet-menu" ng-if="showButtonPanel(bullet)">
-        <i ng-click="popup = true" ng-show="showScheduleButton(bullet)" class="fa fa-fw fa-calendar" title="schedule" uib-popover-template="datepickerUrl" popover-is-open="popup" popover-placement="left"></i>
-        <i class="fa fa-fw fa-paper-plane" ng-click="migrate()" ng-show="showMigrateButton(bullet)" title="migrate"></i>
+    <bullet-icon ng-hide="hideIcon" class="bullet-icon" bullet="bullet"></bullet-icon>
+    <div uib-popover-template="datepickerUrl" 
+        popover-is-open="showScheduler" 
+        popover-placement="right">
     </div>
-    <i class="text-muted bullet-menu" ng-if="bullet.status==='scheduled'">{{bullet.date | date: 'MMM-dd' }}</i>
+    <div class="bullet-text" 
+        ng-class="{strikethrough: bullet.status==='struck', done: !popoverEnable()}" 
+        uib-popover-template="templateUrl" popover-enable="popoverEnable()" popover-trigger="focus" popover-placement="bottom-left" 
+        contenteditable ng-model="bullet.content" 
+        ng-focus="enableButtons = true; showButtons = 1" 
+        ng-blur="showButtons = 0; save()">
+    </div>
+    <div class="bullet-menu" ng-if="showButtonPanel(bullet)">
+        <i class="fa fa-fw fa-calendar" ng-click="toggleScheduler()" 
+            ng-show="showScheduleButton(bullet)" 
+            title="schedule"></i>
+        <i class="fa fa-fw fa-paper-plane" ng-click="migrate()" 
+            ng-show="showMigrateButton(bullet)" 
+            title="migrate"></i>
+    </div>
+    <i ng-if="bullet.status==='scheduled'" class="text-muted bullet-menu">
+        {{bullet.date | date: 'MMM-dd' }}</i>
 </div>
+<!-- <pre>{{bullet | json}}</pre> -->
