@@ -5,11 +5,11 @@
         popover-placement="right">
     </div>
     <div class="bullet-text" 
-        ng-class="{strikethrough: bullet.status==='struck', done: !popoverEnable()}" 
-        uib-popover-template="templateUrl" popover-enable="popoverEnable()" popover-trigger="focus" popover-placement="bottom-left" 
+        ng-class="{strikethrough: bullet.status==='struck', done: !editable()}" 
+        uib-popover-template="templateUrl" popover-enable="editable()" popover-trigger="focus" popover-placement="bottom-left" 
         contenteditable ng-model="bullet.content" 
-        ng-focus="enableButtons = true; showButtons = 1" 
-        ng-blur="showButtons = 0; save()">
+        ng-focus="enableButtons = true" 
+        ng-blur="save()">
     </div>
     <div class="bullet-menu" ng-if="showButtonPanel(bullet)">
         <i class="fa fa-fw fa-calendar" ng-click="toggleScheduler()" 

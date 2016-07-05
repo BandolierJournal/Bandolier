@@ -14,7 +14,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             scope.typeDict = typeDict;
             scope.hideIcon = (attrs.noIcon) ? true : false;
 
-            scope.popoverEnable = function() {
+            scope.editable = function() {
                 if (!scope.bullet.status) return true;
                 return scope.bullet.status === "incomplete" || scope.bullet.status === "new";
             }
@@ -69,8 +69,9 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
 
             function editBullet(e) {
                 if (scope.bullet.status !== 'migrated') {
-                    if (!scope.bullet.status || scope.bullet.status === 'incomplete') {
+                    if (scope.editable()) {
                         // cmd-t change to task
+                        delete scope.bullet.status;
                         if (e.which === 84) return new Bullet.Task(scope.bullet);
                         // cmd-e change to event
                         if (e.which === 69) return new Bullet.Event(scope.bullet);
