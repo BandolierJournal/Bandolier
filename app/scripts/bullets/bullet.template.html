@@ -1,6 +1,6 @@
 <div class="bullet-row">
-    <bullet-icon ng-show="bullet.content.length||assigned" class="bullet-icon" bullet="bullet"></bullet-icon>
-    <div class="bullet-text" ng-class="{strikethrough: bullet.status==='struck', new: !scope.bullet.content, done: bullet.status !== 'incomplete'}" uib-popover-template="templateUrl" popover-enable="bullet.status==='incomplete'" popover-trigger="focus" popover-placement="bottom-left" contenteditable ng-model="bullet.content" ng-focus="enableButtons = true; showButtons = 1" ng-blur="showButtons = 0; save()"></div>
+    <bullet-icon ng-if="!hideIcon" class="bullet-icon" bullet="bullet"></bullet-icon>
+    <div class="bullet-text" ng-class="{strikethrough: bullet.status==='struck', done: !popoverEnable()}" uib-popover-template="templateUrl" popover-enable="popoverEnable()" popover-trigger="focus" popover-placement="bottom-left" contenteditable ng-model="bullet.content" ng-focus="enableButtons = true; showButtons = 1" ng-blur="showButtons = 0; save()"></div>
     <div class="bullet-menu" ng-if="showButtonPanel(bullet)">
         <i ng-click="openCalendar()" ng-show="showScheduleButton(bullet) "><i class="fa fa-fw fa-calendar" title="schedule "></i></i>
         <i class="fa fa-fw fa-paper-plane" ng-click="migrate()" ng-show="showMigrateButton(bullet)" title="migrate"></i>
@@ -19,3 +19,4 @@
     <button class="btn btn-sm btn-default" ng-click="schedule(options.minMode)">Schedule for {{bullet.date | date:'short'}}</button>
     </form>
 </span>
+<!-- <pre>{{bullet | json}}</pre> -->

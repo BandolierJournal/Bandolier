@@ -11,17 +11,23 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
 
             scope.showButton = 0;
             scope.enableButton = false;
-            scope.assigned = false;
             scope.typeDict = typeDict;
             scope.options = {
                 minMode: 'day'
             }
 
+            scope.hideIcon = (attrs.noIcon) ? true : false;
+
+            scope.popoverEnable = function() {
+                if (!scope.bullet.status) return true;
+                return scope.bullet.status==="incomplete" || scope.bullet.status==="new";
+            }
+            
             scope.templateUrl = 'scripts/bullets/type.template.html';
 
             scope.selectType = function(b, type) {
+                delete scope.bullet.status;
                 scope.bullet = new Bullet[type](b);
-                scope.assigned = true;
             }
 
             const OS = process.platform;
