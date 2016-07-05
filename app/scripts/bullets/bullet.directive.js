@@ -12,18 +12,19 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             scope.showButton = 0;
             scope.enableButton = false;
             scope.typeDict = typeDict;
-            scope.options = {
-                minMode: 'day'
-            }
-
             scope.hideIcon = (attrs.noIcon) ? true : false;
 
-            scope.popoverEnable = function() {
+            scope.editable = function() {
                 if (!scope.bullet.status) return true;
-                return scope.bullet.status==="incomplete" || scope.bullet.status==="new";
+                return scope.bullet.status === "incomplete" || scope.bullet.status === "new";
             }
-            
+
+            scope.toggleScheduler = function() {
+                scope.showScheduler = !scope.showScheduler;
+            }
+
             scope.templateUrl = 'scripts/bullets/type.template.html';
+            scope.datepickerUrl = 'scripts/bullets/datepicker.template.html';
 
             scope.selectType = function(b, type) {
                 delete scope.bullet.status;
@@ -35,13 +36,8 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             scope.showButtonPanel = function(b) {
                 return b.status === 'incomplete' &&
                     b.rev &&
-                    !scope.showScheduler &&
                     scope.enableButtons;
             };
-
-            scope.openCalendar = function() {
-                scope.popup = true;
-            }
 
             scope.showScheduleButton = function(b) {
                 return b.type !== 'Note';
@@ -55,26 +51,27 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
                 scope.bullet.migrate()
                     .then(() => scope.$evalAsync());
             };
+            
+            scope.options = {
+                minMode: 'day'
+            }
 
             scope.schedule = function(mode) {
+                scope.bullet.date = DateFactory.roundDate(scope.bullet.date, mode);
+                scope.showScheduler = false;
+
                 if (mode === 'month') mode = 'future';
-                scope.popup = false;
-                scope.bullet.schedule(scope.bullet.date.toISOString(), mode)
+                scope.bullet.schedule(scope.bullet.date, mode)
                     .then(() => {
-                        scope.showScheduler = false;
                         scope.$evalAsync();
                     });
             };
 
-            scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-            scope.format = scope.formats[0];
-            scope.altInputFormats = ['M!/d!/yyyy'];
-
-
             function editBullet(e) {
                 if (scope.bullet.status !== 'migrated') {
-                    if (!scope.bullet.status || scope.bullet.status === 'incomplete') {
+                    if (scope.editable()) {
                         // cmd-t change to task
+                        delete scope.bullet.status;
                         if (e.which === 84) return new Bullet.Task(scope.bullet);
                         // cmd-e change to event
                         if (e.which === 69) return new Bullet.Event(scope.bullet);
@@ -116,7 +113,6 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
                     }
                 }
             });
-
 
             scope.save = function() {
                 $timeout(function() {
