@@ -2,7 +2,6 @@
 
 bulletApp.controller('MonthlyTrackerCtrl', function ($scope, collections, DateFactory, month, $state) {
 
-    console.log(collections)
     $scope.daysInMonth = DateFactory.monthCal(month);
     $scope.month = month;
     $scope.log = collections.find(i => i.type === "month") || new Collection(month, 'month');
