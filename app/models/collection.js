@@ -109,7 +109,6 @@ module.exports = function(db) {
         static fetchAll(props) {
             return db.rel.find('collection')
             .then(res => {
-                console.log("RES", res);
                 return convertToInstances(res)
             })
             .then(collections => {

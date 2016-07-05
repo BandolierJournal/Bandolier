@@ -6,8 +6,6 @@ bulletApp.config(function ($stateProvider) {
     controller: 'IndexCtrl',
     resolve: {
         collections: function() {
-            console.log(Collection)
-            console.log(Bullet)
             return Collection.fetchAll();
         }
     }
