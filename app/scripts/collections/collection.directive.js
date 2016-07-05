@@ -5,10 +5,13 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
         restrict: 'E',
         templateUrl: 'scripts/collections/collection.template.html',
         scope: {
-            collection: '='
+            collection: '=',
+            noAdd: '=',
+            monthTitle: '=',
+            noTitle: '='
         },
         link: function(scope) {
-            scope.formattedTitle = formatTitle(scope.collection);
+            scope.formattedTitle = scope.monthTitle ? formatTitle({title: scope.monthTitle, type: 'month'}) : formatTitle(scope.collection);
             scope.newBullet = new Bullet.Task({date: scope.collection.title});
 
             function formatTitle(collection) {

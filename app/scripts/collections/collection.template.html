@@ -1,7 +1,7 @@
 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 collection">
-    <h4 class="page-header" ng-class="{'text-muted': muted}">{{formattedTitle}}</h4>
-    <bullet ng-repeat="bullet in collection.bullets track by $index" class="bullet-text" bullet="bullet" remove-fn="removeBullet(bullet)" add-fn="">
+    <h4 class="page-header" ng-class="{'text-muted': muted}" ng-hide="noTitle">{{formattedTitle}}</h4>
+    <bullet ng-repeat="bullet in collection.bullets track by $index" bullet="bullet" remove-fn="removeBullet(bullet)" add-fn="">
     </bullet>
-    <bullet class="bullet-text" bullet="newBullet" remove-fn="removeBullet(newBullet)" add-fn="addBullet(newBullet)">
+    <bullet bullet="newBullet" remove-fn="removeBullet(newBullet)" add-fn="addBullet(newBullet)" ng-hide="noAdd">
     </bullet>
 </div>
