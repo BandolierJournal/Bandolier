@@ -9,7 +9,7 @@ bulletApp.directive('bulletIcon', function() {
         link: function(scope, element) {
 
             scope.iconType = function() {
-                const type = scope.bullet.status === 'incomplete' ? scope.bullet.type : scope.bullet.status;
+                const type = scope.bullet.type === 'Task' ? scope.bullet.status : scope.bullet.type;
                 return typeDict[type];
             };
 

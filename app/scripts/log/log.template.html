@@ -7,8 +7,13 @@
                 <button class="btn btn-sm" ng-click="next6()"><i class="glyphicon glyphicon-arrow-right"></i></button>
             </div>
             </h1>
-            <div ng-repeat="collection in collections track by collection.title">
-                <collection collection="collection"></collection>
+            <div class="collectionContainer">
+                <div class="collectionColumn">
+                    <collection ng-repeat="collection in collections | slice:0:3 track by collection.title" collection="collection"></collection>
+                </div>
+                <div class="collectionColumn">
+                    <collection ng-repeat="collection in collections | slice:3:6 track by collection.title" collection="collection"></collection>
+                </div>
             </div>
         </div>
     </div>

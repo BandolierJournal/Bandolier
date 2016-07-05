@@ -6,8 +6,14 @@
                 <button class="btn btn-sm" ng-click="nextMonth()"><i class="glyphicon glyphicon-arrow-right"></i></button>
             </div>
             </h1>
-        <month-cal collection="cal" days="daysInMonth"></month-cal>
-        <collection collection="future" no-add="true" month-title="log.title"></collection>
-        <collection collection="log" no-title="true"></collection>
+        <div class="collectionContainer">
+            <div>
+                <month-cal collection="cal" days="daysInMonth"></month-cal>
+            </div>
+            <div>
+                <collection collection="future" no-add="true" month-title="log.title"></collection>
+                <collection collection="log" no-title="true"></collection>
+            </div>
+        </div>
     </div>
 </div>

@@ -12,7 +12,7 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
         },
         link: function(scope) {
             scope.formattedTitle = scope.monthTitle ? formatTitle({title: scope.monthTitle, type: 'month'}) : formatTitle(scope.collection);
-            scope.newBullet = new Bullet.Task({date: scope.collection.title});
+            scope.newBullet = new Bullet.Task({status: 'new', date: scope.collection.title});
 
             function formatTitle(collection) {
                 switch(collection.type) {
@@ -51,7 +51,7 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
                 if (bullet.content && bullet.content.length > 0) {
                   return scope.collection.addBullet(bullet)
                   .then(function(){
-                      scope.newBullet = new Bullet.Task({date: scope.collection.title})
+                      scope.newBullet = new Bullet.Task({status: 'new', date: scope.collection.title})
                       scope.$evalAsync()
                   })
                   .catch($log.err);
