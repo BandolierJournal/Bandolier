@@ -52,9 +52,11 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
 
             scope.schedule = function(mode) {
                 if (mode === 'month') mode = 'future';
+                scope.popup = false;
                 scope.bullet.schedule(scope.bullet.date.toISOString(), mode)
                     .then(() => {
                         scope.showScheduler = false;
+                        scope.$evalAsync();
                     });
             };
 
@@ -113,10 +115,8 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             scope.save = function() {
                 $timeout(function() {
                     if (!scope.bullet.rev) scope.addFn();
-                    else scope.bullet.save().then(() => {
-                        scope.assigned = false;
-                    });
-                }, 10);
+                    else scope.bullet.save();
+                }, 100);
 
                 $timeout(function() {
                     scope.enableButtons = false;

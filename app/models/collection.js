@@ -49,9 +49,9 @@ class Collection {
         bullet.id = bullet.id || new Date().toISOString();
         if (this.bullets.find(b => b.id === bullet.id)) return;
         this.bullets.push(bullet);
+        if (bullet.collections.includes(this.id)) return;
         bullet.collections.push(this.id);
-
-        if(!bullet.date && Moment(this.title).isValid()) bullet.date = this.title;
+        if (!bullet.date && Moment(this.title).isValid()) bullet.date = this.title;
 
         //add to other collections check
         let search;
@@ -64,26 +64,25 @@ class Collection {
         }
 
         return Promise.all([this.save(), bullet.save()])
-        .catch(err => console.error('error ', err));
+            .catch(err => console.error('error ', err));
     }
 
     removeBullet(bullet) {
-        let bulletPromise = function(){};
+        let bulletPromise = function() {};
         let bulletIdx = this.bullets.indexOf(bullet);
         if (bulletIdx > -1) {
             bulletPromise = bullet.save.bind(bullet)
             this.bullets.splice(bulletIdx, 1);
             let collectionIdx = bullet.collections.indexOf(this.id)
             if (collectionIdx > -1) {
-              bullet.collections.splice(collectionIdx, 1);
-              if (bullet.collections.length < 1) {
-                bulletPromise = bullet.delete.bind(bullet)
-              }
-            }
-            else throw new Error('Database is so broken...')
+                bullet.collections.splice(collectionIdx, 1);
+                if (bullet.collections.length < 1) {
+                    bulletPromise = bullet.delete.bind(bullet)
+                }
+            } else throw new Error('Database is so broken...')
         }
         return Promise.all([this.save(), bulletPromise()])
-        .catch(err => console.error('error ', err))
+            .catch(err => console.error('error ', err))
     }
 
     save() {
