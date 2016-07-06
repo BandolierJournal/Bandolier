@@ -1,33 +1,37 @@
-var PouchDB = require('pouchdb');
-PouchDB.plugin(require('relational-pouch'));
+// var PouchDB = require('pouchdb');
+// PouchDB.plugin(require('relational-pouch'));
+// PouchDB.plugin(require('pouchdb-authentication'));
 
-var db = new PouchDB('bullet');
 
-db.setSchema([
-    {
-      singular: 'collection',
-      plural: 'collections',
-      relations: {
-          'bullets': {hasMany: 'bullet'}
-      }
-    },
-    {
-      singular: 'collectionShort',
-      plural: 'collectionShorts',
-      documentType: 'collection'
-    },
-    {
-  		singular: 'bullet',
-  		plural: 'bullets',
-  		relations: {
-  			'collections': {hasMany: 'collection'}
-  		}
-    },
-    {
-      singular: 'bulletShort',
-      plural: 'bulletShorts',
-      documentType: 'bullet'
-    }
-])
+module.exports = function(dbname) {
+    var db = new PouchDB(dbname);
 
-module.exports = db;
+    db.setSchema([
+        {
+            singular: 'collection',
+            plural: 'collections',
+            relations: {
+                'bullets': {hasMany: 'bullet'}
+            }
+        },
+        {
+            singular: 'collectionShort',
+            plural: 'collectionShorts',
+            documentType: 'collection'
+        },
+        {
+            singular: 'bullet',
+            plural: 'bullets',
+            relations: {
+                'collections': {hasMany: 'collection'}
+            }
+        },
+        {
+            singular: 'bulletShort',
+            plural: 'bulletShorts',
+            documentType: 'bullet'
+        }
+    ]);
+
+    return db;
+};

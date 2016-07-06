@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "add-cors-to-couchdb": "0.0.6",
     "electron-packager": "^7.0.4",
     "electron-prebuilt": "^1.2.0",
     "fs-jetpack": "^0.9.1",
@@ -29,5 +30,6 @@
     "run-sequence": "^1.2.1"
   },
   "keywords": [],
-  "description": ""
+  "description": "",
+  "dependencies": {}
 }
