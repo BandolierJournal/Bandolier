@@ -6,7 +6,7 @@
             <li class="text-muted"><a class="navbar-link" ng-click="lastMonth()">monthly tracker</a></li>
             <li class="text-muted"><a class="navbar-link" ng-click="lastDaily()">daily log</a></li>
             <li class="text-muted"><a class="navbar-link" ng-if="currentStates.genericTitle" ng-click="lastGeneric()">{{currentStates.genericTitle | date: "MMM d" | lowercase }}</a></li>
-            <li class="text-muted"><a class="navbar-link" ui-sref="landing">landing TO REMOVE</a></li>
+            <!-- <li class="text-muted"><a class="navbar-link" ui-sref="landing">landing TO REMOVE</a></li> -->
         </ul>
         <ul class="menu pagination navbar-right">
             <li refresh id="refresh" class="text-muted"><a class="navbar-link" ng-class="{offline: !online || !user}" ng-click="login()"><i class="fa fa-fw fa-refresh" ng-class="{'fa-spin': user && sync}"></i></a></li>

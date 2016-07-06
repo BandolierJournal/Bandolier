@@ -7,7 +7,6 @@ bulletApp.factory('currentStates', function ($rootScope) {
     genericTitle: false
   }
   $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
-    console.log(typeof toParams);
     currentStates[toState.name] = toParams;
     // These are useful for testing
     // console.log('ts', toState);

@@ -14,7 +14,7 @@ bulletApp.directive('monthCal', function($log) {
 
             function generateBulletList () {
               scope.bulletList = scope.days.map(day => {
-                  return scope.collection.bullets.find(bullet => bullet.date === day) || new Bullet.Task({
+                  return scope.collection.bullets.find(bullet => bullet.date === day) || new Bullet.Event({
                       date: day
                   });
               })
