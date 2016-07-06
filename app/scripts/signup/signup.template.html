@@ -1,6 +1,19 @@
-<form>
-    <input type="email" ng-model="user.email" />
-    <input type="password" ng-model="user.password" />
-    <button type="sbumit" ng-click="login(user)">sign in</button>
-    <button type="submit" ng-click="signup(user)">sign up</button>
-</form>
+<div class="container">
+    <div class="landing-page">
+        <div>
+            <h1 class="display-1">welcome!</h1>
+        </div>
+        <div>
+        	<blockquote>
+            <form class="form-inline">
+            	<div class="form-group">
+                <input class="form-control" type="email" ng-model="user.email" placeholder="email..."/>
+                <input class="form-control" type="password" ng-model="user.password" placeholder="password..."/>
+                <button class="btn btn-default sign" type="sbumit" ng-click="login(user)">sign in</button>
+                <button class="btn btn-default sign" type="submit" ng-click="signup(user)">sign up</button>
+                </div>
+            </form>
+            </blockquote>
+        </div>
+    </div>
+</div>

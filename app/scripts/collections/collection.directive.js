@@ -10,7 +10,7 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
             monthTitle: '=',
             noTitle: '='
         },
-        link: function(scope) {
+        link: function(scope, element) {
             scope.formattedTitle = scope.monthTitle ? formatTitle({title: scope.monthTitle, type: 'month'}) : formatTitle(scope.collection);
             
             scope.newBullet = new Bullet.Task({status: 'new'});
@@ -21,7 +21,7 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
                         return 'Log'; //Moment(collection.title).format('MMMM')+' Log';
                         break;
                     case 'future':
-                        return Moment(collection.title).format('MMM YYYY').toUpperCase();
+                        return Moment(collection.title).format('MMMM YYYY').toUpperCase();
                         break;
                     case 'day':
                         return DateFactory.getWeekday(collection.title)+', '+Moment(collection.title).format('MMMM D');
@@ -60,6 +60,10 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
                   .catch($log.err);
               };
             }
+
+            element.on('click', function() {
+                angular.element(element.addClass('no-hover'));
+            })
         }
     };
 });

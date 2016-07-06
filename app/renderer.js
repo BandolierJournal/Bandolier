@@ -15,9 +15,11 @@ const typeDict = {
     "Note": "fa-long-arrow-right",
     "incomplete": "fa-circle-o",
     "complete": "fa-check-circle-o", //fa-check-square-o"
-    "migrated": "fa-sign-out",
+    "migrated": "fa-angle-double-right",
     "scheduled": "fa-angle-double-left",
-    "struck": "strikethrough"
+    "struck": "strikethrough",
+    "toMigrate": "fa-paper-plane",
+    "toSchedule": "fa-calendar",
 };
 
 function userDBUrl(username){
