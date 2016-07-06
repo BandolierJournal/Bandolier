@@ -8,6 +8,7 @@ var bullets = [];
 var status = ['incomplete', 'complete'];
 
 function generateTaskBullet(i) {
+    let collection = Math.floor(i/13).toString();
     return new Bullet.Task({
         id: i.toString(),
         content: chance.sentence(),
@@ -15,7 +16,8 @@ function generateTaskBullet(i) {
             min: 1,
             max: 28
         })),
-        status: chance.pickone(status)
+        status: chance.pickone(status),
+        collections: [collection]
     });
 }
 
