@@ -25,7 +25,7 @@ module.exports = function (db) {
         }
 
         moveTo(collectionName, type) {
-            const Collection = require('./collection');
+            const Collection = require('./collection')(db);
             return Collection.fetchAll({
                     title: collectionName,
                     type: type
