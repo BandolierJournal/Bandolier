@@ -59,12 +59,17 @@ h5.key-title {
 }
 
 .inline {
-    display: inline-block;
+    display: inline;
 }
 
 h4.page-header {
     font-size: 30px;
     line-height: 0.8;
+}
+
+button.btn.sign, .popover-title {
+    font-size: 22px;
+    line-height: 0.9;
 }
 
 .landing-page h1,
@@ -75,6 +80,10 @@ blockquote {
     position: absolute;
     top: 50%;
     width: 100%;
+}
+
+.form-control.important {
+    font-family: $body-font !important;
 }
 
 .landing-page h1 {
@@ -227,7 +236,8 @@ body {
 }
 
 #refresh .offline {
-    background-color: #FF7878;
+    background-color: #FFE4C4;
+    border-color: white;
 }
 
 // Custom Datepicker typeahead

@@ -9,6 +9,7 @@ bulletApp.directive('searchBar', function(currentStates, $state) {
             scope.go = function(item) {
                 if (item.collections.length) $state.go('generic', {id: item.collections[0]});
                 else $state.go('index');
+                scope.select = null;
             }
 
         }
