@@ -1,20 +1,40 @@
 <div class="container">
-    <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <h1 class="page-header" id="indexTitle">INDEX</h1>
+    <div class="index-page row">
+        <div class="index-section">
             <div ui-sref="future">
-                <h4>Future Log</h4>
+                <h4 class="index-titling">Future Log</h4>
             </div>
-            <div class="bullet-row" ng-repeat="collection in collections track by $index" ng-mouseenter="delete = !delete">
-                <h4 ui-sref="{{collection.type}}({id: collection.id})"">{{collection.title}}</h4>
-                <i class="bullet-menu" ng-show="delete" ng-click="deleteCollection(collection)"><i class="glyphicon glyphicon-trash"></i></i>
+            <div ng-repeat="collection in collections track by $index" ng-mouseenter="delete = !delete">
+                <h4 class="index-titling inline" ui-sref="{{collection.type}}({id: collection.id})" ">{{collection.title}}</h4>
+                <i class="inline text-muted ">{{collection.bullets.length}}</i>
+                <i class="inline " ng-show="delete " ng-click="deleteCollection(collection) ">
+                    <i class="glyphicon glyphicon-trash "></i>
+                </i>
             </div>
-            <div ng-repeat="(key, value) in months" ui-sref='month({monthString: key})'>
-                <h4>{{key | date:'MMMM yyyy'}}</h4>
+
+            <div ng-repeat="(key, value) in months " ui-sref='month({monthString: key})'>
+                <h4 class="index-titling ">{{key | date:'MMMM yyyy'}}</h4>
             </div>
-            <div ui-sref="daily">
-                <h4>Daily Log</h4>
+            <div ui-sref="daily ">
+                <h4 class="index-titling ">Daily Log</h4>
             </div>
+            <h1 class="page-header index-title ">INDEX</h1>
+
+        </div>
+        <div class="pull-right key ">
+            <h5 class="page-header key-title ">key</h5>
+            <dl class="dl-horizontal ">
+                <dt><i class="fa fa-fw " ng-class="typeDict.Task "></i></dt>
+                <dd>Task</dd>
+                <dt><i class="fa fa-fw " ng-class="typeDict.Event "></i></dt>
+                <dd>Event</dd>
+                <dt><i class="fa fa-fw " ng-class="typeDict.Note "></i></dt>
+                <dd>Note</dd>
+                <dt><i class="fa fa-fw " ng-class="typeDict.toMigrate "></i></dt>
+                <dd>Migrate</dd>
+                <dt><i class="fa fa-fw " ng-class="typeDict.toSchedule "></i></dt>
+                <dd>Schedule</dd>
+            </dl>
         </div>
     </div>
 </div>

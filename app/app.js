@@ -17,7 +17,9 @@ const typeDict = {
     "complete": "fa-check-circle-o", //fa-check-square-o"
     "migrated": "fa-angle-double-right",
     "scheduled": "fa-angle-double-left",
-    "struck": "strikethrough"
+    "struck": "strikethrough",
+    "toMigrate": "fa-paper-plane",
+    "toSchedule": "fa-calendar",
 };
 
 bulletApp.config(function($urlRouterProvider) {
