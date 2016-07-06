@@ -5,9 +5,12 @@ bulletApp.config(function ($stateProvider) {
     templateUrl: 'scripts/generic/generic.template.html',
     controller: 'GenericCtrl',
     resolve: {
-        collection: function($stateParams) { 
+        collection: function($stateParams, currentStates) { 
             return Collection.findOrReturn({id: $stateParams.id})
-                .then(c => c[0]); 
+                .then(c => {
+                    currentStates.genericTitle = c[0].title
+                    return c[0];
+                }); 
         }
     }
   });
