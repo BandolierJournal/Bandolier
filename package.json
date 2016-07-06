@@ -29,5 +29,6 @@
     "run-sequence": "^1.2.1"
   },
   "keywords": [],
-  "description": ""
+  "description": "",
+  "dependencies": {}
 }
