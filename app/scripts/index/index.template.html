@@ -5,9 +5,9 @@
             <div ui-sref="future">
                 <h4>Future Log</h4>
             </div>
-            <div ng-repeat="collection in collections track by $index" ng-mouseenter="delete = !delete">
+            <div class="bullet-row" ng-repeat="collection in collections track by $index" ng-mouseenter="delete = !delete">
                 <h4 ui-sref="{{collection.type}}({id: collection.id})"">{{collection.title}}</h4>
-                <i ng-show="delete" ng-click="deleteCollection(collection)"><i class="glyphicon glyphicon-trash"></i></i>
+                <i class="bullet-menu" ng-show="delete" ng-click="deleteCollection(collection)"><i class="glyphicon glyphicon-trash"></i></i>
             </div>
             <div ng-repeat="(key, value) in months" ui-sref='month({monthString: key})'>
                 <h4>{{key | date:'MMMM yyyy'}}</h4>

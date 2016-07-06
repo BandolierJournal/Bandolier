@@ -21,7 +21,7 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
                         return 'Log'; //Moment(collection.title).format('MMMM')+' Log';
                         break;
                     case 'future':
-                        return Moment(collection.title).format('MMM YYYY').toUpperCase();
+                        return Moment(collection.title).format('MMMM YYYY').toUpperCase();
                         break;
                     case 'day':
                         return DateFactory.getWeekday(collection.title)+', '+Moment(collection.title).format('MMMM D');

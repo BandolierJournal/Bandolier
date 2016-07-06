@@ -14,4 +14,10 @@ bulletApp.config(function ($stateProvider) {
     }
   });
 
+  $stateProvider.state('landing', {
+    url: '/landing',
+    templateUrl: 'scripts/index/landingpage.html',
+    controller: 'LandingCtrl'
+  })
+
 });
