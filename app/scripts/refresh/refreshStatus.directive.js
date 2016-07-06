@@ -10,17 +10,18 @@ bulletApp.directive('refresh', function($state, $rootScope, AuthFactory){
                     $rootScope.$apply(function(){
                         $rootScope.user = username;
                     });
-                    AuthFactory.syncDB(username);
+                    AuthFactory.syncDB(username)
                 }
             })
+            .catch(console.error.bind(console))
 
             scope.syncing = function() {
                 return $rootScope.sync;
-            }
+            };
 
             scope.login = function() {
                 if(!$rootScope.user) $state.go('signup');
-            }
+            };
         }
-    }
+    };
 });

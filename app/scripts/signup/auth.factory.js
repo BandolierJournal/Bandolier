@@ -37,7 +37,7 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
                 $timeout(function() {
                     $rootScope.sync = false;
                 }, 500);
-            })
+            });
     }
 
     Auth.login = function (user) {
