@@ -9,8 +9,6 @@ let Bullet = require('./models/bullet')(db);
 const remoteDBAddress = require('./secrets.json').dbURL;
 const Moment = require('moment');
 
-console.log(remoteDBAddress);
-
 const typeDict = {
     "Task": "fa-circle-o",
     "Event": "fa-first-order",
