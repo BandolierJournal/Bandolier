@@ -41,6 +41,7 @@ class Bullet {
     delete() {
         if (this.rev) return db.rel.del('bullets', this);
     }
+
 }
 
 
@@ -107,11 +108,21 @@ class EventBullet extends DatedBullet {
     }
 }
 
+function fetchAll(string) {
+    return db.rel.find('bulletShort')
+        .then(res => {
+            let bullets = res.bulletShorts;
+            if (string) bullets = bullets.filter(b => b.content.includes(string));
+            return bullets;
+        })
+        .catch(err => console.error('could not fetch bullets', err));
+}
 
 const Bullets = {
     Task: Task,
     Event: EventBullet,
-    Note: Note
+    Note: Note,
+    fetchAll: fetchAll
 };
 
 module.exports = Bullets;

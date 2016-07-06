@@ -35,6 +35,17 @@ html {
 
 }
 
+.dropdown-menu {
+    top: auto !important;
+    bottom: 100% !important;
+    left: auto !important;
+    max-height: 300px !important;
+    font-size: 12px;
+    padding: 0px;
+    line-height: 1;
+    overflow: hidden;
+}
+
 .collectionContainer {
     display: flex;
     justify-content: center;

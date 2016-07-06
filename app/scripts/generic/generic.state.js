@@ -6,7 +6,8 @@ bulletApp.config(function ($stateProvider) {
     controller: 'GenericCtrl',
     resolve: {
         collection: function($stateParams) { 
-            return Collection.findOrReturn({id: $stateParams.id}); 
+            return Collection.findOrReturn({id: $stateParams.id})
+                .then(c => c[0]); 
         }
     }
   });
