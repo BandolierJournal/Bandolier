@@ -36,16 +36,17 @@ h4.index-titling {
     font-family: $body-font;
 }
 
-.index-page {
-    display: flex;
-    align-items: flex-end;
+.key {
+    position: absolute;
+    top: 10%;
+    right: 10%;
 }
 
 .index-section {
-    align-self: flex-end;
-    flex: 5;
-    flex: flex-grow;
-    margin-top: auto;
+    position: absolute;
+    top: auto;
+    bottom: 10%;
+    left: 10%;
 }
 
 h1.index-title {
@@ -53,6 +54,7 @@ h1.index-title {
 }
 
 h5.key-title {
+    text-indent: 80px;
     font-size: 25px
 }
 
