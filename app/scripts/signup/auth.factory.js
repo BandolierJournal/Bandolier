@@ -35,7 +35,7 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
             })
             .on('paused', function () {
                 $timeout(function() {
-                    $rootScope.sync = true;
+                    $rootScope.sync = false;
                 }, 500);
             })
     }
