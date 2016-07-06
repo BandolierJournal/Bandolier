@@ -1,22 +1,21 @@
 <navbar class="navbar navbar-default navbar-fixed-bottom">
-  <div class="container">
-    <ul class="menu pagination">
-      <li class="text-muted"><a class="navbar-link" ui-sref="index">index</a></li>
-      <li class="text-muted"><a class="navbar-link" ng-click="lastFuture()">future log</a></li>
-      <li class="text-muted"><a class="navbar-link" ng-click="lastMonth()">monthly tracker</a></li>
-      <li class="text-muted"><a class="navbar-link" ng-click="lastDaily()">daily log</a></li>
-      <li class="text-muted"><a class="navbar-link" ng-if="currentStates.genericTitle" ng-click="lastGeneric()">{{currentStates.genericTitle}}</a></li>
-      <li class="text-muted"><a class="navbar-link" ui-sref="index">pinned</a></li>
-    </ul>
+    <div class="container">
+        <ul class="menu pagination">
+            <li class="text-muted"><a class="navbar-link" ui-sref="index">index</a></li>
+            <li class="text-muted"><a class="navbar-link" ng-click="lastFuture()">future log</a></li>
+            <li class="text-muted"><a class="navbar-link" ng-click="lastMonth()">monthly tracker</a></li>
+            <li class="text-muted"><a class="navbar-link" ng-click="lastDaily()">daily log</a></li>
+            <li class="text-muted"><a class="navbar-link" ng-if="currentStates.genericTitle" ng-click="lastGeneric()">{{currentStates.genericTitle}}</a></li>
+            <li class="text-muted"><a class="navbar-link" ui-sref="index">pinned</a></li>
+        </ul>
 
-    <div class="text-muted navbar-right">
-      <a class="navbar-link" ui-sref="signup">login</>
-    </div>
+        <ul class="menu pagination navbar-right">
+            <li refresh id="refresh" class="text-muted"><a class="navbar-link" ng-class="{offline: !online}" ng-click="login()"><i class="fa fa-fw fa-refresh" ng-class="{'fa-spin': user && sync}"></i></a></li>
+        </ul>
 
-    <div class="navbar-form navbar-right">
-      <add-collection collection-type="generic"></add-collection>
-    </div>
-
+        <div class="navbar-form navbar-right">
+            <add-collection collection-type="generic"></add-collection>
+        </div>
 
   </div>
   <!-- TODO: The following sections should be moved into either menus or modals -->

@@ -1,36 +1,52 @@
 /*jshint node:true, esversion:6*/
-bulletApp.factory('AuthFactory', function ($state) {
-    let userDB;
-    let username;
+bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
+
+    const Auth = {};
 
     function createUserDB(user, verb) {
-        username = user.email.split('@')[0];
-        remoteDB = new PouchDB(remoteDBAddress + 'userdb-' + username.toHex(), {skipSetup: true});
+        let username = user.email.split('@')[0];
         return remoteDB[verb](username, user.password)
             .then(res => {
                 console.log(res);
-                userDB = require('./models')('userdb-' + username.toHex());
-                Collection = require('./models/collection')(userDB);
-                Bullet = require('./models/bullet')(userDB);
+                return verb === 'signup' ? Auth.login(user) : res;
             })
-            .then(() => {
-                userDB.sync(remoteDB, {
-                    live: true,
-                    retry: true
-                })
+            .then(res => {
+                $rootScope.$apply(function(){
+                    $rootScope.user = res.name;
+                });
+                console.log(Auth.syncDB(username));
                 $state.go('index')
             })
             .catch(err => console.error("Couldn't signin: ", err));
     }
 
-    return {
-        login: function (user) {
-            return createUserDB(user, 'login')
-                .then(() => $state.go('index'))
-        },
-        signup: function (user) {
-            return createUserDB(user, 'signup')
-                .then(() => $state.go('index'))
-        }
+    Auth.syncDB = function(username) {
+        remoteDB = new PouchDB(remoteDBAddress + userDBUrl(username), {
+            skipSetup: true
+        });
+        return db.sync(remoteDB, {
+                live: true,
+                retry: true
+            })
+            .on('active', function () {
+                $rootScope.$apply(function () {
+                    $rootScope.sync = true;
+                })
+            })
+            .on('paused', function () {
+                $timeout(function() {
+                    $rootScope.sync = true;
+                }, 500);
+            })
     }
+
+    Auth.login = function (user) {
+        return createUserDB(user, 'login');
+    }
+
+    Auth.signup = function (user) {
+        return createUserDB(user, 'signup');
+    }
+
+    return Auth;
 });
