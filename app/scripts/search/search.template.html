@@ -1,0 +1,7 @@
+<div class="form-group form-horizontal">
+<span ng-show="noResults">
+    <i>No bullets found</i>
+</span>
+<i ng-show="loading" class="glyphicon glyphicon-refresh"></i>
+<input type="text" ng-model="select" placeholder="search..." uib-typeahead="bullet.content for bullet in getBullets($viewValue) | limitTo:5" class="form-control" typeahead-loading="loading" typeahead-no-results="noResults" typeahead-on-select="go($item)" typeahead-min-length="2">
+</div>

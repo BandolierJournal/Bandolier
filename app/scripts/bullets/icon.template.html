@@ -1,4 +1,1 @@
-<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 bullet">
-    <i ng-if="!header" ng-show="isNew(bullet)" class="fa fa-fw" ng-class="iconType()" ng-click="toggleDone()"></i>
-    <span ng-if="header">{{header}}</span>
-</div>
+<i ng-show="bullet.content||bullet.status!=='new'" class="fa fa-fw" ng-class="iconType()" ng-click="toggleDone()"></i>

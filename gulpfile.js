@@ -29,27 +29,28 @@ var destDir = projectDir.cwd('./build');
 // --------------------------------------------------------------
 
 // Live reload business.
-gulp.task('reload', function () {
+gulp.task('reload', function() {
     livereload.reload();
 });
 
-gulp.task('clean', function (callback) { 
-    return destDir.dirAsync('.', { empty: true }); 
+gulp.task('clean', function(callback) {
+    return destDir.dirAsync('.', { empty: true });
 });
 
-gulp.task('copy', ['clean'], function () { 
-    return projectDir.copyAsync('app', destDir.path(), { 
-        overwrite: true, matching: [ 
-            './node_modules/**/*', 
-            '*.html', 
-            '*.css', 
-            'main.js', 
-            'package.json' 
-       ] 
-    }); 
+gulp.task('copy', ['clean'], function() {
+    return projectDir.copyAsync('app', destDir.path(), {
+        overwrite: true,
+        matching: [
+            './node_modules/**/*',
+            '*.html',
+            '*.css',
+            'main.js',
+            'package.json'
+        ]
+    });
 });
 
- 
+
 // gulp.task('build', ['copy'], function () { 
 //   return gulp.src('./app/index.html') 
 //     .pipe(usemin({ 
@@ -59,7 +60,7 @@ gulp.task('copy', ['clean'], function () {
 // }); 
 
 
-gulp.task('lintJS', function () {
+gulp.task('lintJS', function() {
 
     return gulp.src(['./app/scripts/**.js', './app/**.js'])
         .pipe(plumber({
@@ -71,7 +72,7 @@ gulp.task('lintJS', function () {
 
 });
 
-gulp.task('buildJS', ['lintJS'], function () {
+gulp.task('buildJS', ['lintJS'], function() {
     return gulp.src(['./app/app.js', './app/scripts/**/**.js'])
         .pipe(plumber())
         .pipe(sourcemaps.init())
@@ -80,7 +81,7 @@ gulp.task('buildJS', ['lintJS'], function () {
         .pipe(gulp.dest('./app/assets'));
 });
 
-gulp.task('buildCSS', function () {
+gulp.task('buildCSS', function() {
 
     var sassCompilation = sass();
     sassCompilation.on('error', console.error.bind(console));
@@ -123,7 +124,7 @@ gulp.task('buildCSS', function () {
 // Composed tasks
 // --------------------------------------------------------------
 
-gulp.task('build', function () {
+gulp.task('build', function() {
     if (process.env.NODE_ENV === 'production') {
         runSeq(['buildJSProduction', 'buildCSSProduction']);
     } else {
@@ -131,21 +132,22 @@ gulp.task('build', function () {
     }
 });
 
-gulp.task('default', function () {
+gulp.task('default', function() {
 
     gulp.start('build');
 
     // Run when anything inside of app/scripts changes.
-    gulp.watch('app/scripts/**', function () {
-        runSeq('buildJS', 'reload');
+    gulp.watch(['app/scripts/**/*.js', 'app/app.js'], function() {
+        runSeq('lintJS', 'buildJS', 'reload')
     });
 
     // // Run when anything inside of browser/scss changes.
-    gulp.watch('app/scss/**', function () {
+    gulp.watch('app/scss/**', function() {
         runSeq('buildCSS');
     });
 
-    gulp.watch('app/scripts/**/*.js', ['lintJS']);
+
+
 
     // // Run server tests when a server file or server test file changes.
     // gulp.watch(['tests/server/**/*.js'], ['testServerJS']);

@@ -9,6 +9,17 @@ let Bullet = require('./models/bullet')(db);
 const remoteDBAddress = 'http://localhost:5984/';
 const Moment = require('moment');
 
+const typeDict = {
+    "Task": "fa-circle-o",
+    "Event": "fa-first-order",
+    "Note": "fa-long-arrow-right",
+    "incomplete": "fa-circle-o",
+    "complete": "fa-check-circle-o", //fa-check-square-o"
+    "migrated": "fa-sign-out",
+    "scheduled": "fa-angle-double-left",
+    "struck": "strikethrough"
+};
+
 function userDBUrl(username){
     return `userdb-${username.toHex()}`;
 }

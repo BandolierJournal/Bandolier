@@ -13,32 +13,99 @@ html {
 }
 
 .fa {
-    font-size: 13px
+    font-size: 12px
+}
+
+.bullet-row {
+    display: flex;
+}
+
+.bullet-icon {
+    margin-right: 7px;
 }
 
 .bullet-text {
-    padding-left: 5px;
+    min-width: 395px;
 }
 
-.bullet {
-    padding: 3px;
-    text-align: right;
+.bullet-menu {
+    margin-left: auto;
+    min-width: 35px;
+    margin-top: auto;
+
 }
 
-.new {
-    border-bottom: 1px solid #F5F5F5;
+.dropdown-menu {
+    top: auto !important;
+    bottom: 100% !important;
+    left: auto !important;
+    right: 10% !important;
+    max-height: 300px !important;
+    font-size: 12px;
+    padding: 0px;
+    line-height: 1;
+    width: 40em;
+    overflow: hidden;
 }
 
-
-//not yet in use
-.new-collection:hover {
-    -webkit-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
-    box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
+.collectionContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
+
+.collectionColumn {
+    max-width: 40em;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+[contenteditable]:focus {
+    outline: 0 solid transparent;
+    border-bottom: 1px dashed #A2AFC2;
+}
+
+[contenteditable]:hover {
+    border-bottom: 1px dashed #A2AFC2;
+}
+
+// .collection:hover {
+//     -webkit-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
+//     -moz-box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
+//     box-shadow: 4px 20px 29px -4px rgba(0, 0, 0, 0.75);
+// }
 
 .done {
     font-style: italic;
+}
+
+.popover {
+    max-width: none;
+}
+
+.popover.bottom {
+    border: none;
+    margin-top: -1px;
+    box-shadow: none;
+}
+
+.dateHeader {
+    margin-right: 10px
+}
+
+.datepicker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popover-content {
+    padding: 3px;
+}
+
+.popover .arrow {
+    display: none;
 }
 
 // Sticky Footer
@@ -50,7 +117,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    // -webkit-app-region: drag
+    -webkit-app-region: drag
 }
 
 .navbar {
@@ -63,9 +130,8 @@ body {
 }
 
 #refresh .offline {
-    background-color: #B05D54;
+    background-color: #FF7878;
 }
-
 
 // Custom Datepicker typeahead
 date-picker .custom-popup-wrapper {
@@ -75,15 +141,15 @@ date-picker .custom-popup-wrapper {
     z-index: 1000;
     display: none;
     background-color: #f9f9f9;
-  }
+}
 
-  date-picker .custom-popup-wrapper > .message {
+date-picker .custom-popup-wrapper > .message {
     padding: 10px 20px;
     border-bottom: 1px solid #ddd;
     color: #868686;
-  }
+}
 
-  date-picker .custom-popup-wrapper > .dropdown-menu {
+date-picker .custom-popup-wrapper > .dropdown-menu {
     position: static;
     float: none;
     display: block;
@@ -92,4 +158,4 @@ date-picker .custom-popup-wrapper {
     border: none;
     border-radius: 0;
     box-shadow: none;
-  }
+}

@@ -7,6 +7,9 @@ bulletApp.config(function ($stateProvider) {
     resolve: {
         collections: function() {
             return Collection.fetchAll();
+        },
+        bullets: function() {
+            return Bullet.fetchAll('event');
         }
     }
   });

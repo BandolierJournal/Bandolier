@@ -47,46 +47,52 @@ module.exports = function(db) {
             }
         }
 
-        addBullet(bullet) {
-            bullet.id = bullet.id || new Date().toISOString();
-            if (this.bullets.find(b => b.id === bullet.id)) return;
-            this.bullets.push(bullet);
-            bullet.collections.push(this.id);
+    addBullet(bullet) {
+        bullet.id = bullet.id || new Date().toISOString();
+        if (this.bullets.find(b => b.id === bullet.id)) return;
+        this.bullets.push(bullet);
+        if (bullet.collections.includes(this.id)) return;
+        bullet.collections.push(this.id);
+        if (!bullet.date && Moment(new Date(this.title)).isValid()) bullet.date = this.title;
 
-            if(!bullet.date && Moment(this.title).isValid()) bullet.date = this.title;
-
-            //add to other collections check
-            let search;
-            if (this.type === 'month-cal' || bullet.type === 'Event') search = { title: Moment(bullet.date).startOf('day').toISOString(), type: 'day' };
-            if (this.type === 'future') search = { title: this.title, type: 'month' };
-            if (search) {
-                Collection.fetchAll(search)
+        //add to other collection check
+        if (this.type === 'month-cal') {
+            Collection.fetchAll({ title: Moment(bullet.date).startOf('day').toISOString(), type: 'day' })
                 .then(c => c[0].addBullet(bullet))
                 .catch(err => console.error(err));
             }
 
-            return Promise.all([this.save(), bullet.save()])
+        return Promise.all([this.save(), bullet.save()])
             .catch(err => console.error('error ', err));
-        }
+    }
 
-        removeBullet(bullet) {
-            let bulletPromise = function(){};
-            let bulletIdx = this.bullets.indexOf(bullet);
-            if (bulletIdx > -1) {
-                bulletPromise = bullet.save.bind(bullet);
-                this.bullets.splice(bulletIdx, 1);
-                let collectionIdx = bullet.collections.indexOf(this.id);
-                if (collectionIdx > -1) {
-                    bullet.collections.splice(collectionIdx, 1);
-                    if (bullet.collections.length < 1) {
-                        bulletPromise = bullet.delete.bind(bullet);
-                    }
-                }
-                else throw new Error('Database is so broken...');
-            }
-            return Promise.all([this.save(), bulletPromise()])
-            .catch(err => console.error('error ', err));
+    delete() {
+        if (this.rev && this.type === 'generic') {
+            let removingBullets = this.bullets.map(bullet => this.removeBullet(bullet));
+
+            return Promise.all(removingBullets)
+                .then(() => db.rel.del('collections', this))
+                .catch(err => console.error(err));
         }
+    }
+
+    removeBullet(bullet) {
+        let bulletPromise = function() {};
+        let bulletIdx = this.bullets.indexOf(bullet);
+        if (bulletIdx > -1) {
+            bulletPromise = bullet.save.bind(bullet)
+            this.bullets.splice(bulletIdx, 1);
+            let collectionIdx = bullet.collections.indexOf(this.id);
+            if (collectionIdx > -1) {
+                bullet.collections.splice(collectionIdx, 1);
+                if (bullet.collections.length < 1) {
+                    bulletPromise = bullet.delete.bind(bullet)
+                }
+            } else throw new Error('Database is so broken...')
+        }
+        return Promise.all([this.save(), bulletPromise()])
+            .catch(err => console.error('error ', err))
+    }
 
         save() {
             let bulletInstances = this.bullets;

@@ -1,13 +1,25 @@
-<div class="row">
-    <bullet-icon bullet="bullet" header="header"></bullet-icon>
-    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6 bullet-text" ng-class="{strikethrough: bullet.strike, new: !bullet.content.length, done: bullet.status === 'complete'}">
-        <div contenteditable ng-model="bullet.content" ng-focus="enableButtons = true; showButtons = 1" ng-blur="showButtons = 0"></div>
+<div class="bullet-row">
+    <bullet-icon ng-hide="hideIcon" class="bullet-icon" bullet="bullet"></bullet-icon>
+    <div uib-popover-template="datepickerUrl" 
+        popover-is-open="showScheduler" 
+        popover-placement="right">
     </div>
-    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-show="showButtonPanel(bullet)" style="opacity:{{showButtons}}">
-        <i class="fa fa-fw fa-paper-plane" ng-click="migrate()" ng-show="showMigrateButton(bullet)" title="migrate"></i>
-        <i class="fa fa-fw fa-calendar" ng-click="showScheduler = true" ng-show="showScheduleButton(bullet)" title="schedule"></i>
+    <div class="bullet-text" 
+        ng-class="{strikethrough: bullet.status==='struck', done: !editable()}" 
+        uib-popover-template="templateUrl" popover-enable="editable()" popover-trigger="focus" popover-placement="bottom-left" 
+        contenteditable ng-model="bullet.content" 
+        ng-focus="enableButtons = true" 
+        ng-blur="save()">
     </div>
-
-    <!-- TODO: the date picker is here for now but eventually it should be a modal -->
-    <date-picker ng-show="showScheduler" class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></date-picker>
+    <div class="bullet-menu" ng-if="showButtonPanel(bullet)">
+        <i class="fa fa-fw fa-calendar" ng-click="toggleScheduler()" 
+            ng-show="showScheduleButton(bullet)" 
+            title="schedule"></i>
+        <i eat-click id="migrate" class="fa fa-fw fa-paper-plane" ng-click="migrate()" 
+            ng-show="showMigrateButton(bullet)" 
+            title="migrate"></i>
+    </div>
+    <i ng-if="bullet.status==='scheduled'" class="text-muted bullet-menu">
+        {{bullet.date | date: 'MMM-dd' }}</i>
 </div>
+<!-- <pre>{{bullet | json}}</pre> -->

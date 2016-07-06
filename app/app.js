@@ -7,7 +7,6 @@ bulletApp.config(function ($urlRouterProvider) {
         $urlRouterProvider.otherwise('/index');
     })
     .run(function ($window, $rootScope) {
-
         /* Connection Status Detection and Update */
         $rootScope.online = navigator.onLine;
 

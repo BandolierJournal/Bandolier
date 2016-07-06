@@ -1,35 +1,27 @@
 /*jshint esversion: 6*/
-bulletApp.directive('bulletIcon', function () {
+bulletApp.directive('bulletIcon', function() {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/icon.template.html',
         scope: {
-            bullet: '=',
-            header: '='
+            bullet: '='
         },
-        link: function (scope, element) {
-            const typeDict = {
-                "Task": "fa-circle-o", //fa-square-o
-                "Event": "fa-first-order",
-                "Note": "fa-long-arrow-right",
-                "complete": "fa-check-circle-o", //fa-check-square-o"
-                "migrated": "fa-sign-out",
-                "scheduled": "fa-angle-double-left"
-            };
+        link: function(scope, element) {
 
-            scope.isNew = function (bullet) {
-                return (bullet) ? bullet.content : false;
-            };
-
-            scope.iconType = function () {
-                const type = scope.bullet.status === 'incomplete' ? scope.bullet.type : scope.bullet.status;
+            scope.iconType = function() {
+                let type;
+                if (!scope.bullet.status) type = scope.bullet.type;
+                else type = scope.bullet.status === 'incomplete' ? scope.bullet.type : scope.bullet.status;
                 return typeDict[type];
             };
 
-            scope.toggleDone = function () {
-                scope.bullet.toggleDone();
-                scope.bullet.save();
+            scope.toggleDone = function() {
+                if (scope.bullet.type === "Task") {
+                    scope.bullet.toggleDone();
+                    scope.bullet.save();
+                }
             };
+
         }
     };
 });

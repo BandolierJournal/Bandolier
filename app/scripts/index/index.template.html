@@ -1,20 +1,20 @@
 <div class="container">
-  <div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-      <h1 class="page-header" id="indexTitle">INDEX</h1>
-      <div ui-sref="future">
-        <h4>Future Log</h4>
-      </div>
-      <div ng-repeat="collection in collections" ui-sref="{{collection.type}}({id: collection.id})">
-        <h4>{{collection.title}}</h4>
-      </div>
-      <div ng-repeat="(key, value) in months" ui-sref='month({monthString: key})'>
-        <h4>{{key | date:'MMMM yyyy'}}</h4>
-      </div>
-      <div ui-sref="daily">
-        <h4>Daily Log</h4>
-      </div>
-      <add-collection></add-collection>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <h1 class="page-header" id="indexTitle">INDEX</h1>
+            <div ui-sref="future">
+                <h4>Future Log</h4>
+            </div>
+            <div ng-repeat="collection in collections track by $index" ng-mouseenter="delete = !delete">
+                <h4 ui-sref="{{collection.type}}({id: collection.id})"">{{collection.title}}</h4>
+                <i ng-show="delete" ng-click="deleteCollection(collection)"><i class="glyphicon glyphicon-trash"></i></i>
+            </div>
+            <div ng-repeat="(key, value) in months" ui-sref='month({monthString: key})'>
+                <h4>{{key | date:'MMMM yyyy'}}</h4>
+            </div>
+            <div ui-sref="daily">
+                <h4>Daily Log</h4>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
