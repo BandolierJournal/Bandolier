@@ -6,8 +6,10 @@ require('electron-cookies');
 let db = require('./models')('bullet', {auto_compaction: true});
 let Collection = require('./models/collection')(db);
 let Bullet = require('./models/bullet')(db);
-const remoteDBAddress = 'http://localhost:5984/';
+const remoteDBAddress = require('./secrets.json').dbURL;
 const Moment = require('moment');
+
+console.log(remoteDBAddress);
 
 const typeDict = {
     "Task": "fa-circle-o",
