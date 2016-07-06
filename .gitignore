@@ -9,3 +9,4 @@ bower_components
 app/node_modules
 app/bullet
 app/assets
+secrets.json
