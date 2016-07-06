@@ -1,6 +1,1 @@
-<form class="form-inline">
-    <button ng-click="createCollection(collectionName)" class="btn btn-default btn-sm">
-    <i class="glyphicon glyphicon-plus"></i>
-     {{collectionType | displayType}} Collection</button>
-    <input ng-model="collectionName" type="text" name="collection-input" class="form-control">
-</form>
+<button uib-popover-template="templateUrl" popover-trigger="outsideClick" popover-title="Add Collection"  type="button" class="btn btn-default" popover-position="top"><i class="glyphicon glyphicon-plus"></i></button>

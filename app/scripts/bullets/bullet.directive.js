@@ -20,6 +20,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             }
 
             scope.toggleScheduler = function() {
+                if (!scope.bullet.date) scope.bullet.date = new Date();
                 scope.showScheduler = !scope.showScheduler;
             }
 
@@ -51,7 +52,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
                 scope.bullet.migrate()
                     .then(() => scope.$evalAsync());
             };
-            
+
             scope.options = {
                 minMode: 'day'
             }
@@ -59,7 +60,6 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             scope.schedule = function(mode) {
                 scope.bullet.date = DateFactory.roundDate(scope.bullet.date, mode);
                 scope.showScheduler = false;
-
                 if (mode === 'month') mode = 'future';
                 scope.bullet.schedule(scope.bullet.date, mode)
                     .then(() => {
@@ -98,16 +98,12 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             element.on('keydown', function(e) {
                 if (e.which !== 9 && e.which !== 91) {
                     if (e.which === 13) {
-                        if (!e.target.className.split(' ').includes('scheduler')) {
-                            e.preventDefault();
-                            e.target.blur();
-                        }
+                        console.log(e);
+                        e.preventDefault();
+                        e.target.blur();
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
                         let updatedBullet = editBullet(e);
-                        if (updatedBullet) {
-                            scope.bullet = updatedBullet; //check if this icon scope
-                            scope.bullet.save().then(() => scope.$evalAsync());
-                        }
+                        if (updatedBullet) scope.bullet = updatedBullet;
                     } else if (scope.bullet.status === 'struck' || scope.bullet.status === 'complete') {
                         if (e.which !== 9) e.preventDefault();
                     }
@@ -115,6 +111,8 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             });
 
             scope.save = function() {
+                if (event.relatedTarget && event.relatedTarget.id === 'migrate') return;
+
                 $timeout(function() {
                     if (!scope.bullet.rev) scope.addFn();
                     else scope.bullet.save();
