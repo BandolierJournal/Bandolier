@@ -24,6 +24,7 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
         remoteDB = new PouchDB(remoteDBAddress + userDBUrl(username), {
             skipSetup: true
         });
+        remoteDB.compact();
         return db.sync(remoteDB, {
                 live: true,
                 retry: true
