@@ -1,5 +1,6 @@
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collection">
-    <h4 class="page-header" ng-class="{'text-muted': muted}" ng-hide="noTitle">{{formattedTitle}}</h4>
+<div class="collection">
+    <h4 class="page-header" ng-hide="noTitle">{{formattedTitle}}</h4>
+    <h4 contenteditable class="page-header" ng-show="collection.type==='generic'">Hi</h4>
     <bullet ng-repeat="bullet in collection.bullets track by $index" bullet="bullet" remove-fn="removeBullet(bullet)" add-fn="">
     </bullet>
     <bullet bullet="newBullet" remove-fn="removeBullet(newBullet)" add-fn="addBullet(newBullet)" ng-hide="noAdd">

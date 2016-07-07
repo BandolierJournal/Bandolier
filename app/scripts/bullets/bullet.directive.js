@@ -68,7 +68,12 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             };
 
             function editBullet(e) {
-                if (scope.bullet.status !== 'migrated') {
+                if (scope.bullet.status !== 'migrated' && scope.bullet.status !=='scheduled') {
+
+                    if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
+                    // cmd-x cross out
+                    if (e.which === 88 && scope.bullet.type === 'Task') return scope.bullet.toggleStrike();
+                   
                     if (scope.editable()) {
                         // cmd-t change to task
                         delete scope.bullet.status;
@@ -79,9 +84,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
                         if (e.which === 78) return new Bullet.Note(scope.bullet);
                     }
                     // cmd-d toggle done for tasks
-                    if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
-                    // cmd-x cross out
-                    if (e.which === 88 && scope.bullet.type === 'Task') return scope.bullet.toggleStrike();
+
                 }
                 // cmd-del remove from collection
                 if (e.which === 8) {
@@ -98,7 +101,6 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             element.on('keydown', function(e) {
                 if (e.which !== 9 && e.which !== 91) {
                     if (e.which === 13) {
-                        console.log(e);
                         e.preventDefault();
                         e.target.blur();
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
@@ -116,7 +118,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
                 $timeout(function() {
                     if (!scope.bullet.rev) scope.addFn();
                     else scope.bullet.save();
-                }, 100);
+                }, 5);
 
                 $timeout(function() {
                     scope.enableButtons = false;

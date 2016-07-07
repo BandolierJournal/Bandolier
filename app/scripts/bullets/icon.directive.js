@@ -17,7 +17,9 @@ bulletApp.directive('bulletIcon', function() {
 
             scope.toggleDone = function() {
                 if (scope.bullet.type === "Task") {
-                    scope.bullet.toggleDone();
+                    // if (scope.bullet.status==="struck") scope.bullet.toggleDone();
+                    if (scope.bullet.status==="complete") scope.bullet.toggleStrike();
+                    else scope.bullet.toggleDone();
                     scope.bullet.save();
                 }
             };

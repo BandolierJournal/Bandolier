@@ -8,10 +8,10 @@
             </div>
             </h1>
             <div class="collectionContainer">
-                <div class="collectionColumn">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <collection ng-repeat="collection in collections | slice:0:3 track by collection.title" collection="collection"></collection>
                 </div>
-                <div class="collectionColumn">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <collection ng-repeat="collection in collections | slice:3:6 track by collection.title" collection="collection"></collection>
                 </div>
             </div>
