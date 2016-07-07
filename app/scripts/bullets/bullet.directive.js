@@ -68,7 +68,12 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             };
 
             function editBullet(e) {
-                if (scope.bullet.status !== 'migrated') {
+                if (scope.bullet.status !== 'migrated' && scope.bullet.status !=='scheduled') {
+
+                    if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
+                    // cmd-x cross out
+                    if (e.which === 88 && scope.bullet.type === 'Task') return scope.bullet.toggleStrike();
+                   
                     if (scope.editable()) {
                         // cmd-t change to task
                         delete scope.bullet.status;
@@ -79,9 +84,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
                         if (e.which === 78) return new Bullet.Note(scope.bullet);
                     }
                     // cmd-d toggle done for tasks
-                    if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
-                    // cmd-x cross out
-                    if (e.which === 88 && scope.bullet.type === 'Task') return scope.bullet.toggleStrike();
+
                 }
                 // cmd-del remove from collection
                 if (e.which === 8) {

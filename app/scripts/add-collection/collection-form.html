@@ -1,7 +1,9 @@
 <form class="form-inline">
-    <div class="form-group">
-        <input ng-model="collectionName" type="text" name="collection-input" class="form-control">
-        <button ng-click="createCollection(collectionName)" class="btn btn-default btn-xs">
+    <div class="input-group input-group-sm">
+        <input ng-model="collectionName" type="text" name="collection-input" class="form-control collection-input"/>
+        <span class="input-group-btn">
+        <button ng-click="createCollection(collectionName)" class="btn btn-default">
             GO</button>
+            </span>
     </div>
 </form>
