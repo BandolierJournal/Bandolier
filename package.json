@@ -11,7 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "add-cors-to-couchdb": "0.0.6",
-    "electron-packager": "^7.0.4",
+    "electron-packager": "^7.2.0",
     "electron-prebuilt": "^1.2.0",
     "fs-jetpack": "^0.9.1",
     "gulp": "^3.9.1",
