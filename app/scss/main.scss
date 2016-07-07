@@ -231,6 +231,10 @@ body {
     -webkit-app-region: drag
 }
 
+collection, button, .collection, h5, h4, h3, h2, h1, bullet, input {
+    -webkit-app-region: no-drag;
+}
+
 .navbar {
     height: 60px;
     background-color: #eee;
