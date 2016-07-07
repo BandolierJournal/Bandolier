@@ -1,9 +1,6 @@
 <div class="bullet-row">
     <bullet-icon ng-hide="hideIcon" class="bullet-icon" bullet="bullet"></bullet-icon>
-    <div uib-popover-template="datepickerUrl" 
-        popover-is-open="showScheduler" 
-        popover-placement="right">
-    </div>
+   
     <div class="bullet-text" 
         ng-class="{strikethrough: bullet.status==='struck', done: !editable()}" 
         uib-popover-template="templateUrl" popover-enable="editable()" popover-trigger="focus" popover-placement="bottom-left" 
@@ -11,6 +8,12 @@
         ng-focus="enableButtons = true" 
         ng-blur="save()">
     </div>
+
+    <div uib-popover-template="datepickerUrl" 
+        popover-is-open="showScheduler"
+        popover-placement="left">
+    </div>
+
     <div class="bullet-menu" ng-if="showButtonPanel(bullet)">
         <i class="fa fa-fw fa-calendar" ng-click="toggleScheduler()" 
             ng-show="showScheduleButton(bullet)" 
@@ -19,6 +22,7 @@
             ng-show="showMigrateButton(bullet)" 
             title="migrate"></i>
     </div>
+
     <i ng-if="bullet.status==='scheduled'" class="text-muted bullet-menu">
         {{bullet.date | date: 'MMM d' }}</i>
 </div>
