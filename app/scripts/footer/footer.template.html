@@ -8,9 +8,9 @@
             <li class="text-muted"><a class="navbar-link" ng-if="currentStates.genericTitle" ng-click="lastGeneric()">{{currentStates.genericTitle | date: "MMM d" | lowercase }}</a></li>
             <!-- <li class="text-muted"><a class="navbar-link" ui-sref="landing">landing TO REMOVE</a></li> -->
         </ul>
-        <ul class="menu pagination navbar-right">
+        <!-- <ul class="menu pagination navbar-right">
             <li refresh id="refresh" class="text-muted"><a class="navbar-link" ng-class="{offline: !online || !user}" ng-click="login()"><i class="fa fa-fw fa-refresh" ng-class="{'fa-spin': user && sync}"></i></a></li>
-        </ul>
+        </ul> -->
         <div class="navbar-form navbar-right form-inline">
             <search-bar></search-bar>
             <add-collection collection-type="generic"></add-collection>
