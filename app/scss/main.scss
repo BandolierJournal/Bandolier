@@ -1,7 +1,11 @@
-$header-font: 'Reenie Beanie', cursive;
-$body-font: 'Karla', sans-serif;
+$header-font: 'Reenie Beanie',
+cursive;
+$body-font: 'Karla',
+sans-serif;
 $navbar-color: #eee;
 $navbar-border: #e7e7e7;
+$bisque: #FFE4C4;
+$alice-blue: #F0F8FF;
 body,
 html {
     // font-family: 'Fredericka the Great', cursive;
@@ -21,11 +25,10 @@ h1,
 h2,
 h3,
 h4,
-h5,
-blockquote {
+blockquote,
+div.popover-content {
     font-family: $header-font;
 }
-
 
 h1.page-header {
     font-family: $header-font;
@@ -67,9 +70,32 @@ h4.page-header {
     line-height: 0.8;
 }
 
-button.btn.sign, .popover-title {
+.alice-blue {
+    background-color: $alice-blue;
+}
+
+button.btn.sign,
+.popover-title {
     font-size: 22px;
     line-height: 0.9;
+}
+
+.uib-datepicker,
+.close-btn,
+.h6 {
+    font-family: $body-font;
+    line-height: 1.1;
+    font-size: smaller;
+}
+
+.schedule-title {
+    margin-top: 13px;
+    margin-bottom: 2px;
+}
+
+.uib-title {
+    font-size: 15px;
+    line-height: 1.2;
 }
 
 .landing-page h1,
@@ -173,6 +199,10 @@ blockquote {
     border-bottom: 1px dashed #A2AFC2;
 }
 
+table:focus {
+    outline: 0 solid transparent;
+}
+
 [contenteditable]:hover {
     border-bottom: 1px dashed #A2AFC2;
 }
@@ -180,14 +210,14 @@ blockquote {
 // collection:hover {
 //     box-shadow: 3px 20px 29px -4px rgba(0, 0, 0, 0.75);
 // }
-
 // collection.no-hover {
 //     box-shadow: none;
 // }
-
 .done {
     font-style: italic;
 }
+
+
 
 .popover {
     max-width: none;
@@ -207,12 +237,29 @@ blockquote {
 .datepicker {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+    font-size: 18px;
+    text-align: center;
+}
+
+.larger {
+    font-size: larger;
+    line-height: 1;
 }
 
 .popover-content {
     padding: 3px;
-    font-family: 'Roboto', sans-serif;
+}
+
+.btn-info,
+.btn-info.active,
+.btn-info.active:hover,
+.btn-info:hover,
+.btn-default.active,
+.btn-default.active:hover {
+    background-color: $alice-blue;
+    border-color: #eee;
+    color: black;
 }
 
 .popover .arrow {
@@ -231,7 +278,16 @@ body {
     -webkit-app-region: drag
 }
 
-collection, button, .collection, h5, h4, h3, h2, h1, bullet, input {
+collection,
+button,
+.collection,
+h5,
+h4,
+h3,
+h2,
+h1,
+bullet,
+input, i {
     -webkit-app-region: no-drag;
 }
 

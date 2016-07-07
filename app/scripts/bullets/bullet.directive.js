@@ -101,7 +101,6 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
             element.on('keydown', function(e) {
                 if (e.which !== 9 && e.which !== 91) {
                     if (e.which === 13) {
-                        console.log(e);
                         e.preventDefault();
                         e.target.blur();
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
@@ -119,7 +118,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
                 $timeout(function() {
                     if (!scope.bullet.rev) scope.addFn();
                     else scope.bullet.save();
-                }, 100);
+                }, 5);
 
                 $timeout(function() {
                     scope.enableButtons = false;
