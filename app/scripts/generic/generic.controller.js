@@ -1,6 +1,8 @@
-bulletApp.controller('GenericCtrl', function($scope, collection, $state) {
-    if (collection.type === 'month' || collection.type === 'month-cal') {
-    	$state.go('month', { monthString: collection.title });
+bulletApp.controller('GenericCtrl', function($scope, collection, $state, $filter) {
+    if (collection.type !=='generic') {
+    	$filter('stateName')(collection.type);
+        $state.go($filter('stateName')(collection.type), { search: collection.title });
     }
+
     $scope.collection = collection;
 });

@@ -6,7 +6,7 @@ bulletApp.directive('footer', function(currentStates, $state) {
             scope.currentStates = currentStates;
             scope.lastMonth = function() {
                 if (currentStates.month) $state.go('month', currentStates.month)
-                else $state.go('month', { monthString: Moment().startOf('month').toISOString() }) //DateFactory.thisMonth.toISOString()
+                else $state.go('month', { search: Moment().startOf('month').toISOString() }) //DateFactory.thisMonth.toISOString()
             };
             scope.lastDaily = function() {
                 $state.go('daily', currentStates.daily)

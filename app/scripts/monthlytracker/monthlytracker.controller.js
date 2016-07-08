@@ -9,9 +9,9 @@ bulletApp.controller('MonthlyTrackerCtrl', function ($scope, collections, DateFa
     $scope.future = collections.find(i => i.type === "future") || new Collection(month, 'future');
 
     $scope.nextMonth = function() {
-      $state.go($state.current, {monthString: DateFactory.nextMonth($scope.month)})
+      $state.go($state.current, {search: DateFactory.nextMonth($scope.month)})
     }
     $scope.lastMonth = function() {
-      $state.go($state.current, {monthString: DateFactory.lastMonth($scope.month)})
+      $state.go($state.current, {search: DateFactory.lastMonth($scope.month)})
     }
 });

@@ -12,7 +12,7 @@
                     <i class="glyphicon glyphicon-trash"></i>
                     </i>
                 </div>
-                <div class="index-line" ng-repeat="(key, value) in months" ui-sref='month({monthString: key})'>
+                <div class="index-line" ng-repeat="(key, value) in months" ui-sref='month({search: key})'>
                     <h4 class="index-titling clickable">{{key | date:'MMMM yyyy'}}</h4>
                 </div>
                 <div class="index-line" ui-sref="daily">
