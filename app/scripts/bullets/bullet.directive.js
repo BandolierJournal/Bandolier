@@ -1,4 +1,4 @@
-bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
+bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state) {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/bullet.template.html',
@@ -57,12 +57,16 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope) {
                 minMode: 'day'
             }
 
+            scope.next = function() {
+                if (scope.bullet.next) $state.go('generic', {id: scope.bullet.next.id});
+            }
+
             scope.schedule = function(mode) {
                 scope.bullet.date = DateFactory.roundDate(scope.bullet.date, mode);
                 scope.showScheduler = false;
                 if (mode === 'month') mode = 'future';
                 scope.bullet.schedule(scope.bullet.date, mode)
-                    .then(() => {
+                    .then(res => {
                         scope.$evalAsync();
                     });
             };

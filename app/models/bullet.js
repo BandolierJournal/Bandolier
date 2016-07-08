@@ -68,6 +68,7 @@ module.exports = function (db) {
             return this.moveTo(date, type)
                 .then(res => {
                     this.status = 'scheduled';
+                    this.next = {id: res[0].id, type: res[0].type};
                     return this.save();
                 })
                 .catch(err => console.err('Scheduling Failed: ', err));
