@@ -1,7 +1,7 @@
 bulletApp.config(function($stateProvider) {
 
     $stateProvider.state('daily', {
-        url: '/daily/:index/:dayString',
+        url: '/daily/:index/:search',
         templateUrl: 'scripts/log/log.template.html',
         controller: 'LogCtrl',
         resolve: {

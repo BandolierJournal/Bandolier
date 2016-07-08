@@ -6,13 +6,12 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, type,
 
     new6(0);
 
-    if ($stateParams.dayString) {
-        let day = $stateParams.dayString;
-        let diff = DateFactory.dayDiff(day, DateFactory.yesterday);
-        let search;
+    if ($stateParams.search) {
+        let search = $stateParams.search;
+        let diff = DateFactory.diffs(search, DateFactory.yesterday, type);
         if (diff >= 0) search = index + diff;
         else {
-            search = aged.find(i => i.title === $stateParams.dayString);
+            search = aged.find(i => i.title === search);
             search = aged.indexOf(search);
         }
         index = findIndex(search);
@@ -20,9 +19,7 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, type,
         function findIndex(i) {
             return aged.length - Math.ceil((aged.length - i) / 6) * 6;
         }
-    } else if ($stateParams.index) {
-        index = +$stateParams.index;
-    } 
+    } else if ($stateParams.index) index = +$stateParams.index;
     if (index < 0) $scope.collections = aged.slice(0, index + 6);
     else navigate();
 

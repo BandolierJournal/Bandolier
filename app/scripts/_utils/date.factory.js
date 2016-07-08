@@ -102,10 +102,10 @@ bulletApp.factory('DateFactory', function() {
         return Moment(currentMonth).add(1, 'month').toISOString()
     }
 
-    function dayDiff(a, b) {
+    function diffs(a, b, type) {
         var a = Moment(a);
         var b = Moment(b);
-        return a.diff(b, 'days');
+        return a.diff(b, type+'s');
     }
 
     function* nextNYears(n) {
@@ -132,6 +132,6 @@ bulletApp.factory('DateFactory', function() {
         nextMonth: nextMonth,
         getWeekday: getWeekday,
         nextNYears: nextNYears,
-        dayDiff: dayDiff
+        diffs: diffs
     }
 })
