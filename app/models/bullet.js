@@ -126,19 +126,31 @@ module.exports = function(db) {
         return db.rel.find('bullet')
             .then(res => {
                 console.log(res);
-                // return attachCollections(res)
+                return attachCollections(res)
             })
-            // .then(bullets => {
-            //     if (string) bullets = bullets.filter(b => b.content.includes(string));
-            //     return bullets;
-            // })
-            // .catch(err => console.error('could not find bullets w/ collections', err));
+            .then(bullets => {
+                if (string) bullets = bullets.filter(b => b.content.includes(string));
+                return bullets;
+            })
+            .catch(err => console.error('could not find bullets w/ collections', err));
     }
 
     function attachCollections(res) {
-
-    
-        return collections;
+        let bullets = res.bullets;
+        let collections = res.collections;
+        bullets.forEach(b => {
+            b.collections = b.collections.map(c => {
+                let found = collections.find(i => i.id===c);
+                if (!found) {
+                    console.log(b, 'BULLET SHOULD BE DELETED');
+                    db.rel.del('bullet', b);
+                    return null;
+                }
+                return found;
+            });
+        })
+        console.log('bullet product', bullets);
+        return bullets;
     }
 
     const Bullets = {
