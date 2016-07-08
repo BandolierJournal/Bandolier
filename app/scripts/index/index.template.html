@@ -1,21 +1,23 @@
 <div class="container">
     <div class="index-page row">
         <div class="index-section">
-            <div ui-sref="future">
-                <h4 class="index-titling">Future Log</h4>
-            </div>
-            <div ng-repeat="collection in collections track by $index" ng-mouseenter="delete = !delete">
-                <h4 class="index-titling inline" ui-sref="{{collection.type}}({id: collection.id})">{{collection.title}}</h4>
-                <i class="inline text-muted">{{collection.bullets.length}}</i>
-                <i class="inline" ng-show="delete" ng-click="deleteCollection(collection)">
+            <div class="flex">
+                <div class="index-line" ui-sref="future">
+                    <h4 class="index-titling clickable">Future Log</h4>
+                </div>
+                <div class="index-line" ng-repeat="collection in collections track by $index" ng-mouseenter="delete = !delete" ng-mouseleave="delete = !delete">
+                    <h4 class="index-titling clickable" ui-sref="{{collection.type}}({id: collection.id})">{{collection.title}}</h4>
+                    <i class="inline text-muted">{{collection.bullets.length}}</i>
+                    <i class="inline" ng-show="delete" ng-click="deleteCollection(collection)">
                     <i class="glyphicon glyphicon-trash"></i>
-                </i>
-            </div>
-            <div ng-repeat="(key, value) in months" ui-sref='month({monthString: key})'>
-                <h4 class="index-titling">{{key | date:'MMMM yyyy'}}</h4>
-            </div>
-            <div ui-sref="daily">
-                <h4 class="index-titling">Daily Log</h4>
+                    </i>
+                </div>
+                <div class="index-line" ng-repeat="(key, value) in months" ui-sref='month({monthString: key})'>
+                    <h4 class="index-titling clickable">{{key | date:'MMMM yyyy'}}</h4>
+                </div>
+                <div class="index-line" ui-sref="daily">
+                    <h4 class="index-titling clickable">Daily Log</h4>
+                </div>
             </div>
             <h1 class="page-header index-title">INDEX</h1>
         </div>

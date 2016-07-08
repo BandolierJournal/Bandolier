@@ -1,10 +1,11 @@
 <div>
     <form class="datepicker" data-toggle="buttons">
-        <div class="larger">
+        <div class="larger schedule-title"">
             <span class="pull-right btn-sm text-muted close-btn" eat-click ng-click="toggleScheduler()"><b>x</b></span>
-            <p class="schedule-title">Schedule for</p>
+            <p>Schedule <span data-ng-bind-html="bullet.content"></span></p>
         </div>
         <div class="form-horizontal">
+            <label>in</label>
             <label>
                 <input type="radio" ng-model="options.minMode" value="day" /> Daily Log
             </label>
@@ -15,7 +16,7 @@
         <uib-datepicker ng-model="bullet.date" datepicker-options="options" datepicker-mode="options.minMode"></uib-datepicker>
         <div style="margin-top: 5px">
             <span eat-click class="btn alice-blue larger" ng-click="schedule(options.minMode)">
-            <i class="fa fa-fw" ng-class="typeDict.scheduled"></i>select {{bullet.date | date:'MMMM d, yyyy'}}
+            <i class="fa fa-fw" ng-class="typeDict.scheduled"></i>select {{bullet.date | titleFormat:options.minMode}}
             </span>
         </div>
     </form>

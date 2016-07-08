@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-bulletApp.directive('bulletIcon', function() {
+bulletApp.directive('bulletIcon', function($state) {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/icon.template.html',
@@ -23,6 +23,11 @@ bulletApp.directive('bulletIcon', function() {
                     scope.bullet.save();
                 }
             };
+
+            scope.next = function() {
+                console.log(scope.bullet.next);
+                if (scope.bullet.next) $state.go('generic', {id: scope.bullet.next.id});
+            }
 
         }
     };
