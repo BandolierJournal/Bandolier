@@ -44,6 +44,11 @@ div.popover-content {
     opacity: 1;
 }
 
+.hide-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 h1.page-header {
     font-family: $header-font;
     text-indent: 10px;

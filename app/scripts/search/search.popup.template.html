@@ -1,4 +1,10 @@
 <a>
-    <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
-    <span class="pull-right" ng-bind-html="match.model.collections[0].title | uibTypeaheadHighlight:query | titleFormat:match.model.collections[0].type"></span>
+    <div class="row">
+        <div class="col-md-8 col-sm-8 col-xs-8 hide-overflow">
+            <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4 hide-overflow">
+            <span class="pull-right" ng-bind-html="match.model.collections[0].title | uibTypeaheadHighlight:query | titleFormat:match.model.collections[0].type"></span>
+        </div>
+    </div>
 </a>

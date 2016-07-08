@@ -2,7 +2,7 @@ bulletApp.directive('searchBar', function(currentStates, $state, $log, $filter) 
     return {
         restrict: 'E',
         templateUrl: 'scripts/search/search.template.html',
-        link: function(scope) {
+        link: function(scope, element) {
             let fetched;
 
             scope.getBullets = function(search) {
@@ -23,6 +23,12 @@ bulletApp.directive('searchBar', function(currentStates, $state, $log, $filter) 
                 fetched = null;
                 scope.select = null;
             }
+
+            element.on('keydown', function(e) {
+                if (e.which===27 || e.which===8) {
+                    fetched = null;
+                }
+            })
 
         }
     };
