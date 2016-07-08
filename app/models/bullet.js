@@ -32,6 +32,7 @@ module.exports = function (db) {
                 })
                 .then(collection => {
                     let newBullet = this.createCopy();
+                    this.next = {id: collection[0].id, type: type};
                     return collection[0].addBullet(newBullet);
                 })
                 .catch(err => console.error(`Move Error: could not move ${this.content} to ${collectionName}`));
@@ -91,13 +92,13 @@ module.exports = function (db) {
         }
 
         toggleDone() {
-            if (this.status === 'migrated') return this;
+            if (this.status === 'migrated' || this.status === 'scheduled') return this;
             this.status = (this.status === 'incomplete') ? 'complete' : 'incomplete';
             return this;
         }
 
         toggleStrike() {
-            if (this.status === 'migrated') return this;
+            if (this.status === 'migrated' || this.status === 'scheduled') return this;
             this.status = (this.status === 'struck') ? 'incomplete' : 'struck';
             return this;
         }
