@@ -1,7 +1,3 @@
-
-bulletApp.controller('IndexCtrl', function($scope, collections, bullets, AuthFactory) {
-
-
 bulletApp.controller('IndexCtrl', function($scope, collections, bullets, AuthFactory, DateFactory) {
     $scope.collections = collections.filter(col => (col.type === 'generic')&&!!col.title);
 
