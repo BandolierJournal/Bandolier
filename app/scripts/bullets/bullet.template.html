@@ -23,7 +23,7 @@
             title="migrate"></i>
     </div>
 
-    <i ng-if="bullet.status==='scheduled'" class="text-muted bullet-menu" ng-click="next()">
+    <i ng-if="bullet.status==='scheduled'" class="bullet-menu clickable" ng-click="next()">
         {{bullet.date | dateFormat:bullet.next.type }}</i>
 </div>
 <!-- <pre>{{bullet | json}}</pre> -->

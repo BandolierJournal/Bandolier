@@ -31,6 +31,19 @@ div.popover-content {
     font-family: $header-font;
 }
 
+.clickable {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+[ng-click] {
+    cursor: pointer;
+}
+
+.clickable:hover {
+    opacity: 1;
+}
+
 h1.page-header {
     font-family: $header-font;
     text-indent: 10px;
@@ -38,7 +51,9 @@ h1.page-header {
 
 h4.index-titling {
     font-family: $body-font;
+    font-size: 20px;
     display: inline;
+    color: black;
 }
 
 .index-line {
@@ -272,6 +287,13 @@ table:focus {
     padding: 3px;
 }
 
+.flex {
+    flex-direction: column;
+    height: 30em;
+    flex-wrap: wrap;
+    display: flex;
+}
+
 .btn-info,
 .btn-info.active,
 .btn-info.active:hover,
@@ -312,9 +334,11 @@ input, i {
     -webkit-app-region: no-drag;
 }
 
+
 .navbar {
     height: 60px;
     background-color: #eee;
+    -webkit-app-region: drag
 }
 
 .pagination {

@@ -32,6 +32,8 @@ module.exports = function (db) {
                 })
                 .then(collection => {
                     let newBullet = this.createCopy();
+                    console.log('in moveTo', collection[0].id, type);
+                    // this.next = {id: collection.id, type: type};
                     return collection[0].addBullet(newBullet);
                 })
                 .catch(err => console.error(`Move Error: could not move ${this.content} to ${collectionName}`));
