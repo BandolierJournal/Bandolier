@@ -32,8 +32,7 @@ module.exports = function (db) {
                 })
                 .then(collection => {
                     let newBullet = this.createCopy();
-                    console.log('in moveTo', collection[0].id, type);
-                    // this.next = {id: collection.id, type: type};
+                    this.next = {id: collection[0].id, type: type};
                     return collection[0].addBullet(newBullet);
                 })
                 .catch(err => console.error(`Move Error: could not move ${this.content} to ${collectionName}`));
@@ -70,7 +69,6 @@ module.exports = function (db) {
             return this.moveTo(date, type)
                 .then(res => {
                     this.status = 'scheduled';
-                    this.next = {id: res[0].id, type: res[0].type};
                     return this.save();
                 })
                 .catch(err => console.err('Scheduling Failed: ', err));

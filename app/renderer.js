@@ -15,8 +15,8 @@ const typeDict = {
     "Note": "fa-long-arrow-right",
     "incomplete": "fa-circle-o",
     "complete": "fa-check-circle-o", //fa-check-square-o"
-    "migrated": "fa-angle-double-right",
-    "scheduled": "fa-angle-double-left",
+    "migrated": "fa-angle-double-right clickable",
+    "scheduled": "fa-angle-double-left clickable",
     "struck": "strikethrough fa-remove",
     "toMigrate": "fa-paper-plane",
     "toSchedule": "fa-calendar",
