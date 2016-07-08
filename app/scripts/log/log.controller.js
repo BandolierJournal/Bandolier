@@ -15,10 +15,10 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, type,
             search = aged.indexOf(search);
         }
         index = findIndex(search);
-
         function findIndex(i) {
             return aged.length - Math.ceil((aged.length - i) / 6) * 6;
         }
+        
     } else if ($stateParams.index) index = +$stateParams.index;
     if (index < 0) $scope.collections = aged.slice(0, index + 6);
     else navigate();

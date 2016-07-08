@@ -1,5 +1,5 @@
 bulletApp.controller('IndexCtrl', function($scope, collections, bullets, AuthFactory) {
-    $scope.collections = collections.filter(col => col.type === 'generic');
+    $scope.collections = collections.filter(col => (col.type === 'generic')&&!!col.title);
 
     $scope.months = _.groupBy(collections.filter(col => col.type === 'month' || col.type === 'month-cal'), i => i.title);
     $scope.typeDict = typeDict;

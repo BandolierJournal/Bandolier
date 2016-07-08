@@ -36,7 +36,7 @@ div.popover-content {
     cursor: pointer;
 }
 
-[ng-click] {
+.btn-clickable {
     cursor: pointer;
 }
 
@@ -240,9 +240,11 @@ table:focus {
     border-bottom: 1px dashed #A2AFC2;
 }
 
-// collection:hover {
-//     box-shadow: 3px 20px 29px -4px rgba(0, 0, 0, 0.75);
-// }
+.searchresult {
+    box-shadow: 3px 20px 29px -4px rgba(0, 0, 0, 0.75);
+    color: red;
+}
+
 // collection.no-hover {
 //     box-shadow: none;
 // }

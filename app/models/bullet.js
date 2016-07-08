@@ -124,10 +124,7 @@ module.exports = function(db) {
 
     function fetchWithCollections(string) {
         return db.rel.find('bullet')
-            .then(res => {
-                console.log(res);
-                return attachCollections(res)
-            })
+            .then(attachCollections)
             .then(bullets => {
                 if (string) bullets = bullets.filter(b => b.content.includes(string));
                 return bullets;
@@ -149,7 +146,6 @@ module.exports = function(db) {
                 return found;
             });
         })
-        console.log('bullet product', bullets);
         return bullets;
     }
 

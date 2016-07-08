@@ -18,7 +18,7 @@ bulletApp.filter('titleFormat', function (DateFactory) {
         output = Moment(title).format('MMMM YYYY');
         break;
       default:
-        output = Moment(title).format('MMM d');
+        output = title;
     }
     return output;
   }
