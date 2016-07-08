@@ -122,7 +122,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                 $timeout(function() {
                     if (!scope.bullet.rev) scope.addFn();
                     else scope.bullet.save();
-                }, 5);
+                }, 10);
 
                 $timeout(function() {
                     scope.enableButtons = false;

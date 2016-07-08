@@ -1,0 +1,9 @@
+
+  <a>
+ <!--      <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16"> -->
+      <span ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+      <span class="pull-right" ng-bind-html="match.model.collections[0] | uibTypeaheadHighlight:query"></span>
+      <i class="pull-right" ng-bind-html="match.model.collections[0] | uibTypeaheadHighlight:query"></i>
+  </a>
+  <!-- <pre>{{match | json}}</pre> -->
+
