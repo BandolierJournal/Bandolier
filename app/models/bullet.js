@@ -43,7 +43,7 @@ module.exports = function(db) {
               if (!this.id) this.id = new Date().toISOString(); {
                 if (!cache[this.id]) cache[this.id] = Promise.resolve({bullets: [this]})
                 return cache[this.id] = cache[this.id].then(b => {
-                  this.rev = b.bullets[0].rev
+                  if (this.rev && b.bullets[0].rev && +(b.bullets[0].rev.split('-')[0]) > +(this.rev.split('-')[0])) this.rev = b.bullets[0].rev;
                   return db.rel.save('bullet', this);
                 })
 
