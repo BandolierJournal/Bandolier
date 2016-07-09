@@ -29,12 +29,14 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
 
             scope.selectType = function(b, type) {
                 delete scope.bullet.status;
-                scope.bullet = new Bullet[type](b);
+                Object.assign(scope.bullet, new Bullet[type](b));
+                scope.bullet.save()
             }
 
             const OS = process.platform;
 
             scope.showButtonPanel = function(b) {
+              console.log(scope.enableButtons)
                 return b.status === 'incomplete' &&
                     b.rev &&
                     scope.enableButtons;
@@ -77,7 +79,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                     if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
                     // cmd-x cross out
                     if (e.which === 88 && scope.bullet.type === 'Task') return scope.bullet.toggleStrike();
-                   
+
                     if (scope.editable()) {
                         // cmd-t change to task
                         delete scope.bullet.status;
@@ -117,16 +119,13 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
             });
 
             scope.save = function() {
-                if (event.relatedTarget && event.relatedTarget.id === 'migrate') return;
-
-                $timeout(function() {
+                if (event && event.relatedTarget && event.relatedTarget.id === 'migrate') return;
                     if (!scope.bullet.rev) scope.addFn();
-                    else scope.bullet.save();
-                }, 5);
+                    else scope.bullet.save().then(() => $rootScope.$digest());
 
-                $timeout(function() {
+
                     scope.enableButtons = false;
-                }, 300);
+                    scope.$evalAsync()
             }
 
         }

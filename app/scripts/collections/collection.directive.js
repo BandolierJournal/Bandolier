@@ -28,8 +28,8 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
                 if (bullet.content && bullet.content.length > 0) {
                     return scope.collection.addBullet(bullet)
                         .then(function() {
-                            scope.newBullet = new Bullet.Task({ status: 'new' })
-                            scope.$evalAsync()
+                          scope.newBullet = new Bullet.Task({ status: 'new' })
+                          scope.$evalAsync()
                         })
                         .catch($log.err);
                 };
