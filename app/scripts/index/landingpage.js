@@ -1,5 +1,5 @@
 bulletApp.controller('LandingCtrl', function($scope, $state, $timeout) {
 	$timeout(function() {
-		$state.go('index')
-	}, 2500);  
+		if ($state.current.name === 'landing') $state.go('index')
+	}, 2500);
 });

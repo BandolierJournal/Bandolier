@@ -25,7 +25,7 @@ bulletApp.directive('bulletIcon', function($state) {
             };
 
             scope.next = function() {
-                console.log(scope.bullet.next);
+                // console.log(scope.bullet.next);
                 if (scope.bullet.next) $state.go('generic', {id: scope.bullet.next.id});
             }
 

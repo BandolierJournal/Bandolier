@@ -36,7 +36,6 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
             const OS = process.platform;
 
             scope.showButtonPanel = function(b) {
-              console.log(scope.enableButtons)
                 return b.status === 'incomplete' &&
                     b.rev &&
                     scope.enableButtons;
@@ -121,8 +120,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
             scope.save = function() {
                 if (event && event.relatedTarget && event.relatedTarget.id === 'migrate') return;
                     if (!scope.bullet.rev) scope.addFn();
-                    else scope.bullet.save().then(() => $rootScope.$digest());
-
+                    else scope.bullet.save();
 
                     scope.enableButtons = false;
                     scope.$evalAsync()

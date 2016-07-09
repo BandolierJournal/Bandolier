@@ -1,4 +1,4 @@
-<pre>{{bullet | json}}</pre>
+<!-- <pre>{{bullet | json}}</pre> -->
 <div class="bullet-row">
     <bullet-icon ng-hide="hideIcon" class="bullet-icon" bullet="bullet"></bullet-icon>
 
@@ -7,8 +7,7 @@
         uib-popover-template="templateUrl" popover-enable="editable()" popover-trigger="focus" popover-placement="bottom-left"
         contenteditable ng-model="bullet.content"
         ng-focus="enableButtons = true"
-        ng-change="save()"
-        ng-model-options="{debounce: 500}">
+        ng-blur="save()">
     </div>
 
     <div uib-popover-template="datepickerUrl"
