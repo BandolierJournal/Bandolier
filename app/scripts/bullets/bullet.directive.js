@@ -50,7 +50,9 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
 
             scope.migrate = function() {
                 scope.bullet.migrate()
-                    .then(() => scope.$evalAsync());
+                .then(res => {
+                    scope.$evalAsync();
+                });
             };
 
             scope.options = {
@@ -66,9 +68,11 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                 scope.showScheduler = false;
                 if (mode === 'month') mode = 'future';
                 scope.bullet.schedule(scope.bullet.date, mode)
-                    .then(res => {
-                        scope.$evalAsync();
-                    });
+                .then(res => {
+                    $rootScope.$broadcast('update', res.bullets[0].next);
+                    scope.$evalAsync();
+                    
+                });
             };
 
             function editBullet(e) {
@@ -122,7 +126,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                 $timeout(function() {
                     if (!scope.bullet.rev) scope.addFn();
                     else scope.bullet.save();
-                }, 5);
+                }, 10);
 
                 $timeout(function() {
                     scope.enableButtons = false;

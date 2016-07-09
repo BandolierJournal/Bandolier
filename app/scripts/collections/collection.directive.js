@@ -14,6 +14,13 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
             scope.title = scope.monthTitle ? 'Log' : scope.collection.title;
             scope.newBullet = new Bullet.Task({ status: 'new' });
 
+            $rootScope.$on('update', function(event, next) {
+                if (next.id===scope.collection.id) scope.collection.update().then(c => {
+                    angular.extend(scope.collection, c[0]);
+                    scope.$evalAsync();
+                });
+            })
+
             scope.removeBullet = function(bullet) {
                 return scope.collection.removeBullet(bullet)
                     .then(function() {
@@ -26,9 +33,9 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
 
             scope.addBullet = function(bullet) {
                 if (bullet.content && bullet.content.length > 0) {
+                    scope.newBullet = new Bullet.Task({ status: 'new' });
                     return scope.collection.addBullet(bullet)
                         .then(function() {
-                            scope.newBullet = new Bullet.Task({ status: 'new' })
                             scope.$evalAsync()
                         })
                         .catch($log.err);
