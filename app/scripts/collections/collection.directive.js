@@ -14,6 +14,13 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
             scope.title = scope.monthTitle ? 'Log' : scope.collection.title;
             if (!scope.noAdd) scope.collection.bullets.push(new Bullet.Task({ status: 'new' }));
 
+            $rootScope.$on('update', function(event, next) {
+                if (next.id===scope.collection.id) scope.collection.update().then(c => {
+                    angular.extend(scope.collection, c[0]);
+                    scope.$evalAsync();
+                });
+            })
+
             scope.removeBullet = function(bullet) {
                 return scope.collection.removeBullet(bullet)
                     .then(function() {

@@ -1,4 +1,3 @@
-<!-- <pre>{{bullet | json}}</pre> -->
 <div class="bullet-row">
     <bullet-icon ng-hide="hideIcon" class="bullet-icon" bullet="bullet"></bullet-icon>
 
@@ -16,10 +15,10 @@
     </div>
 
     <div class="bullet-menu" ng-if="showButtonPanel(bullet)">
-        <i class="fa fa-fw fa-calendar" ng-click="toggleScheduler()"
+        <i class="fa fa-fw fa-calendar clickable" ng-click="toggleScheduler()"
             ng-show="showScheduleButton(bullet)"
             title="schedule"></i>
-        <i eat-click id="migrate" class="fa fa-fw fa-paper-plane" ng-click="migrate()"
+        <i eat-click id="migrate" class="fa fa-fw fa-paper-plane clickable" ng-click="migrate()"
             ng-show="showMigrateButton(bullet)"
             title="migrate"></i>
     </div>

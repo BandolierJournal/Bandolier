@@ -5,7 +5,7 @@ const _ = require('lodash');
 const Moment = require('moment');
 let cache = {}
 
-module.exports = function (db) {
+module.exports = function(db) {
 
     class Bullet {
         constructor(content) {
@@ -32,7 +32,7 @@ module.exports = function (db) {
                 })
                 .then(collection => {
                     let newBullet = this.createCopy();
-                    this.next = {id: collection[0].id, type: type};
+                    this.next = { id: collection[0].id, type: type };
                     return collection[0].addBullet(newBullet);
                 })
                 .catch(err => console.error(`Move Error: could not move ${this.content} to ${collectionName}`));
@@ -128,11 +128,39 @@ module.exports = function (db) {
             .catch(err => console.error('could not fetch bullets', err));
     }
 
+    function fetchWithCollections(string) {
+        return db.rel.find('bullet')
+            .then(attachCollections)
+            .then(bullets => {
+                if (string) bullets = bullets.filter(b => b.content.includes(string));
+                return bullets;
+            })
+            .catch(err => console.error('could not find bullets w/ collections', err));
+    }
+
+    function attachCollections(res) {
+        let bullets = res.bullets;
+        let collections = res.collections;
+        bullets.forEach(b => {
+            b.collections = b.collections.map(c => {
+                let found = collections.find(i => i.id===c);
+                if (!found) {
+                    console.log(b, 'BULLET SHOULD BE DELETED');
+                    db.rel.del('bullet', b);
+                    return null;
+                }
+                return found;
+            });
+        })
+        return bullets;
+    }
+
     const Bullets = {
         Task: Task,
         Event: EventBullet,
         Note: Note,
-        fetchAll: fetchAll
+        fetchAll: fetchAll,
+        fetchWithCollections: fetchWithCollections
     };
 
     return Bullets;

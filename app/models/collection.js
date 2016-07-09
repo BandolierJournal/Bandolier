@@ -14,7 +14,6 @@ module.exports = function(db) {
         const collections = res.collections.map(collection => {
             return new Collection(collection).deserializeBullets(bullets);
         });
-
         return collections;
     }
 
@@ -58,37 +57,37 @@ module.exports = function(db) {
                 .catch(err => console.error(err));
             }
 
-        return Promise.all([this.save(), bullet.save()])
-            .catch(err => console.error('error ', err));
-    }
-
-    delete() {
-        if (this.rev && this.type === 'generic') {
-            let removingBullets = this.bullets.map(bullet => this.removeBullet(bullet));
-
-            return Promise.all(removingBullets)
-                .then(() => db.rel.del('collections', this))
-                .catch(err => console.error(err));
+            return Promise.all([this.save(), bullet.save()])
+                .catch(err => console.error('error ', err));
         }
-    }
 
-    removeBullet(bullet) {
-        let bulletPromise = function() {};
-        let bulletIdx = this.bullets.indexOf(bullet);
-        if (bulletIdx > -1) {
-            bulletPromise = bullet.save.bind(bullet)
-            this.bullets.splice(bulletIdx, 1);
-            let collectionIdx = bullet.collections.indexOf(this.id);
-            if (collectionIdx > -1) {
-                bullet.collections.splice(collectionIdx, 1);
-                if (bullet.collections.length < 1) {
-                    bulletPromise = bullet.delete.bind(bullet)
-                }
-            } else throw new Error('Database is so broken...')
+        delete() {
+            if (this.rev && this.type === 'generic') {
+                let removingBullets = this.bullets.map(bullet => this.removeBullet(bullet));
+
+                return Promise.all(removingBullets)
+                    .then(() => db.rel.del('collections', this))
+                    .catch(err => console.error(err));
+            }
         }
-        return Promise.all([this.save(), bulletPromise()])
-            .catch(err => console.error('error ', err))
-    }
+
+        removeBullet(bullet) {
+            let bulletPromise = function() {};
+            let bulletIdx = this.bullets.indexOf(bullet);
+            if (bulletIdx > -1) {
+                bulletPromise = bullet.save.bind(bullet)
+                this.bullets.splice(bulletIdx, 1);
+                let collectionIdx = bullet.collections.indexOf(this.id);
+                if (collectionIdx > -1) {
+                    bullet.collections.splice(collectionIdx, 1);
+                    if (bullet.collections.length < 1) {
+                        bulletPromise = bullet.delete.bind(bullet)
+                    }
+                } else throw new Error('Database is so broken...')
+            }
+            return Promise.all([this.save(), bulletPromise()])
+                .catch(err => console.error('error ', err))
+        }
 
         save() {
             let bulletInstances = this.bullets;
@@ -102,25 +101,29 @@ module.exports = function(db) {
             });
         }
 
+        update() {
+            return Collection.findOrReturn(this);
+        }
+
         static findOrReturn(props) {
             return db.rel.find('collection', props.id)
-            .then(res => {
-                if (res.collections.length > 1) res.collections = [res.collections.find(c => c.id === props.id)]; //this is a hack to fix something wierd in PouchDB
-                return res.collections.length ? convertToInstances(res) : [new Collection(props)];
-            })
-            .catch(err => console.error(err));
+                .then(res => {
+                    if (res.collections.length > 1) res.collections = [res.collections.find(c => c.id === props.id)]; //this is a hack to fix something wierd in PouchDB
+                    return res.collections.length ? convertToInstances(res) : [new Collection(props)];
+                })
+                .catch(err => console.error(err));
         }
 
         static fetchAll(props) {
             return db.rel.find('collection')
-            .then(res => {
-                return convertToInstances(res)
-            })
-            .then(collections => {
-                if (props) collections = _.filter(collections, props);
-                return collections.length ? collections : [new Collection(props)];
-            })
-            .catch(err => console.error('could not fetch all collections', err));
+                .then(res => {
+                    return convertToInstances(res)
+                })
+                .then(collections => {
+                    if (props) collections = _.filter(collections, props);
+                    return collections.length ? collections : [new Collection(props)];
+                })
+                .catch(err => console.error('could not fetch all collections', err));
         }
     }
 

@@ -2,12 +2,11 @@
     <div class="container">
         <ul class="menu pagination">
             <li class="text-muted"><a class="navbar-link" ui-sref="index">index</a></li>
-            <li class="text-muted"><a class="navbar-link" ng-click="lastFuture()">future log</a></li>
-            <li class="text-muted"><a class="navbar-link" ng-click="lastMonth()">monthly tracker</a></li>
-            <li class="text-muted"><a class="navbar-link" ng-click="lastDaily()">daily log</a></li>
-            <li class="text-muted"><a class="navbar-link" ng-if="currentStates.genericTitle" ng-click="lastGeneric()">{{currentStates.genericTitle | date: "MMM d" | lowercase }}</a></li>
-            <li class="text-muted"><a class="navbar-link"><add-collection collection-type="generic"></add-collection></a></li>
-            <!-- <li class="text-muted"><a class="navbar-link" ui-sref="landing">landing TO REMOVE</a></li> -->
+            <li class="text-muted"><a class="navbar-link btn-clickable" ng-click="lastFuture()">future log</a></li>
+            <li class="text-muted"><a class="navbar-link btn-clickable" ng-click="lastMonth()">monthly tracker</a></li>
+            <li class="text-muted"><a class="navbar-link btn-clickable" ng-click="lastDaily()">daily log</a></li>
+            <li class="text-muted"><a class="navbar-link btn-clickable" ng-if="currentStates.genericTitle" ng-click="lastGeneric()">{{currentStates.genericTitle | date: "MMM d" | lowercase }}</a></li>
+            <li class="text-muted"><a class="navbar-link btn-clickable"><add-collection collection-type="generic"></add-collection></a></li>
         </ul>
         <ul class="menu pagination navbar-right">
             <li refresh id="refresh" class="text-muted"><a class="navbar-link" ng-class="{offline: !online || !user}" ng-click="login()"><i class="fa fa-fw fa-refresh" ng-class="{'fa-spin': user && sync}"></i></a></li>
