@@ -85,6 +85,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
             };
 
             function editBullet(e) {
+
                 if (scope.bullet.status !== 'migrated' && scope.bullet.status !=='scheduled') {
 
                     if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
@@ -130,6 +131,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
             });
 
             scope.save = function() {
+                console.log(scope.bullet)
                 if (event && event.relatedTarget && event.relatedTarget.id === 'migrate') return;
                     if (!scope.bullet.rev) scope.addFn();
                     else scope.bullet.save();
