@@ -1,6 +1,5 @@
 bulletApp.filter('titleFormat', function (DateFactory) {
   return function(title, type) {
-    
     if (!Moment(new Date(title)).isValid()) return title;
 
     var output;

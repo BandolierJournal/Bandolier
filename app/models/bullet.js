@@ -144,7 +144,7 @@ module.exports = function(db) {
         bullets.forEach(b => {
             b.collections = b.collections.map(c => {
                 let found = collections.find(i => i.id===c);
-                if (!found) {
+                if (!found || (found.bullets.indexOf(b.id) < 0)) {
                     console.log(b, 'BULLET SHOULD BE DELETED');
                     db.rel.del('bullet', b);
                     return null;
