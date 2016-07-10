@@ -12,7 +12,7 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
         },
         link: function(scope, element) {
             scope.title = scope.monthTitle ? 'Log' : scope.collection.title;
-            scope.newBullet = new Bullet.Task({ status: 'new' });
+            if (!scope.noAdd) scope.collection.bullets.push(new Bullet.Task({ status: 'new' }));
 
             $rootScope.$on('update', function(event, next) {
                 if (next.id===scope.collection.id) scope.collection.update().then(c => {
@@ -33,10 +33,10 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
 
             scope.addBullet = function(bullet) {
                 if (bullet.content && bullet.content.length > 0) {
-                    scope.newBullet = new Bullet.Task({ status: 'new' });
                     return scope.collection.addBullet(bullet)
                         .then(function() {
-                            scope.$evalAsync()
+                          scope.collection.bullets.push(new Bullet.Task({ status: 'new' }))
+                          scope.$evalAsync()
                         })
                         .catch($log.err);
                 };

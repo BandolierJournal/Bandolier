@@ -29,7 +29,16 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
 
             scope.selectType = function(b, type) {
                 delete scope.bullet.status;
-                scope.bullet = new Bullet[type](b);
+                Object.assign(scope.bullet, new Bullet[type](b))
+                Object.setPrototypeOf(scope.bullet, new Bullet[type](b).constructor.prototype)
+                if (scope.bullet.content) scope.bullet.save().then(() => scope.$evalAsync())
+            }
+
+            scope.changeType = function(b, type) {
+              delete scope.bullet.status;
+              Object.assign(scope.bullet, new Bullet[type](b))
+              Object.setPrototypeOf(scope.bullet, new Bullet[type](b).constructor.prototype)
+              return scope.bullet
             }
 
             const OS = process.platform;
@@ -71,7 +80,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                 .then(res => {
                     $rootScope.$broadcast('update', res.bullets[0].next);
                     scope.$evalAsync();
-                    
+
                 });
             };
 
@@ -81,15 +90,15 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                     if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
                     // cmd-x cross out
                     if (e.which === 88 && scope.bullet.type === 'Task') return scope.bullet.toggleStrike();
-                   
+
                     if (scope.editable()) {
                         // cmd-t change to task
                         delete scope.bullet.status;
-                        if (e.which === 84) return new Bullet.Task(scope.bullet);
+                        if (e.which === 84) scope.changeType(scope.bullet, 'Task');
                         // cmd-e change to event
-                        if (e.which === 69) return new Bullet.Event(scope.bullet);
+                        if (e.which === 69) scope.changeType(scope.bullet, 'Event');
                         // cmd-n change to note
-                        if (e.which === 78) return new Bullet.Note(scope.bullet);
+                        if (e.which === 78) scope.changeType(scope.bullet, 'Note');
                     }
                     // cmd-d toggle done for tasks
 
@@ -121,16 +130,13 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
             });
 
             scope.save = function() {
-                if (event.relatedTarget && event.relatedTarget.id === 'migrate') return;
-
-                $timeout(function() {
+                if (event && event.relatedTarget && event.relatedTarget.id === 'migrate') return;
                     if (!scope.bullet.rev) scope.addFn();
                     else scope.bullet.save();
-                }, 10);
-
-                $timeout(function() {
-                    scope.enableButtons = false;
-                }, 300);
+                    $timeout(function() {
+                      scope.enableButtons = false;
+                      scope.$evalAsync()
+                    }, 300)
             }
 
         }
