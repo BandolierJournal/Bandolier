@@ -31,7 +31,14 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                 delete scope.bullet.status;
                 Object.assign(scope.bullet, new Bullet[type](b))
                 Object.setPrototypeOf(scope.bullet, new Bullet[type](b).constructor.prototype)
-                scope.bullet.save().then(() => scope.$evalAsync())
+                if (scope.bullet.content) scope.bullet.save().then(() => scope.$evalAsync())
+            }
+
+            scope.changeType = function(b, type) {
+              delete scope.bullet.status;
+              Object.assign(scope.bullet, new Bullet[type](b))
+              Object.setPrototypeOf(scope.bullet, new Bullet[type](b).constructor.prototype)
+              return scope.bullet
             }
 
             const OS = process.platform;
@@ -87,11 +94,11 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                     if (scope.editable()) {
                         // cmd-t change to task
                         delete scope.bullet.status;
-                        if (e.which === 84) return new Bullet.Task(scope.bullet);
+                        if (e.which === 84) scope.changeType(scope.bullet, 'Task');
                         // cmd-e change to event
-                        if (e.which === 69) return new Bullet.Event(scope.bullet);
+                        if (e.which === 69) scope.changeType(scope.bullet, 'Event');
                         // cmd-n change to note
-                        if (e.which === 78) return new Bullet.Note(scope.bullet);
+                        if (e.which === 78) scope.changeType(scope.bullet, 'Note');
                     }
                     // cmd-d toggle done for tasks
 
