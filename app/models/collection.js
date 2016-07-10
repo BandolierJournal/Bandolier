@@ -12,7 +12,7 @@ module.exports = function(db) {
     function convertToInstances(res) {
         const bullets = res.bullets;
         const collections = res.collections.map(collection => {
-            if (!collection.bullets.length) return db.rel.del('collections', collection);
+            if (!collection.bullets.length&&collection.type!=="generic") return db.rel.del('collections', collection);
             return new Collection(collection).deserializeBullets(bullets);
         });
         return collections;
