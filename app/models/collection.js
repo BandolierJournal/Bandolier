@@ -57,7 +57,7 @@ module.exports = function(db) {
           //add to other collection check
           if (this.type === 'month-cal') {
               Collection.fetchAll({ title: Moment(bullet.date).startOf('day').toISOString(), type: 'day' })
-              .then(c => c[0].addBullet(bullet))
+              .then(c => c[0].addMovedBullet(bullet))
               .catch(err => console.error(err));
           }
 
