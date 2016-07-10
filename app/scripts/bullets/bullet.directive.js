@@ -121,10 +121,13 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                     if (e.which === 13 || e.which === 9) {
                         e.preventDefault();
                         e.target.blur()
-                        if (scope.bullet.content) {
-                          $timeout(function() {
-                            e.target.parentNode.parentNode.nextElementSibling.firstChild.children[1].focus()
-                          }, 200)
+                          if (scope.bullet.content) {
+                            $timeout(function() {
+                              try {
+                                e.target.parentNode.parentNode.nextElementSibling.firstChild.children[1].focus()
+                              }
+                              catch(e) {}
+                            }, 200)
                         }
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
                         let updatedBullet = editBullet(e);
