@@ -77,7 +77,6 @@ module.exports = function(db) {
 
         removeBullet(bullet) {
             let bulletPromise = function() {};
-            console.log(this);
             let bulletIdx = this.bullets.indexOf(bullet);
             if (bulletIdx > -1) {
                 bulletPromise = bullet.save.bind(bullet)
