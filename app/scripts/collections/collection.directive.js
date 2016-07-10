@@ -32,7 +32,6 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
             };
 
             scope.addBullet = function(bullet) {
-                console.log(scope.collection)
                 if (bullet.content && bullet.content.length > 0) {
                     return scope.collection.addBullet(bullet)
                         .then(function() {
