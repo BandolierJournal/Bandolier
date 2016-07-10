@@ -29,8 +29,9 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
 
             scope.selectType = function(b, type) {
                 delete scope.bullet.status;
-                Object.assign(scope.bullet, new Bullet[type](b));
-                scope.bullet.save()
+                Object.assign(scope.bullet, new Bullet[type](b))
+                Object.setPrototypeOf(scope.bullet, new Bullet[type](b).constructor.prototype)
+                scope.bullet.save().then(() => scope.$evalAsync())
             }
 
             const OS = process.platform;
