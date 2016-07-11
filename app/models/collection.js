@@ -58,7 +58,7 @@ module.exports = function(db) {
           //add to other collection check
           if (this.type === 'month-cal') {
               Collection.fetchAll({ title: Moment(bullet.date).startOf('day').toISOString(), type: 'day' })
-              .then(c => c[0].addBullet(bullet))
+              .then(c => c[0].addMovedBullet(bullet))
               .catch(err => console.error(err));
           }
 
@@ -71,13 +71,6 @@ module.exports = function(db) {
             bullet.id = bullet.id || new Date().toISOString();
             bullet.collections.push(this.id);
             if (!bullet.date && Moment(new Date(this.title)).isValid()) bullet.date = this.title;
-            //add to other collection check
-            if (this.type === 'month-cal') {
-                Collection.fetchAll({ title: Moment(bullet.date).startOf('day').toISOString(), type: 'day' })
-                .then(c => c[0].addBullet(bullet))
-                .catch(err => console.error(err));
-            }
-
             return Promise.all([this.save(), bullet.save()])
             .catch(err => console.error('error ', err));
         }
@@ -127,6 +120,7 @@ module.exports = function(db) {
 
         save() {
             let bulletInstances = this.bullets;
+<<<<<<< HEAD
 
             let collection = _.cloneDeep(this)
             collection.serializeBullets();
@@ -135,6 +129,17 @@ module.exports = function(db) {
                 Object.assign(this, collection)
                 return this
             });
+=======
+            let collection = _.cloneDeep(this)
+            collection.serializeBullets();
+            return db.rel.save('collection', collection)
+            .then(() => {
+                collection.bullets = bulletInstances;
+                Object.assign(this, collection)
+                return this
+            })
+            .catch(err => console.log(err));
+>>>>>>> master
         }
 
         update() {
