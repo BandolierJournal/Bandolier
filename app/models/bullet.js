@@ -3,7 +3,7 @@
 // const db = require('./index')('bullet');
 const _ = require('lodash');
 const Moment = require('moment');
-
+let cache = {}
 
 module.exports = function(db) {
 
@@ -33,15 +33,21 @@ module.exports = function(db) {
                 .then(collection => {
                     let newBullet = this.createCopy();
                     this.next = { id: collection[0].id, type: type };
-                    return collection[0].addBullet(newBullet);
+                    return collection[0].addMovedBullet(newBullet);
                 })
                 .catch(err => console.error(`Move Error: could not move ${this.content} to ${collectionName}`));
         }
 
         save() {
             if (this.content || this.rev) {
-                if (!this.id) this.id = new Date().toISOString();
-                return db.rel.save('bullet', this);
+              if (!this.id) this.id = new Date().toISOString(); {
+                if (!cache[this.id]) cache[this.id] = Promise.resolve({bullets: [this]})
+                return cache[this.id] = cache[this.id].then(b => {
+                  if (this.rev && b.bullets[0].rev && +(b.bullets[0].rev.split('-')[0]) > +(this.rev.split('-')[0])) this.rev = b.bullets[0].rev;
+                  return db.rel.save('bullet', this);
+                })
+
+              }
             }
         }
 

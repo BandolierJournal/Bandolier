@@ -33,7 +33,7 @@ bulletApp.directive('monthCal', function($log) {
 
             scope.addBullet = function(bullet) {
                 if (bullet.content && bullet.content.length > 0) {
-                    scope.collection.addBullet(bullet);
+                    scope.collection.addMovedBullet(bullet);
                 };
             }
         }
