@@ -53,10 +53,6 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                 return b.type !== 'Note';
             };
 
-            scope.showThreadButton = function(b) {
-                return !b.next; //will need to check migrate
-            };
-
             scope.showMigrateButton = function(b) {
                 return b.type === 'Task';
             };
