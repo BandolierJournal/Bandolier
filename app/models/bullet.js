@@ -38,22 +38,29 @@ module.exports = function(db) {
                 .catch(err => console.error(`Move Error: could not move ${this.content} to ${collectionName}`));
         }
 
+        thread(collection) {
+            this.next = {id: collection.id, type: collection.type}; //MAKE SURE TO CHECK when deleting collections post threading
+            return this;
+        }
+
         save() {
             if (this.content || this.rev) {
-              if (!this.id) this.id = new Date().toISOString(); {
-                if (!cache[this.id]) cache[this.id] = Promise.resolve({bullets: [this]})
-                return cache[this.id] = cache[this.id].then(b => {
-                  if (this.rev && b.bullets[0].rev && +(b.bullets[0].rev.split('-')[0]) > +(this.rev.split('-')[0])) this.rev = b.bullets[0].rev;
-                  return db.rel.save('bullet', this);
-                })
+                if (!this.id) this.id = new Date().toISOString(); {
+                    if (!cache[this.id]) cache[this.id] = Promise.resolve({ bullets: [this] })
+                    return cache[this.id] = cache[this.id].then(b => {
+                        if (this.rev && b.bullets[0].rev && +(b.bullets[0].rev.split('-')[0]) > +(this.rev.split('-')[0])) this.rev = b.bullets[0].rev;
+                        return db.rel.save('bullet', this);
+                    })
 
-              }
+                }
             }
         }
 
         delete() {
             if (this.rev) return db.rel.del('bullets', this);
         }
+
+
 
     }
 
@@ -143,7 +150,7 @@ module.exports = function(db) {
         let collections = res.collections;
         bullets.forEach(b => {
             b.collections = b.collections.map(c => {
-                let found = collections.find(i => i.id===c);
+                let found = collections.find(i => i.id === c);
                 if (!found || (found.bullets.indexOf(b.id) < 0)) {
                     console.log(b, 'BULLET SHOULD BE DELETED');
                     db.rel.del('bullet', b);

@@ -20,6 +20,7 @@ const typeDict = {
     "struck": "strikethrough fa-remove btn-clickable",
     "toMigrate": "fa-paper-plane",
     "toSchedule": "fa-calendar",
+    "toThread": "fa-link",
 };
 
 function userDBUrl(username) {

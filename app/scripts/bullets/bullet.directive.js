@@ -24,8 +24,13 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                 scope.showScheduler = !scope.showScheduler;
             }
 
+            scope.toggleThreader = function() {
+                scope.threader = !scope.threader;
+            };
+
             scope.templateUrl = 'scripts/bullets/type.template.html';
             scope.datepickerUrl = 'scripts/bullets/datepicker.template.html';
+            scope.threaderUrl = 'scripts/bullets/threader.template.html';
 
             scope.selectType = function(b, type) {
                 delete scope.bullet.status;
@@ -44,13 +49,17 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
             const OS = process.platform;
 
             scope.showButtonPanel = function(b) {
-                return b.status === 'incomplete' &&
+                return scope.editable() &&
                     b.rev &&
                     scope.enableButtons;
             };
 
             scope.showScheduleButton = function(b) {
                 return b.type !== 'Note';
+            };
+
+            scope.showThreadButton = function(b) {
+                return !b.next; //will need to check migrate
             };
 
             scope.showMigrateButton = function(b) {
