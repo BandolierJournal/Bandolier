@@ -24,13 +24,8 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                 scope.showScheduler = !scope.showScheduler;
             }
 
-            scope.toggleThreader = function() {
-                scope.threader = !scope.threader;
-            };
-
             scope.templateUrl = 'scripts/bullets/type.template.html';
             scope.datepickerUrl = 'scripts/bullets/datepicker.template.html';
-            scope.threaderUrl = 'scripts/bullets/threader.template.html';
 
             scope.selectType = function(b, type) {
                 delete scope.bullet.status;
