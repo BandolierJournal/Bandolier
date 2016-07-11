@@ -46,7 +46,6 @@ module.exports = function(db) {
                   if (this.rev && b.bullets[0].rev && +(b.bullets[0].rev.split('-')[0]) > +(this.rev.split('-')[0])) this.rev = b.bullets[0].rev;
                   return db.rel.save('bullet', this);
                 })
-
               }
             }
         }
@@ -54,6 +53,8 @@ module.exports = function(db) {
         delete() {
             if (this.rev) return db.rel.del('bullets', this);
         }
+
+
 
     }
 
@@ -143,8 +144,8 @@ module.exports = function(db) {
         let collections = res.collections;
         bullets.forEach(b => {
             b.collections = b.collections.map(c => {
-                let found = collections.find(i => i.id===c);
-                if (!found) {
+                let found = collections.find(i => i.id === c);
+                if (!found || (found.bullets.indexOf(b.id) < 0)) {
                     console.log(b, 'BULLET SHOULD BE DELETED');
                     db.rel.del('bullet', b);
                     return null;

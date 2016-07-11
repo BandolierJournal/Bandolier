@@ -12,6 +12,7 @@ module.exports = function(db) {
     function convertToInstances(res) {
         const bullets = res.bullets;
         const collections = res.collections.map(collection => {
+            if (!collection.bullets.length&&collection.type!=="generic") return db.rel.del('collections', collection);
             return new Collection(collection).deserializeBullets(bullets);
         });
         return collections;
@@ -76,8 +77,7 @@ module.exports = function(db) {
 
         delete() {
             if (this.rev && this.type === 'generic') {
-                let removingBullets = this.bullets.map(bullet => this.removeBullet(bullet));
-
+                let removingBullets = this.bullets.map(bullet => this.removeBulletWithoutSave(bullet));
                 return Promise.all(removingBullets)
                     .then(() => db.rel.del('collections', this))
                     .catch(err => console.error(err));
@@ -100,6 +100,22 @@ module.exports = function(db) {
             }
             return Promise.all([this.save(), bulletPromise()])
                 .catch(err => console.error('error ', err))
+        }
+
+        removeBulletWithoutSave(bullet) {
+            let bulletPromise = function() {};
+            let bulletIdx = this.bullets.indexOf(bullet);
+            if (bulletIdx > -1) {
+                bulletPromise = bullet.save.bind(bullet)
+                let collectionIdx = bullet.collections.indexOf(this.id);
+                if (collectionIdx > -1) {
+                    bullet.collections.splice(collectionIdx, 1);
+                    if (bullet.collections.length < 1) {
+                        bulletPromise = bullet.delete.bind(bullet)
+                    }
+                } else throw new Error('Database is so broken...')
+            }
+            return bulletPromise().catch(err => console.error('error ', err))
         }
 
         save() {

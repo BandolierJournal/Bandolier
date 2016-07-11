@@ -10,7 +10,7 @@ bulletApp.config(function ($stateProvider) {
                 .then(c => {
                     c = c[0];
                     if (!c.title) $state.go('index');
-                    else currentStates.genericTitle = c.title
+                    else currentStates.genericTitle = c.title;
                     return c;
                 }); 
         }

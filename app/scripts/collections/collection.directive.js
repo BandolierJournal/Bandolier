@@ -44,6 +44,7 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
 
             scope.save = function() {
                 scope.collection.save().then(() => scope.$evalAsync());
+                $rootScope.$broadcast('nameChange', scope.collection);
             }
 
             element.on('keydown', function(e) {
