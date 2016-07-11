@@ -38,11 +38,6 @@ module.exports = function(db) {
                 .catch(err => console.error(`Move Error: could not move ${this.content} to ${collectionName}`));
         }
 
-        thread(collection) {
-            this.next = {id: collection.id, type: collection.type}; //MAKE SURE TO CHECK when deleting collections post threading
-            return this;
-        }
-
         save() {
             if (this.content || this.rev) {
               if (!this.id) this.id = new Date().toISOString(); {
