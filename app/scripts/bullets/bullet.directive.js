@@ -44,7 +44,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
             const OS = process.platform;
 
             scope.showButtonPanel = function(b) {
-                return scope.editable() &&
+                return b.status==="incomplete" &&
                     b.rev &&
                     scope.enableButtons;
             };
