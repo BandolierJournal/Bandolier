@@ -120,16 +120,6 @@ module.exports = function(db) {
 
         save() {
             let bulletInstances = this.bullets;
-<<<<<<< HEAD
-
-            let collection = _.cloneDeep(this)
-            collection.serializeBullets();
-            return db.rel.save('collection', collection).then((res) => {
-                collection.bullets = bulletInstances;
-                Object.assign(this, collection)
-                return this
-            });
-=======
             let collection = _.cloneDeep(this)
             collection.serializeBullets();
             return db.rel.save('collection', collection)
@@ -139,7 +129,6 @@ module.exports = function(db) {
                 return this
             })
             .catch(err => console.log(err));
->>>>>>> master
         }
 
         update() {
