@@ -26,6 +26,7 @@
     "angular-sanitize": "^1.5.7",
     "pouchdb": "^5.4.5",
     "relational-pouch": "^1.4.3",
-    "pouchdb-authentication": "^0.5.2"
+    "pouchdb-authentication": "^0.5.2",
+    "google-fonts": "*"
   }
 }
