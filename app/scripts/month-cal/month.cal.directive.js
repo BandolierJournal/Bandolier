@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-bulletApp.directive('monthCal', function($log) {
+bulletApp.directive('monthCal', function($log, $state) {
     return {
         restrict: 'E',
         templateUrl: 'scripts/month-cal/month.cal.template.html',

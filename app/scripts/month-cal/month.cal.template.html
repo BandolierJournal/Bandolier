@@ -3,7 +3,7 @@
     <table>
         <tr ng-repeat="bullet in bulletList track by $index">
             <td>
-                <div class="dateHeader pull-right"><span>{{$index+1}} {{bullet.date | date: 'EEE'}}</span></div>
+                <div class="dateHeader pull-right btn-clickable" ui-sref="daily({search: bullet.date})"><span>{{$index+1}} {{bullet.date | date: 'EEE'}}</span></div>
             </td>
             <td class="bullet-text">
                 <bullet no-icon="true" bullet="bullet" remove-fn="removeBullet(bullet)" add-fn="addBullet(bullet)"></bullet>

@@ -17,7 +17,8 @@ bulletApp.directive('searchBar', function(currentStates, $state, $log, $filter) 
             scope.go = function(item) {
                 if (item.collections.length) {
                     let collection = item.collections[0];
-                    $state.go($filter('stateName')(collection.type), { search: collection.title })
+                    if (collection.type==='generic') $state.go('generic', {id: collection.id});
+                    else $state.go($filter('stateName')(collection.type), { search: collection.title })
                 }
                 else $state.go('index');
                 fetched = null;

@@ -13,10 +13,10 @@
                 <input type="radio" ng-model="options.minMode" value="month" /> Future Log
             </label>
         </div>
-        <uib-datepicker ng-model="bullet.date" datepicker-options="options" datepicker-mode="options.minMode"></uib-datepicker>
+        <uib-datepicker ng-model="scheduleDate" datepicker-options="options" datepicker-mode="options.minMode"></uib-datepicker>
         <div style="margin-top: 5px">
             <span eat-click class="btn alice-blue larger" ng-click="schedule(options.minMode)">
-            <i class="fa fa-fw" ng-class="typeDict.scheduled"></i>select {{bullet.date | titleFormat:options.minMode}}
+            <i class="fa fa-fw" ng-class="typeDict.scheduled"></i>select {{scheduleDate | titleFormat:options.minMode}}
             </span>
         </div>
     </form>

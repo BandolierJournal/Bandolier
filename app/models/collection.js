@@ -34,8 +34,13 @@ module.exports = function(db) {
         }
 
         deserializeBullets(bulletInstances) {
-            this.bullets = this.bullets.map(bulletId => {
+            this.bullets = this.bullets.map((bulletId, index) => {
                 let bullet = bulletInstances.find(b => b.id === bulletId);
+                if (!bullet) {
+                    console.log(this, bullet, bulletId); // splice bulletId out of collection.bullets array
+                    this.bullets.splice(index, 1);
+                    return null;
+                }
                 return new Bullet[bullet.type](bullet);
             });
             return this;

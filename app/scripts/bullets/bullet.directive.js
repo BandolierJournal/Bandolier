@@ -6,6 +6,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
             bullet: '=',
             removeFn: '&',
             addFn: '&',
+            collectionType: '='
         },
         link: function(scope, element, attrs) {
 
@@ -20,7 +21,8 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
             }
 
             scope.toggleScheduler = function() {
-                if (!scope.bullet.date) scope.bullet.date = new Date();
+                let addType = (scope.collectionType==='day') ? 'days' : 'months';
+                scope.scheduleDate = (!scope.bullet.date) ? new Date() : DateFactory.addOne(scope.bullet.date, addType);
                 scope.showScheduler = !scope.showScheduler;
             }
 
@@ -35,10 +37,10 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
             }
 
             scope.changeType = function(b, type) {
-              delete scope.bullet.status;
-              Object.assign(scope.bullet, new Bullet[type](b))
-              Object.setPrototypeOf(scope.bullet, new Bullet[type](b).constructor.prototype)
-              return scope.bullet
+                delete scope.bullet.status;
+                Object.assign(scope.bullet, new Bullet[type](b))
+                Object.setPrototypeOf(scope.bullet, new Bullet[type](b).constructor.prototype)
+                return scope.bullet
             }
 
             const OS = process.platform;
@@ -59,34 +61,42 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
 
             scope.migrate = function() {
                 scope.bullet.migrate()
-                .then(res => {
-                    scope.$evalAsync();
-                });
+                    .then(res => {
+                        scope.$evalAsync();
+                    });
             };
 
             scope.options = {
-                minMode: 'day'
+                minMode: 'day',
+                dateDisabled: disabled
+            }
+
+            function disabled(data) {
+                var date = data.date,
+                    mode = data.mode;
+                let notSelf = (scope.collectionType==='day') ? (mode==='day') : (mode==='month');
+                return (scope.collectionType!=='month') && notSelf && (date.toISOString()===scope.bullet.date);
             }
 
             scope.next = function() {
-                if (scope.bullet.next) $state.go('generic', {id: scope.bullet.next.id});
+                if (scope.bullet.next) $state.go('generic', { id: scope.bullet.next.id });
             }
 
             scope.schedule = function(mode) {
-                scope.bullet.date = DateFactory.roundDate(scope.bullet.date, mode);
+                scope.bullet.date = DateFactory.roundDate(scope.scheduleDate, mode);
                 scope.showScheduler = false;
                 if (mode === 'month') mode = 'future';
                 scope.bullet.schedule(scope.bullet.date, mode)
-                .then(res => {
-                    $rootScope.$broadcast('update', res.bullets[0].next);
-                    scope.$evalAsync();
+                    .then(res => {
+                        $rootScope.$broadcast('update', res.bullets[0].next);
+                        scope.$evalAsync();
 
-                });
+                    });
             };
 
             function editBullet(e) {
 
-                if (scope.bullet.status !== 'migrated' && scope.bullet.status !=='scheduled') {
+                if (scope.bullet.status !== 'migrated' && scope.bullet.status !== 'scheduled') {
 
                     if (e.which === 68 && scope.bullet.type === 'Task') return scope.bullet.toggleDone();
                     // cmd-x cross out
@@ -121,12 +131,11 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                     if (e.which === 13 || e.which === 9) {
                         e.preventDefault();
                         e.target.blur()
-                          if (scope.bullet.content) {
+                        if (scope.bullet.content) {
                             $timeout(function() {
-                              try {
-                                e.target.parentNode.parentNode.nextElementSibling.firstChild.children[1].focus()
-                              }
-                              catch(e) {}
+                                try {
+                                    e.target.parentNode.parentNode.nextElementSibling.firstChild.children[1].focus()
+                                } catch (e) {}
                             }, 200)
                         }
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
@@ -140,12 +149,12 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
 
             scope.save = function() {
                 if (event && event.relatedTarget && event.relatedTarget.id === 'migrate') return;
-                    if (!scope.bullet.rev) scope.addFn();
-                    else scope.bullet.save();
-                    $timeout(function() {
-                      scope.enableButtons = false;
-                      scope.$evalAsync()
-                    }, 300)
+                if (!scope.bullet.rev) scope.addFn();
+                else scope.bullet.save();
+                $timeout(function() {
+                    scope.enableButtons = false;
+                    scope.$evalAsync()
+                }, 300)
             }
 
         }
