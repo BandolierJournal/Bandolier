@@ -15,7 +15,7 @@
         </div>
         <uib-datepicker ng-model="scheduleDate" datepicker-options="options" datepicker-mode="options.minMode"></uib-datepicker>
         <div style="margin-top: 5px">
-            <span eat-click class="btn alice-blue larger" ng-click="schedule(options.minMode)">
+            <span eat-click class="btn alice-blue larger" ng-click="schedule(scheduleDate, options.minMode)">
             <i class="fa fa-fw" ng-class="typeDict.scheduled"></i>select {{scheduleDate | titleFormat:options.minMode}}
             </span>
         </div>

@@ -82,8 +82,8 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                 if (scope.bullet.next) $state.go('generic', { id: scope.bullet.next.id });
             }
 
-            scope.schedule = function(mode) {
-                scope.bullet.date = DateFactory.roundDate(scope.scheduleDate, mode);
+            scope.schedule = function(date, mode) {
+                scope.bullet.date = DateFactory.roundDate(date, mode);
                 scope.showScheduler = false;
                 if (mode === 'month') mode = 'future';
                 scope.bullet.schedule(scope.bullet.date, mode)
