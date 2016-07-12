@@ -1,7 +1,7 @@
 bulletApp.config(function ($stateProvider) {
 
   $stateProvider.state('generic', {
-    url: '/generic/:id',
+    url: '/generic/:id/',
     templateUrl: 'scripts/generic/generic.template.html',
     controller: 'GenericCtrl',
     resolve: {

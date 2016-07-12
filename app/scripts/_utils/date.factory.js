@@ -117,6 +117,10 @@ bulletApp.factory('DateFactory', function() {
         }
     }
 
+    function addOne(date, type) {
+        return Moment(date).add(1, type).toISOString()
+    }
+
 
     return {
         display: display,
@@ -132,6 +136,8 @@ bulletApp.factory('DateFactory', function() {
         nextMonth: nextMonth,
         getWeekday: getWeekday,
         nextNYears: nextNYears,
-        diffs: diffs
+        diffs: diffs,
+        addOne: addOne,
+        chronoSort: chronoSort
     }
 })

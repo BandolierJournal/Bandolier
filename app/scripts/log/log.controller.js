@@ -12,6 +12,11 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, type,
         if (diff >= 0) search = index + diff;
         else {
             search = aged.find(i => i.title === search);
+            if (!search) {
+                search = DateFactory.display(diff, type)[0];
+                aged.push(search);
+                aged.sort(DateFactory.chronoSort);
+            }
             search = aged.indexOf(search);
         }
         index = findIndex(search);

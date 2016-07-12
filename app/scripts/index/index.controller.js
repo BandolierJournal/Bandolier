@@ -3,8 +3,10 @@ bulletApp.controller('IndexCtrl', function($scope, collections, bullets, AuthFac
 
     if (collections.length) collections.push({type: 'month', title: DateFactory.roundDate(DateFactory.today, 'month')})
     else collections = [{type: 'month', title: DateFactory.roundDate(DateFactory.today, 'month')}]
+    
+    let months = _.uniqBy(collections.filter(col => col.type==='month' || col.type==='month-cal'), 'title');
+    $scope.months = months.map(i => i.title).sort();
 
-    $scope.months = _.groupBy(collections.filter(col => col.type === 'month' || col.type === 'month-cal'), i => i.title);
     $scope.typeDict = typeDict;
 
     $scope.deleteCollection = function(collection) {
