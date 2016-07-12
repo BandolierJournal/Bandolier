@@ -1,7 +1,7 @@
 bulletApp.config(function($stateProvider) {
 
     $stateProvider.state('future', {
-        url: '/future/:search',
+        url: '/future/:index/:search',
         templateUrl: 'scripts/log/log.template.html',
         controller: 'LogCtrl',
         resolve: {
