@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-bulletApp.directive('bulletIcon', function($state) {
+bulletApp.directive('bulletIcon', function($state, $filter) {
     return {
         restrict: 'E',
         templateUrl: 'scripts/bullets/icon.template.html',
@@ -17,16 +17,14 @@ bulletApp.directive('bulletIcon', function($state) {
 
             scope.toggleDone = function() {
                 if (scope.bullet.type === "Task") {
-                    // if (scope.bullet.status==="struck") scope.bullet.toggleDone();
-                    if (scope.bullet.status==="complete") scope.bullet.toggleStrike();
+                    if (scope.bullet.status === "complete") scope.bullet.toggleStrike();
                     else scope.bullet.toggleDone();
                     scope.bullet.save();
                 }
             };
 
             scope.next = function() {
-                console.log(scope.bullet.next);
-                if (scope.bullet.next) $state.go('generic', {id: scope.bullet.next.id});
+                if (scope.bullet.next) $state.go('generic', { id: scope.bullet.next.id });
             }
 
         }

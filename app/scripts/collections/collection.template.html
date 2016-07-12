@@ -1,8 +1,6 @@
 <div class="collection">
-    <h4 class="page-header" ng-hide="noTitle||collection.type==='generic'">{{title | titleFormat:collection.type}}</h4>
+    <h4 class="page-header" ng-hide="noTitle||collection.type==='generic'" ng-class="{'btn-clickable': collection.type==='future'}" ng-click="go()">{{title | titleFormat:collection.type}}</h4>
     <h4 contenteditable ng-model="collection.title" ng-model-options="{updateOn: blur}" ng-blur="save()" class="page-header" ng-if="collection.type==='generic'"></h4>
-    <bullet ng-repeat="bullet in collection.bullets track by $index" bullet="bullet" remove-fn="removeBullet(bullet)" add-fn="">
-    </bullet>
-    <bullet bullet="newBullet" remove-fn="removeBullet(newBullet)" add-fn="addBullet(newBullet)" ng-hide="noAdd">
+    <bullet ng-repeat="bullet in collection.bullets track by $index" bullet="bullet" remove-fn="removeBullet(bullet)" add-fn="addBullet(bullet)" collection-type="collection.type">
     </bullet>
 </div>

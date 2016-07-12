@@ -1,6 +1,6 @@
 /*jshint esversion: 6*/
 
-bulletApp.directive('collection', function($log, $rootScope, currentStates, DateFactory) {
+bulletApp.directive('collection', function($log, $rootScope, currentStates, DateFactory, $state) {
     return {
         restrict: 'E',
         templateUrl: 'scripts/collections/collection.template.html',
@@ -12,7 +12,18 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
         },
         link: function(scope, element) {
             scope.title = scope.monthTitle ? 'Log' : scope.collection.title;
-            scope.newBullet = new Bullet.Task({ status: 'new' });
+            if (!scope.noAdd) scope.collection.bullets.push(new Bullet.Task({ status: 'new' }));
+
+            scope.go = function() {
+                if (scope.collection.type==='future') $state.go('month', {search: scope.collection.title});
+            }
+
+            $rootScope.$on('update', function(event, next) {
+                if (next.id===scope.collection.id) scope.collection.update().then(c => {
+                    angular.extend(scope.collection, c[0]);
+                    scope.$evalAsync();
+                });
+            })
 
             scope.removeBullet = function(bullet) {
                 return scope.collection.removeBullet(bullet)
@@ -28,8 +39,8 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
                 if (bullet.content && bullet.content.length > 0) {
                     return scope.collection.addBullet(bullet)
                         .then(function() {
-                            scope.newBullet = new Bullet.Task({ status: 'new' })
-                            scope.$evalAsync()
+                          scope.collection.bullets.push(new Bullet.Task({ status: 'new' }))
+                          scope.$evalAsync()
                         })
                         .catch($log.err);
                 };
@@ -37,6 +48,7 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
 
             scope.save = function() {
                 scope.collection.save().then(() => scope.$evalAsync());
+                $rootScope.$broadcast('nameChange', scope.collection);
             }
 
             element.on('keydown', function(e) {

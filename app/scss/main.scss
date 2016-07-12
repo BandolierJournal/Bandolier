@@ -36,12 +36,17 @@ div.popover-content {
     cursor: pointer;
 }
 
-[ng-click] {
+.btn-clickable {
     cursor: pointer;
 }
 
 .clickable:hover {
     opacity: 1;
+}
+
+.hide-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 h1.page-header {
@@ -62,8 +67,8 @@ h4.index-titling {
 
 .key {
     position: absolute;
-    top: 10%;
-    right: 10%;
+    top: 5%;
+    right: 7%;
 }
 
 .index-section {
@@ -77,11 +82,6 @@ h1.index-title {
     font-size: 80px
 }
 
-h5.key-title {
-    text-indent: 80px;
-    font-size: 25px
-}
-
 .inline {
     display: inline;
 }
@@ -93,6 +93,10 @@ h4.page-header {
 
 .alice-blue {
     background-color: $alice-blue;
+}
+
+span.alice-blue.larger.btn:hover {
+    box-shadow: 3px 5px 15px -4px rgba(0, 0, 0, 0.75);
 }
 
 button.btn.sign,
@@ -241,12 +245,15 @@ table:focus {
     border-bottom: 1px dashed #A2AFC2;
 }
 
-// collection:hover {
-//     box-shadow: 3px 20px 29px -4px rgba(0, 0, 0, 0.75);
-// }
+.searchresult {
+    box-shadow: 3px 20px 29px -4px rgba(0, 0, 0, 0.75);
+    color: red;
+}
+
 // collection.no-hover {
 //     box-shadow: none;
 // }
+
 .done {
     font-style: italic;
 }
@@ -318,7 +325,7 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    -webkit-app-region: drag
+    // -webkit-app-region: drag
 }
 
 collection,
