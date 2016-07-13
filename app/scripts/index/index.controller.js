@@ -1,9 +1,10 @@
-bulletApp.controller('IndexCtrl', function($scope, collections, bullets, AuthFactory) {
+bulletApp.controller('IndexCtrl', function($scope, collections, bullets, AuthFactory, DateFactory) {
     $scope.collections = collections.filter(col => col.type === 'generic');
-
+    if (collections.length) collections.push({type: 'month', title: DateFactory.roundDate(DateFactory.today, 'month')})
+    else collections = [{type: 'month', title: DateFactory.roundDate(DateFactory.today, 'month')}]
     $scope.months = _.groupBy(collections.filter(col => col.type === 'month' || col.type === 'month-cal'), i => i.title);
     $scope.typeDict = typeDict;
-    
+
     $scope.deleteCollection = function(collection) {
         collection.delete()
             .then(() => {
