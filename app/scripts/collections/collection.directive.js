@@ -51,6 +51,8 @@ bulletApp.directive('collection', function($log, $rootScope, currentStates, Date
                 $rootScope.$broadcast('nameChange', scope.collection);
             }
 
+            scope.today = DateFactory.today
+
             element.on('keydown', function(e) {
                 if (e.which === 13) {
                     e.preventDefault();

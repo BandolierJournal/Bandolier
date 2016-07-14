@@ -91,6 +91,12 @@ h4.page-header {
     line-height: 0.8;
 }
 
+h4.today {
+  border-bottom: 2px solid #eee;
+}
+h4.today::before {
+  content: '* ';
+}
 .alice-blue {
     background-color: $alice-blue;
 }
