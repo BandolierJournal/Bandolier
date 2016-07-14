@@ -132,7 +132,9 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                     if (e.which === 38 || (e.shiftKey && e.which === 9)) {
                       e.preventDefault();
                       e.target.blur()
-                      e.target.parentNode.parentNode.previousElementSibling.firstChild.children[1].focus()
+                      try {
+                        e.target.parentNode.parentNode.previousElementSibling.firstChild.children[1].focus()
+                      } catch(e) {}  
                     // down arrow or tab or enter to move down bullet list
                     } else if (e.which === 13 || e.which === 9 || e.which === 40) {
                         e.preventDefault();
@@ -144,7 +146,7 @@ bulletApp.directive('bullet', function(DateFactory, $timeout, $rootScope, $state
                                 } catch (e) {}
                             }, 200)
                         }
-                    // make change to bullet using hotkeys    
+                    // make change to bullet using hotkeys
                     } else if ((OS === 'darwin' && e.metaKey) || (OS !== 'darwin' && e.ctrlKey)) {
                         let updatedBullet = editBullet(e);
                         if (updatedBullet) scope.bullet = updatedBullet;
