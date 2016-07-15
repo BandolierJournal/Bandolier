@@ -3,9 +3,9 @@
 // const db = require('./index')('bullet');
 const _ = require('lodash');
 const Moment = require('moment');
+let cache = {}
 
-
-module.exports = function (db) {
+module.exports = function(db) {
 
     class Bullet {
         constructor(content) {
@@ -32,21 +32,29 @@ module.exports = function (db) {
                 })
                 .then(collection => {
                     let newBullet = this.createCopy();
-                    return collection[0].addBullet(newBullet);
+                    this.next = { id: collection[0].id, type: type };
+                    return collection[0].addMovedBullet(newBullet);
                 })
                 .catch(err => console.error(`Move Error: could not move ${this.content} to ${collectionName}`));
         }
 
         save() {
             if (this.content || this.rev) {
-                if (!this.id) this.id = new Date().toISOString();
-                return db.rel.save('bullet', this);
+              if (!this.id) this.id = new Date().toISOString(); {
+                if (!cache[this.id]) cache[this.id] = Promise.resolve({bullets: [this]})
+                return cache[this.id] = cache[this.id].then(b => {
+                  if (this.rev && b.bullets[0].rev && +(b.bullets[0].rev.split('-')[0]) > +(this.rev.split('-')[0])) this.rev = b.bullets[0].rev;
+                  return db.rel.save('bullet', this);
+                })
+              }
             }
         }
 
         delete() {
             if (this.rev) return db.rel.del('bullets', this);
         }
+
+
 
     }
 
@@ -91,13 +99,13 @@ module.exports = function (db) {
         }
 
         toggleDone() {
-            if (this.status === 'migrated') return this;
+            if (this.status === 'migrated' || this.status === 'scheduled') return this;
             this.status = (this.status === 'incomplete') ? 'complete' : 'incomplete';
             return this;
         }
 
         toggleStrike() {
-            if (this.status === 'migrated') return this;
+            if (this.status === 'migrated' || this.status === 'scheduled') return this;
             this.status = (this.status === 'struck') ? 'incomplete' : 'struck';
             return this;
         }
@@ -121,11 +129,39 @@ module.exports = function (db) {
             .catch(err => console.error('could not fetch bullets', err));
     }
 
+    function fetchWithCollections(string) {
+        return db.rel.find('bullet')
+            .then(attachCollections)
+            .then(bullets => {
+                if (string) bullets = bullets.filter(b => b.content.includes(string));
+                return bullets;
+            })
+            .catch(err => console.error('could not find bullets w/ collections', err));
+    }
+
+    function attachCollections(res) {
+        let bullets = res.bullets;
+        let collections = res.collections;
+        bullets.forEach(b => {
+            b.collections = b.collections.map(c => {
+                let found = collections.find(i => i.id === c);
+                if (!found || (found.bullets.indexOf(b.id) < 0)) {
+                    console.log(b, 'BULLET SHOULD BE DELETED');
+                    db.rel.del('bullet', b);
+                    return null;
+                }
+                return found;
+            });
+        })
+        return bullets;
+    }
+
     const Bullets = {
         Task: Task,
         Event: EventBullet,
         Note: Note,
-        fetchAll: fetchAll
+        fetchAll: fetchAll,
+        fetchWithCollections: fetchWithCollections
     };
 
     return Bullets;

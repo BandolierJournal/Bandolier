@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-bulletApp.directive('monthCal', function($log) {
+bulletApp.directive('monthCal', function($log, $state) {
     return {
         restrict: 'E',
         templateUrl: 'scripts/month-cal/month.cal.template.html',
@@ -33,7 +33,7 @@ bulletApp.directive('monthCal', function($log) {
 
             scope.addBullet = function(bullet) {
                 if (bullet.content && bullet.content.length > 0) {
-                    scope.collection.addBullet(bullet);
+                    scope.collection.addMovedBullet(bullet);
                 };
             }
         }

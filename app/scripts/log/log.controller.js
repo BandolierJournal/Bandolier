@@ -1,16 +1,34 @@
-bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, last, type, $rootScope, $stateParams) {
+'use strict';
+
+bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, type, $rootScope, $stateParams) {
 
     const aged = collections[0];
     const future = collections[1];
     let index = aged.length;
 
-    if ($stateParams.index && $stateParams.index.length) {
-      index = +$stateParams.index
-      if (index < 0) $scope.collections = aged.slice(0, index + 6);
-      else navigate()
-    } else {
-      new6(0);
-    }
+    new6(0);
+
+    if ($stateParams.search) {
+        let search = $stateParams.search;
+        let diff = DateFactory.diffs(search, DateFactory.yesterday, type);
+        if (diff >= 0) search = index + diff;
+        else {
+            search = aged.find(i => i.title === search);
+            if (!search) {
+                search = DateFactory.display(diff, type)[0];
+                aged.push(search);
+                aged.sort(DateFactory.chronoSort);
+            }
+            search = aged.indexOf(search);
+        }
+        index = findIndex(search);
+        function findIndex(i) {
+            return aged.length - Math.ceil((aged.length - i) / 6) * 6;
+        }
+
+    } else if ($stateParams.index) index = +$stateParams.index;
+    if (index < 0) $scope.collections = aged.slice(0, index + 6);
+    else navigate();
 
     function new6(offset) {
         $scope.collections = [];
@@ -24,11 +42,14 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, last,
     $scope.title = ((type === 'day') ? 'DAILY' : 'FUTURE') + ' LOG';
 
     $scope.prev6 = function() {
+        $scope.collections.forEach(c => {
+          if ((c.bullets.length > 1) && !future.find(el => el.title === c.title)) future.push(c)
+        })
         if (index <= 0) return;
         if (index < 6) {
             $scope.collections = aged.slice(0, index);
             index -= 6;
-            $rootScope.$broadcast('pageChange', {index: index, type: type})
+            $rootScope.$broadcast('pageChange', { index: index, type: type })
         } else {
             index -= 6;
             navigate();
@@ -36,12 +57,15 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, last,
     }
 
     $scope.next6 = function() {
+        $scope.collections.forEach(c => {
+          if ((c.bullets.length > 1) && !future.find(el => el.title === c.title)) future.push(c)
+        })
         index += 6;
         navigate();
     }
 
     function navigate() {
-        $rootScope.$broadcast('pageChange', {index: index, type: type})
+        $rootScope.$broadcast('pageChange', { index: index, type: type })
         if (index >= aged.length) new6(index - aged.length);
         else $scope.collections = aged.slice(index, index + 6);
     }

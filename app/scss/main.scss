@@ -1,7 +1,12 @@
-$header-font: 'Reenie Beanie', cursive;
-$body-font: 'Karla', sans-serif;
+$header-font: 'Reenie Beanie',
+cursive;
+$body-font: 'Karla',
+sans-serif;
 $navbar-color: #eee;
 $navbar-border: #e7e7e7;
+$bisque: #FFE4C4;
+$alice-blue: #F0F8FF;
+
 body,
 html {
     // font-family: 'Fredericka the Great', cursive;
@@ -21,11 +26,28 @@ h1,
 h2,
 h3,
 h4,
-h5,
-blockquote {
+blockquote,
+div.popover-content {
     font-family: $header-font;
 }
 
+.clickable {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.btn-clickable {
+    cursor: pointer;
+}
+
+.clickable:hover {
+    opacity: 1;
+}
+
+.hide-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 h1.page-header {
     font-family: $header-font;
@@ -34,12 +56,19 @@ h1.page-header {
 
 h4.index-titling {
     font-family: $body-font;
+    font-size: 20px;
+    display: inline;
+    color: black;
+}
+
+.index-line {
+    margin: 6px;
 }
 
 .key {
     position: absolute;
-    top: 10%;
-    right: 10%;
+    top: 5%;
+    right: 7%;
 }
 
 .index-section {
@@ -53,11 +82,6 @@ h1.index-title {
     font-size: 80px
 }
 
-h5.key-title {
-    text-indent: 80px;
-    font-size: 25px
-}
-
 .inline {
     display: inline;
 }
@@ -67,9 +91,48 @@ h4.page-header {
     line-height: 0.8;
 }
 
-button.btn.sign, .popover-title {
+.alice-blue {
+    background-color: $alice-blue;
+}
+
+span.alice-blue.larger.btn:hover {
+    box-shadow: 3px 5px 15px -4px rgba(0, 0, 0, 0.75);
+}
+
+button.btn.sign,
+.popover-title {
     font-size: 22px;
     line-height: 0.9;
+}
+
+.uib-datepicker,
+.close-btn,
+.h6, .schedule-title span  {
+    font-family: $body-font;
+    line-height: 1;
+    font-size: smaller;
+}
+
+.schedule-title span {
+    font-size: 14px;
+}
+
+.schedule-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 2.8em;
+    max-width: 290px;
+}
+
+.schedule-title p {
+    margin-top: 9px;
+    margin-bottom: 3px;
+    line-height: 0.8;
+}
+
+.uib-title {
+    font-size: 15px;
+    line-height: 1.2;
 }
 
 .landing-page h1,
@@ -84,6 +147,10 @@ blockquote {
 
 .form-control.important {
     font-family: $body-font !important;
+}
+
+.form-control.collection-input {
+    min-width: 150px;
 }
 
 .landing-page h1 {
@@ -124,7 +191,7 @@ blockquote {
 }
 
 .bullet-text {
-    min-width: 395px;
+    min-width: 370px;
 }
 
 .bullet-menu {
@@ -135,7 +202,8 @@ blockquote {
 }
 
 .monthContainer {
-    margin-top: -10px;
+    margin-top: -15px;
+    margin-bottom: 25px;
 }
 
 .dropdown-menu {
@@ -158,8 +226,8 @@ blockquote {
 }
 
 .collectionColumn {
-    max-width: 40em;
-    flex-grow: 1;
+    max-width: 39em;
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
@@ -169,20 +237,29 @@ blockquote {
     border-bottom: 1px dashed #A2AFC2;
 }
 
+table:focus {
+    outline: 0 solid transparent;
+}
+
 [contenteditable]:hover {
     border-bottom: 1px dashed #A2AFC2;
 }
 
-collection:hover {
+.searchresult {
     box-shadow: 3px 20px 29px -4px rgba(0, 0, 0, 0.75);
+    color: red;
 }
 
-collection.no-hover {
-    box-shadow: none;
-}
+// collection.no-hover {
+//     box-shadow: none;
+// }
 
 .done {
     font-style: italic;
+}
+
+.popover.left {
+    margin-left: 50px;
 }
 
 .popover {
@@ -196,18 +273,43 @@ collection.no-hover {
 }
 
 .dateHeader {
-    margin-right: 15px
+    margin-right: 15px;
+    min-width: 48px;
 }
 
 .datepicker {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+    font-size: 19px;
+    text-align: center;
+}
+
+.larger {
+    font-size: larger;
+    line-height: 1;
 }
 
 .popover-content {
     padding: 3px;
-    font-family: 'Roboto', sans-serif;
+}
+
+.flex {
+    flex-direction: column;
+    height: 30em;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.btn-info,
+.btn-info.active,
+.btn-info.active:hover,
+.btn-info:hover,
+.btn-default.active,
+.btn-default.active:hover {
+    background-color: $alice-blue;
+    border-color: #eee;
+    color: black;
 }
 
 .popover .arrow {
@@ -218,13 +320,31 @@ collection.no-hover {
 html {
     position: relative;
     min-height: 100%;
+    -webkit-app-region: drag
 }
 
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    -webkit-app-region: drag
 }
+
+collection,
+button,
+.collection,
+h5,
+h4,
+h3,
+h2,
+h1,
+bullet,
+input,
+i ,
+li,
+ul,
+a {
+    -webkit-app-region: no-drag;
+}
+
 
 .navbar {
     height: 60px;

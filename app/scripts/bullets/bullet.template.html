@@ -1,25 +1,29 @@
 <div class="bullet-row">
     <bullet-icon ng-hide="hideIcon" class="bullet-icon" bullet="bullet"></bullet-icon>
-    <div uib-popover-template="datepickerUrl" 
-        popover-is-open="showScheduler" 
-        popover-placement="right">
-    </div>
-    <div class="bullet-text" 
-        ng-class="{strikethrough: bullet.status==='struck', done: !editable()}" 
-        uib-popover-template="templateUrl" popover-enable="editable()" popover-trigger="focus" popover-placement="bottom-left" 
-        contenteditable ng-model="bullet.content" 
-        ng-focus="enableButtons = true" 
+
+    <div class="bullet-text"
+        ng-class="{strikethrough: bullet.status==='struck', done: !editable()}"
+        uib-popover-template="templateUrl" popover-enable="editable()" popover-trigger="focus" popover-placement="bottom-left"
+        contenteditable ng-model="bullet.content"
+        ng-focus="enableButtons = true"
         ng-blur="save()">
     </div>
+
+    <div uib-popover-template="datepickerUrl"
+        popover-is-open="showScheduler"
+        popover-placement="left">
+    </div>
+
     <div class="bullet-menu" ng-if="showButtonPanel(bullet)">
-        <i class="fa fa-fw fa-calendar" ng-click="toggleScheduler()" 
-            ng-show="showScheduleButton(bullet)" 
+        <i class="fa fa-fw fa-calendar clickable" ng-click="toggleScheduler()"
+            ng-show="showScheduleButton(bullet)"
             title="schedule"></i>
-        <i eat-click id="migrate" class="fa fa-fw fa-paper-plane" ng-click="migrate()" 
-            ng-show="showMigrateButton(bullet)" 
+        <i eat-click id="migrate" class="fa fa-fw fa-paper-plane clickable" ng-click="migrate()"
+            ng-show="showMigrateButton(bullet)"
             title="migrate"></i>
     </div>
-    <i ng-if="bullet.status==='scheduled'" class="text-muted bullet-menu">
-        {{bullet.date | date: 'MMM d' }}</i>
+
+    <i ng-if="bullet.status==='scheduled'" class="bullet-menu clickable" ng-click="next()">
+        {{bullet.date | dateFormat:bullet.next.type }}</i>
 </div>
 <!-- <pre>{{bullet | json}}</pre> -->

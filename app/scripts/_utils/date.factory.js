@@ -1,4 +1,4 @@
-bulletApp.factory('DateFactory', function () {
+bulletApp.factory('DateFactory', function() {
     let today = Moment().startOf('day').toISOString(); // TODO: make this a function (so today is always up to date)
     let yesterday = Moment(today).subtract(1, 'days').toISOString();
     let thisMonth = Moment().startOf('month').toISOString();
@@ -9,7 +9,7 @@ bulletApp.factory('DateFactory', function () {
             []
         ];
         let last = (collections[0].type === "day") ? yesterday : lastMonth();
-        let split = _.partition(collections, function (c) {
+        let split = _.partition(collections, function(c) {
             return c.title < last;
         })
         let aged = split[0].sort(chronoSort);
@@ -79,8 +79,8 @@ bulletApp.factory('DateFactory', function () {
         let date = Moment().month(month);
         let type = 'day';
 
-        if(!year) {
-            if(day < 32) date = date.date(day);
+        if (!year) {
+            if (day < 32) date = date.date(day);
             else [date, type] = [roundDate(date.year(day), 'month'), 'future']
         } else date = date.date(day).year(year);
         return [roundDate(date), type];
@@ -102,6 +102,12 @@ bulletApp.factory('DateFactory', function () {
         return Moment(currentMonth).add(1, 'month').toISOString()
     }
 
+    function diffs(a, b, type) {
+        var a = Moment(a);
+        var b = Moment(b);
+        return a.diff(b, type+'s');
+    }
+
     function* nextNYears(n) {
         let i = 0;
         const thisYear = Moment(thisMonth).year();
@@ -109,6 +115,10 @@ bulletApp.factory('DateFactory', function () {
             yield thisYear + i;
             i++;
         }
+    }
+
+    function addOne(date, type) {
+        return Moment(date).add(1, type).toISOString()
     }
 
 
@@ -120,10 +130,14 @@ bulletApp.factory('DateFactory', function () {
         getChoices: getChoices,
         convertDate: convertDate,
         today: today,
+        yesterday: yesterday,
         thisMonth: thisMonth,
         lastMonth: lastMonth,
         nextMonth: nextMonth,
         getWeekday: getWeekday,
-        nextNYears: nextNYears
+        nextNYears: nextNYears,
+        diffs: diffs,
+        addOne: addOne,
+        chronoSort: chronoSort
     }
 })

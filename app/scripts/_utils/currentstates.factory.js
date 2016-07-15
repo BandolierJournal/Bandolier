@@ -15,6 +15,10 @@ bulletApp.factory('currentStates', function ($rootScope) {
     // console.log('fp', fromParams);
   });
 
+  $rootScope.$on('nameChange', function(event, collection) {
+    if (currentStates.generic.id===collection.id) currentStates.genericTitle = collection.title;
+  });
+
   $rootScope.$on('pageChange', function(event, args){
     if (args.type === 'month') currentStates.future = {index: args.index};
     if (args.type === 'day') currentStates.daily = {index: args.index};
