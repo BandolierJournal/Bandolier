@@ -4,7 +4,7 @@
 
 
 module.exports = function(dbname) {
-    var db = new PouchDB(dbname);
+    var db = new PouchDB(dbname, { auto_compaction: true });
 
     db.setSchema([
         {

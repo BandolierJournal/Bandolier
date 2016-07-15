@@ -3,11 +3,12 @@
 // All of the Node.js APIs are available in this process.
 require('electron-cookies');
 
-let db = require('./models')('bullet', { auto_compaction: true });
+let db = require('./models')('default');
 let Collection = require('./models/collection')(db);
 let Bullet = require('./models/bullet')(db);
 const remoteDBAddress = require('./secrets.json').dbURL;
 const Moment = require('moment');
+let syncHandler;
 
 const typeDict = {
     "Task": "fa-circle-o btn-clickable",

@@ -24,33 +24,47 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
             skipSetup: true
         });
         remoteDB.compact();
-        const localDB = new PouchDB(username, {auto_compaction: true})
-        return db.sync(remoteDB).then(console.log.bind(console))
 
-        // localDB.sync(remoteDB, {
-        //         live: true,
-        //         retry: true
-        //     })
-        //     .on('active', function () {
-        //         $rootScope.$apply(function () {
-        //             $rootScope.sync = true;
-        //         })
-        //     })
-        //     .on('paused', function () {
-        //         $timeout(function() {
-        //             $rootScope.sync = false;
-        //         }, 500);
-        //     })
-        //     .then(() => {
-        //         console.log("DESTROY!");
-        //         return db.destroy();
-        //     })
-        //     .then(() => {
-        //         return db.sync(localDB, {
-        //             live: true,
-        //             retry: true
-        //         })
-        //     }).catch(console.error.bind(console))
+        const localDB = require('./models')(username);
+
+        if(syncHandler) syncHandler.cancel();
+
+        syncHandler = db.replicate.to(remoteDB, {retry: true})
+        .on('active', function () {
+            $rootScope.$apply(function () {
+                $rootScope.sync = true;
+            })
+        })
+        .on('paused', function () {
+            $timeout(function() {
+                $rootScope.sync = false;
+            }, 500);
+        });
+
+        return syncHandler
+        .then((res) => {
+            return db.destroy()
+        })
+        .then(() => {
+            Collection = require('./models/collection')(localDB);
+            Bullet = require('./models/bullet')(localDB);
+            return localDB.sync(remoteDB, {
+                    live: true,
+                    retry: true
+                })
+                .on('active', function () {
+                    $rootScope.$apply(function () {
+                        $rootScope.sync = true;
+                    })
+                })
+                .on('paused', function () {
+                    $timeout(function() {
+                        $rootScope.sync = false;
+                    }, 500);
+                })
+        })
+        .catch(console.error.bind(console));
+
     }
 
     Auth.login = function (user) {

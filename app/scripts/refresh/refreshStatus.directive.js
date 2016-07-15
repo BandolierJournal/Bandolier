@@ -5,6 +5,7 @@ bulletApp.directive('refresh', function($state, $rootScope, AuthFactory){
 
             remoteDB.getSession()
             .then(res => {
+                console.log(res);
                 const username = res.userCtx.name;
                 if(username) {
                     $rootScope.$apply(function(){
