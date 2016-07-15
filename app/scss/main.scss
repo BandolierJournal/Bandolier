@@ -320,12 +320,12 @@ table:focus {
 html {
     position: relative;
     min-height: 100%;
+    -webkit-app-region: drag
 }
 
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    // -webkit-app-region: drag
 }
 
 collection,
@@ -337,7 +337,11 @@ h3,
 h2,
 h1,
 bullet,
-input, i {
+input,
+i ,
+li,
+ul,
+a {
     -webkit-app-region: no-drag;
 }
 

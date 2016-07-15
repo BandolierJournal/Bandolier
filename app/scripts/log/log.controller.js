@@ -1,3 +1,5 @@
+'use strict';
+
 bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, type, $rootScope, $stateParams) {
 
     const aged = collections[0];
@@ -23,7 +25,7 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, type,
         function findIndex(i) {
             return aged.length - Math.ceil((aged.length - i) / 6) * 6;
         }
-        
+
     } else if ($stateParams.index) index = +$stateParams.index;
     if (index < 0) $scope.collections = aged.slice(0, index + 6);
     else navigate();
@@ -40,6 +42,9 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, type,
     $scope.title = ((type === 'day') ? 'DAILY' : 'FUTURE') + ' LOG';
 
     $scope.prev6 = function() {
+        $scope.collections.forEach(c => {
+          if ((c.bullets.length > 1) && !future.find(el => el.title === c.title)) future.push(c)
+        })
         if (index <= 0) return;
         if (index < 6) {
             $scope.collections = aged.slice(0, index);
@@ -52,6 +57,9 @@ bulletApp.controller('LogCtrl', function($scope, collections, DateFactory, type,
     }
 
     $scope.next6 = function() {
+        $scope.collections.forEach(c => {
+          if ((c.bullets.length > 1) && !future.find(el => el.title === c.title)) future.push(c)
+        })
         index += 6;
         navigate();
     }
