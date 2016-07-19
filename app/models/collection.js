@@ -7,6 +7,7 @@ const Moment = require('moment');
 
 
 module.exports = function(db) {
+    console.log('collection', db)
     const Bullet = require('./bullet')(db);
 
     function convertToInstances(res) {

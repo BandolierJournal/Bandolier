@@ -2,13 +2,15 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 require('electron-cookies');
-
 let db = require('./models')('default');
 let Collection = require('./models/collection')(db);
 let Bullet = require('./models/bullet')(db);
 const remoteDBAddress = require('./secrets.json').dbURL;
 const Moment = require('moment');
 let syncHandler;
+let userSync;
+let syncStatus;
+let localDB;
 
 const typeDict = {
     "Task": "fa-circle-o btn-clickable",

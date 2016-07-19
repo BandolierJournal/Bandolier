@@ -4,6 +4,7 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
     const Auth = {};
 
     function createUserDB(user, verb) {
+        console.log('createUserDB', user)
         let username = user.email.split('@')[0];
         return remoteDB[verb](username, user.password)
             .then(res => {
@@ -25,8 +26,8 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
         });
         remoteDB.compact();
 
-        const localDB = require('./models')(username);
-
+        localDB = require('./models')(username);
+        console.log(localDB)
         if(syncHandler) syncHandler.cancel();
 
         syncHandler = db.replicate.to(remoteDB, {retry: true})
@@ -43,12 +44,15 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
 
         return syncHandler
         .then((res) => {
-            return db.destroy()
+            return db.erase()
         })
         .then(() => {
+            console.log(db)
             Collection = require('./models/collection')(localDB);
             Bullet = require('./models/bullet')(localDB);
-            return localDB.sync(remoteDB, {
+            syncStatus = true
+            $rootScope.$evalAsync()
+            return userSync = localDB.sync(remoteDB, {
                     live: true,
                     retry: true
                 })
@@ -73,6 +77,41 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
 
     Auth.signup = function (user) {
         return createUserDB(user, 'signup');
+    }
+
+    Auth.stopSync = function () {
+        userSync.cancel()
+        syncStatus = false
+    }
+
+    Auth.startSync = function () {
+      syncStatus = true
+      userSync = localDB.sync(remoteDB, {
+              live: true,
+              retry: true
+          })
+          .on('active', function () {
+              $rootScope.$apply(function () {
+                  $rootScope.sync = true;
+              })
+          })
+          .on('paused', function () {
+              $timeout(function() {
+                  $rootScope.sync = false;
+              }, 500);
+          })
+          .catch(console.error.bind(console));
+    }
+
+    Auth.logout = function () {
+      if ($rootScope.user) {
+        remoteDB.logout()
+        $rootScope.user = null
+        syncStatus = false
+        $rootScope.$evalAsync()
+      } else {
+        $state.go('signup');
+      }
     }
 
     return Auth;

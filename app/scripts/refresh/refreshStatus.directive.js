@@ -21,7 +21,13 @@ bulletApp.directive('refresh', function($state, $rootScope, AuthFactory){
             };
 
             scope.login = function() {
-                if(!$rootScope.user) $state.go('signup');
+                if (syncStatus) {
+                  AuthFactory.stopSync()
+                  syncStatus = false
+                } else {
+                  AuthFactory.startSync()
+                  syncStatus = true
+                }
             };
         }
     };

@@ -20,8 +20,9 @@
     "electron-cookies": "^1.1.0",
     "lodash": "^4.13.1",
     "moment": "^2.13.0",
-    "pouchdb": "^5.4.4",
+    "pouchdb": "^5.4.5",
     "pouchdb-authentication": "^0.5.2",
+    "pouchdb-erase": "^1.0.2",
     "relational-pouch": "^1.4.3"
   },
   "keywords": [],
