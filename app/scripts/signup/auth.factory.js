@@ -52,6 +52,7 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
             Bullet = require('./models/bullet')(localDB);
             syncStatus = true
             $rootScope.$evalAsync()
+            $state.go('landing')
             return userSync = localDB.sync(remoteDB, {
                     live: true,
                     retry: true
@@ -85,8 +86,9 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
     }
 
     Auth.startSync = function () {
-      syncStatus = true
-      userSync = localDB.sync(remoteDB, {
+        syncStatus = true
+        Promise.resolve().then(() => {
+          return userSync = localDB.sync(remoteDB, {
               live: true,
               retry: true
           })
@@ -100,15 +102,20 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
                   $rootScope.sync = false;
               }, 500);
           })
-          .catch(console.error.bind(console));
+        })
+        .catch(console.error.bind(console));
     }
 
     Auth.logout = function () {
       if ($rootScope.user) {
         remoteDB.logout()
+        // let defaultRemote = new PouchDB(remoteDBAddress, {skipSetup: true});
+        // defaultRemote.logout()
         $rootScope.user = null
         syncStatus = false
-        $rootScope.$evalAsync()
+        Collection = require('./models/collection')(db);
+        Bullet = require('./models/bullet')(db);
+        $state.go('landing')
       } else {
         $state.go('signup');
       }

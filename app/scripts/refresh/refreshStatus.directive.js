@@ -5,6 +5,7 @@ bulletApp.directive('refresh', function($state, $rootScope, AuthFactory){
 
             remoteDB.getSession()
             .then(res => {
+                console.log(remoteDB)
                 console.log(res);
                 const username = res.userCtx.name;
                 if(username) {
@@ -21,14 +22,20 @@ bulletApp.directive('refresh', function($state, $rootScope, AuthFactory){
             };
 
             scope.login = function() {
+                console.log(syncStatus)
                 if (syncStatus) {
                   AuthFactory.stopSync()
                   syncStatus = false
+                  $rootScope.$evalAsync()
                 } else {
                   AuthFactory.startSync()
                   syncStatus = true
+                  $rootScope.$evalAsync()
                 }
             };
+            scope.getSyncStatus = function() {
+              return !syncStatus
+            }
         }
     };
 });
