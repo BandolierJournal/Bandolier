@@ -3,6 +3,8 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
 
     const Auth = {};
 
+    let syncStatus;
+
     function createUserDB(user, verb) {
         console.log('createUserDB', user)
         let username = user.email.split('@')[0];
@@ -119,6 +121,14 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
       } else {
         $state.go('signup');
       }
+    }
+
+    Auth.getSyncStatus = function () {
+      return syncStatus;
+    }
+
+    Auth.setSyncStatus = function (bool) {
+      if (typeof bool === 'boolean') syncStatus = bool;
     }
 
     return Auth;

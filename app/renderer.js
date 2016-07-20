@@ -9,7 +9,6 @@ const remoteDBAddress = require('./secrets.json').dbURL;
 const Moment = require('moment');
 let syncHandler;
 let userSync;
-let syncStatus;
 let localDB;
 
 const typeDict = {

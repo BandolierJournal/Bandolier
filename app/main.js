@@ -12,7 +12,7 @@ let mainWindow;
 let onlineStatusWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({width: 1200, height: 800, frame: false, backgroundColor: '#fff', minWidth: 450, minHeight: 670});
+  mainWindow = new BrowserWindow({width: 1200, height: 800, frame: false, backgroundColor: '#fff', minWidth: 500, minHeight: 700});
   mainWindow.loadURL(`file://${__dirname}/index.html`);
   // mainWindow.webContents.openDevTools(); //DevTools
 

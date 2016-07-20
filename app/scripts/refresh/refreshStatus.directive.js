@@ -22,20 +22,17 @@ bulletApp.directive('refresh', function($state, $rootScope, AuthFactory){
             };
 
             scope.login = function() {
-                console.log(syncStatus)
-                if (syncStatus) {
+                if (AuthFactory.getSyncStatus()) {
                   AuthFactory.stopSync()
-                  syncStatus = false
+                  AuthFactory.setSyncStatus(false)
                   $rootScope.$evalAsync()
                 } else {
                   AuthFactory.startSync()
-                  syncStatus = true
+                  AuthFactory.setSyncStatus(true)
                   $rootScope.$evalAsync()
                 }
             };
-            scope.getSyncStatus = function() {
-              return !syncStatus
-            }
+            scope.getSyncStatus = AuthFactory.getSyncStatus
         }
     };
 });

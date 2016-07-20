@@ -10,8 +10,8 @@
             <li>online: {{!!online}}user: {{!!user}}syncStatus: {{!!syncStatus}}</li>
         </ul>
         <ul class="menu pagination navbar-right">
-            <li refresh id="refresh" class="text-muted btn-clickable"><a class="navbar-link" ng-if="user" ng-class="{offline: !online || getSyncStatus()}" ng-click="login()"><i class="fa fa-fw fa-refresh" ng-class="{'fa-spin': user && sync}"></i></a></li>
-            <li logout id="logout" class="text-muted btn-clickable"><a class="navbar-link" ng-click="logout()"><i class="fa fa-fw fa-sign-out"></i></a></li>
+            <li refresh id="refresh" class="text-muted btn-clickable"><a class="navbar-link" ng-if="user" ng-class="{offline: !online || !getSyncStatus()}" ng-click="login()"><i class="fa fa-fw fa-refresh" ng-class="{'fa-spin': user && sync}"></i></a></li>
+            <li logout id="logout" class="text-muted btn-clickable"><a class="navbar-link" ng-click="logout()"><i class="fa fa-fw" ng-class="user ? 'fa-sign-out' : 'fa-sign-in'"></i></a></li>
         </ul>
         <div class="navbar-form navbar-right form-inline">
             <search-bar></search-bar>

@@ -3,6 +3,7 @@ bulletApp.directive('logout', function($state, $rootScope, AuthFactory){
         restrict: 'A',
         link: function(scope, element) {
             scope.logout = AuthFactory.logout
+            scope.user = rootScope.user
         }
     };
 });
