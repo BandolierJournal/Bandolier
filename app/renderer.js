@@ -7,9 +7,6 @@ let Collection = require('./models/collection')(db);
 let Bullet = require('./models/bullet')(db);
 const remoteDBAddress = require('./secrets.json').dbURL;
 const Moment = require('moment');
-let syncHandler;
-let userSync;
-let localDB;
 
 const typeDict = {
     "Task": "fa-circle-o btn-clickable",

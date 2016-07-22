@@ -5,8 +5,6 @@ bulletApp.directive('refresh', function($state, $rootScope, AuthFactory){
 
             remoteDB.getSession()
             .then(res => {
-                console.log(remoteDB)
-                console.log(res);
                 const username = res.userCtx.name;
                 if(username) {
                     $rootScope.$apply(function(){
@@ -21,7 +19,7 @@ bulletApp.directive('refresh', function($state, $rootScope, AuthFactory){
                 return $rootScope.sync;
             };
 
-            scope.login = function() {
+            scope.toggleSync = function() {
                 if (AuthFactory.getSyncStatus()) {
                   AuthFactory.stopSync()
                   AuthFactory.setSyncStatus(false)

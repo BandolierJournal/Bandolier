@@ -4,9 +4,11 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
     const Auth = {};
 
     let syncStatus;
+    let userSync;
+    let localDB;
+    let syncHandler;
 
     function createUserDB(user, verb) {
-        console.log('createUserDB', user)
         let username = user.email.split('@')[0];
         return remoteDB[verb](username, user.password)
             .then(res => {
@@ -17,7 +19,6 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
                     $rootScope.user = res.name;
                 });
                 Auth.syncDB(username);
-                $state.go('index');
             })
             .catch(err => console.error("Couldn't signin: ", err));
     }
@@ -29,7 +30,6 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
         remoteDB.compact();
 
         localDB = require('./models')(username);
-        console.log(localDB)
         if(syncHandler) syncHandler.cancel();
 
         syncHandler = db.replicate.to(remoteDB, {retry: true})
@@ -49,12 +49,10 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
             return db.erase()
         })
         .then(() => {
-            console.log(db)
             Collection = require('./models/collection')(localDB);
             Bullet = require('./models/bullet')(localDB);
             syncStatus = true
             $rootScope.$evalAsync()
-            $state.go('landing')
             return userSync = localDB.sync(remoteDB, {
                     live: true,
                     retry: true
@@ -67,6 +65,7 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
                 .on('paused', function () {
                     $timeout(function() {
                         $rootScope.sync = false;
+                        if ($state.current.name === 'landing') $state.go('index')
                     }, 500);
                 })
         })
@@ -75,10 +74,12 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
     }
 
     Auth.login = function (user) {
+        $state.go('landing', {login: true})
         return createUserDB(user, 'login');
     }
 
     Auth.signup = function (user) {
+        $state.go('landing', {login: true})
         return createUserDB(user, 'signup');
     }
 
@@ -108,16 +109,15 @@ bulletApp.factory('AuthFactory', function ($state, $rootScope, $timeout) {
         .catch(console.error.bind(console));
     }
 
-    Auth.logout = function () {
+    Auth.toggleLogin = function () {
       if ($rootScope.user) {
+        $state.go('landing', {login: true})
         remoteDB.logout()
-        // let defaultRemote = new PouchDB(remoteDBAddress, {skipSetup: true});
-        // defaultRemote.logout()
         $rootScope.user = null
         syncStatus = false
         Collection = require('./models/collection')(db);
         Bullet = require('./models/bullet')(db);
-        $state.go('landing')
+        $state.go('index')
       } else {
         $state.go('signup');
       }

@@ -26,11 +26,11 @@ bulletApp.factory('currentStates', function ($rootScope) {
 
   //This console logs if there are errors in a state change
   $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams){
-    // console.log('err', event);
-    // console.log('ts', toState);
-    // console.log('tp', toParams);
-    // console.log('fs', fromState);
-    // console.log('fp', fromParams);
+    console.log('err', event);
+    console.log('ts', toState);
+    console.log('tp', toParams);
+    console.log('fs', fromState);
+    console.log('fp', fromParams);
   });
 
 

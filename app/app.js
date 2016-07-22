@@ -5,7 +5,7 @@ const bulletApp = angular.module('bulletApp', ['ui.router', 'ui.bootstrap', 'ngS
 
 
 bulletApp.config(function($urlRouterProvider) {
-        $urlRouterProvider.otherwise('/landing');
+        $urlRouterProvider.otherwise('/landing/');
     })
     .run(function($window, $rootScope) {
         /* Connection Status Detection and Update */
