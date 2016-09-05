@@ -38,10 +38,15 @@ Replace line 540 with the below:
 
 ### Step 5
 ```
-$ cd .. && npm start
+$ cd .. && gulp build
 ```
 
 ### Step 6
+```
+$ npm start
+```
+
+### Step 7*
 To enable syncing you must create a secrets.json file in the root directory
 ```
 {
